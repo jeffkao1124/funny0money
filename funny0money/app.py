@@ -43,20 +43,21 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    
+    count=0
     while True:
-        get_data=[]
+        
         input_text = event.message.text
         if eval(input_text)>0 and eval(input_text)<=100000:
             output_text= "記帳成功"
-            get_data.append(eval(input_text))
-        elif eval(input_text)==0:
-            output_text=get_data[0]
+            count+=eval(input_text)
         else:
             output_text="記帳不成功"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(str(output_text)))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(str(count)))
 
 
     
