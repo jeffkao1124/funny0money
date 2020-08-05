@@ -46,6 +46,10 @@ def handle_message(event):
     input_text = event.message.text
     if input_text=="1":
         output_text=87
+    elif input_text=="2":
+        output_text="喵喵"
+    elif input_text=="3":
+        output_text="我是可愛的貓咪"
     else:
         input_no = eval(input_text)
         output_text=input_no*10
