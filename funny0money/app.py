@@ -50,11 +50,7 @@ def handle_message(event):
         event.reply_token,
         
         TextSendMessage(str(output_text)))
-        #TextSendMessage(text=event.message.text))
-        #input_text = event.message.text
-        #input_no = eval(input_text)
-        #output_text=input_no*2
-        #TextSendMessage(str(output_text)))
+
 
     
 
