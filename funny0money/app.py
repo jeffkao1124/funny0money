@@ -49,8 +49,8 @@ def handle_message(event):
         if eval(input_text)>0 and eval(input_text)<=100000:
             output_text= "記帳成功"
             get_data.append(eval(input_text))
-        elif eval(input_text)=0:
-            output_text=get data
+        elif eval(input_text)==0:
+            output_text=get_data
         else:
             output_text="記帳不成功"
         line_bot_api.reply_message(
