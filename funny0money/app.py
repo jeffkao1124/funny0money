@@ -44,11 +44,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     input_text = event.message.text
-    if input_text==1:
+    if input_text=="1":
         output_text=87
     else:
-    input_no = eval(input_text)
-    output_text=input_no*10
+        input_no = eval(input_text)
+        output_text=input_no*10
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(str(output_text)))
