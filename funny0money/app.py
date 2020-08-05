@@ -54,10 +54,7 @@ def handle_message(event):
             output_text="記帳不成功"
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(str(output_text)))
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(str(count)))
+            TextSendMessage(str(output_text),str(count)))
 
 
     
