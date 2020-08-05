@@ -45,7 +45,7 @@ def callback():
 def handle_message(event):
     input_text = event.message.text
     input_no = eval(input_text)
-    output_text=input_no*3
+    output_text=input_no
     line_bot_api.reply_message(
         event.reply_token,
         
