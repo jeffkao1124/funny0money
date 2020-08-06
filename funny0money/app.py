@@ -9,8 +9,6 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
-import requests
-from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -42,20 +40,6 @@ def callback():
     return 'OK'
 
 
-def get_movie():
-    movies = []
-    url_1= "https://movies.yahoo.com.tw/chart.html"
-    resp_1 = requests.get(url_1)
-    ms = BeautifulSoup(resp_1.text,"html.parser")
-
-    ms.find_all("div","rank_txt")
-    movies.append(ms.find('h2').text)
-
-    for rank_txt in ms.find_all("div","rank_txt"):
-        movies.append(rank_txt.text.strip())
-
-    return movies
-
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -64,8 +48,7 @@ def handle_message(event):
     if (eval(input_text)>0) and (eval(input_text)<=100000):
         output_text= input_text
     elif  input_text =="0":
-        hot_movie=get_movie()
-        output_text=hot_movie[2]
+        output_text= "早安"
     else:
         output_text="我是可愛的貓咪"
     line_bot_api.reply_message(
