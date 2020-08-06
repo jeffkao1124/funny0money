@@ -103,7 +103,8 @@ def db_call():
         #return "yesss"
         #return "No data"
     #else:
-    return "ahhhh"
+    output = "ahhh"
+    return output
         #return row[0]
 
 
