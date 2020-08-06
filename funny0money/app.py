@@ -1,4 +1,7 @@
 from __future__ import print_function
+import pickle
+import os.path
+
 from flask import Flask, request, abort
 
 from linebot import (
@@ -19,8 +22,7 @@ handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 #DB
 
 
-#import pickle
-#import os.path
+
 #from googleapiclient.discovery import build
 #from google_auth_oauthlib.flow import InstalledAppFlow
 #from google.auth.transport.requests import Request
