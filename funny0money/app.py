@@ -17,6 +17,24 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiHRedvOGSC5Q7zJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFFVJLpDhwB8DRrJ8SAoqK+sEAMuD2PL0h0wdsZxncRwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
+#DB
+
+from __future__ import print_function
+import pickle
+import os.path
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+
+SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
+RANGE_NAME = 'Class Data!A1:A1'
+
+
+
+
+
 
 @app.route("/")
 def home():
@@ -66,6 +84,8 @@ def handle_message(event):
     elif  input_text =="0":
         hot_movie=get_movie()
         output_text=hot_movie[2]
+    elif input_text="666":
+        output_text=db_call()
     else:
         output_text="我是可愛的貓咪"
     line_bot_api.reply_message(
@@ -73,9 +93,44 @@ def handle_message(event):
         TextSendMessage(str(output_text)))
 
 
+def db_initiate():
+    creds = None
+    # The file token.pickle stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('sheets', 'v4', credentials=creds)    
+
+    sheet = service.spreadsheets()
+
+def db_call():
     
+    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+                                range=RANGE_NAME).execute()
+    values = result.get('values', [])
+
+    if not values:
+        return "No data"
+    else:
+        return row[0]
 
 
 if __name__ == "__main__":
+
+    db_initiate()
     app.run()
     
