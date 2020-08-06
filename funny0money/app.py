@@ -49,12 +49,12 @@ def handle_message(event):
         input_text = event.message.text
         if eval(input_text)>0 and eval(input_text)<=100000:
             output_text= "記帳成功"
-            count+=eval(input_text)
+            count=count+eval(input_text)
         else:
             output_text="記帳不成功"
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(str(output_text),str(count)))
+            TextSendMessage(str(count)))
 
 
     
