@@ -106,6 +106,6 @@ def db_call():
 
 if __name__ == "__main__":
 
-    db_initiate()
+    #db_initiate()
     app.run()
     
