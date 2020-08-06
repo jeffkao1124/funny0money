@@ -64,8 +64,8 @@ def handle_message(event):
         output_text= input_text
     elif  input_text =="0":
         output_text = "早安"
-    elif input_text == "111":
-        output_text = db_call()
+    #elif input_text == "111":
+        #output_text = db_call()
     else:
         output_text="我是可愛的貓咪"
     line_bot_api.reply_message(
@@ -100,12 +100,12 @@ def db_call():
         #return "yesss"
         #return "No data"
    # else:
-        return "ahhhh"
+    return "ahhhh"
         #return row[0]
 
 
 if __name__ == "__main__":
 
-    #db_initiate()
+    db_initiate()
     app.run()
     
