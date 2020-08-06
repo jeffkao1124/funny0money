@@ -32,6 +32,36 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
 RANGE_NAME = 'Class Data!A1:A1'
 
+def db_initiate():
+    creds = None
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('sheets', 'v4', credentials=creds)    
+
+    sheet = service.spreadsheets()
+
+def db_call():
+    
+    #result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
+    #values = result.get('values', [])
+
+   # if not values:
+        #return "yesss"
+        #return "No data"
+    #else:
+    output = "ahhh"
+    return output
+        #return row[0]
 
 
 @app.route("/")
@@ -76,36 +106,7 @@ def handle_message(event):
         TextSendMessage(str(output_text)))
 
 
-def db_initiate():
-    creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
 
-    service = build('sheets', 'v4', credentials=creds)    
-
-    sheet = service.spreadsheets()
-
-def db_call():
-    
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
-    values = result.get('values', [])
-
-   # if not values:
-        #return "yesss"
-        #return "No data"
-    #else:
-    output = "ahhh"
-    return output
-        #return row[0]
 
 
 if __name__ == "__main__":
