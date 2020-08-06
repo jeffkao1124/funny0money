@@ -52,14 +52,14 @@ def db_initiate():
 
 def db_call():
     
-    #result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
-    #values = result.get('values', [])
+    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
+    values = result.get('values', [])
 
-   # if not values:
-        #return "yesss"
+    if not values:
+        output = "yesss"
         #return "No data"
-    #else:
-    output = "ahhh"
+    else:
+        output = "ahhh"
     return output
         #return row[0]
 
