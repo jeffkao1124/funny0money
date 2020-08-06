@@ -73,7 +73,7 @@ def handle_message(event):
         TextSendMessage(str(output_text)))
 
 
-def db_initiate():
+#def db_initiate():
  #   creds = None
  #   if os.path.exists('token.pickle'):
   #      with open('token.pickle', 'rb') as token:
@@ -91,7 +91,7 @@ def db_initiate():
 
     #sheet = service.spreadsheets()
 
-def db_call():
+#def db_call():
     
     #result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
     #values = result.get('values', [])
@@ -100,7 +100,7 @@ def db_call():
         #return "yesss"
         #return "No data"
    # else:
-    return "ahhhh"
+    #return "ahhhh"
         #return row[0]
 
 
