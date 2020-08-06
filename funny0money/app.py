@@ -30,7 +30,7 @@ from google.auth.transport.requests import Request
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
-RANGE_NAME = 'Class Data!A1:A1'
+RANGE_NAME = 'Class Data!A1:B1'
 
 def db_initiate():
     creds = None
@@ -47,14 +47,11 @@ def db_initiate():
             pickle.dump(creds, token)
 
     service = build('sheets', 'v4', credentials=creds)    
-
     sheet = service.spreadsheets()
+    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
+    values = result.get('values', [])
 
 def db_call():
-    
-    #result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
-    #values = result.get('values', [])
-
    # if not values:
         #return "yesss"
         #return "No data"
