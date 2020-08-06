@@ -52,11 +52,11 @@ def db_initiate():
     values = result.get('values', [])
 
 def db_call():
-   if not values:
-        output = "yesss"
+   #if not values:
+        #output = "yesss"
         #return "No data"
-    else:
-        output = "ahhh"
+    #else:
+    output = row[0]
     return output
         #return row[0]
 
