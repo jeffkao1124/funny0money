@@ -84,7 +84,7 @@ def handle_message(event):
     elif  input_text =="0":
         hot_movie=get_movie()
         output_text=hot_movie[2]
-    elif input_text="666":
+    elif input_text="111111":
         output_text=db_call()
     else:
         output_text="我是可愛的貓咪"
