@@ -79,13 +79,13 @@ def get_movie():
 def handle_message(event):
         
     input_text = event.message.text
-    if (eval(input_text)>0) and (eval(input_text)<=100000):
+    if (eval(input_text)>0) and (eval(input_text)<=100):
         output_text= input_text
     elif  input_text =="0":
         hot_movie=get_movie()
         output_text=hot_movie[2]
-    elif input_text="111111":
-        output_text=db_call()
+    elif input_text=="111":
+        output_text="testing" + str(db_call())
     else:
         output_text="我是可愛的貓咪"
     line_bot_api.reply_message(
