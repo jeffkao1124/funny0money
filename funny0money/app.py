@@ -9,6 +9,8 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -59,7 +61,7 @@ def get_movie():
 def handle_message(event):
         
     input_text = event.message.text
-    if eval(input_text)>0 and eval(input_text)<=100000:
+    if (eval(input_text)>0) and (eval(input_text)<=100000):
         output_text= input_text
     elif  input_text =="0":
         hot_movie=get_movie()
