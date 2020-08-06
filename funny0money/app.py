@@ -50,15 +50,10 @@ def db_initiate():
     sheet = service.spreadsheets()
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
     values = result.get('values', [])
+    test_output = '{0} rows retrieved.'.format(len(values))
 
 def db_call():
-   #if not values:
-        #output = "yesss"
-        #return "No data"
-    #else:
-    output = row[0]
-    return output
-        #return row[0]
+    return test_output
 
 
 @app.route("/")
