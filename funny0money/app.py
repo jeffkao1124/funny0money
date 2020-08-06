@@ -55,11 +55,11 @@ def db_call():
     result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
     values = result.get('values', [])
 
-    if not values:
-        output = "yesss"
+    #if not values:
+    output = "yesss"
         #return "No data"
-    else:
-        output = "ahhh"
+    #else:
+        #output = "ahhh"
     return output
         #return row[0]
 
