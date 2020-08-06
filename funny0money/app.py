@@ -17,17 +17,17 @@ handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
 #DB
 
-from __future__ import print_function
-import pickle
-import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+#from __future__ import print_function
+#import pickle
+#import os.path
+#from googleapiclient.discovery import build
+#from google_auth_oauthlib.flow import InstalledAppFlow
+#from google.auth.transport.requests import Request
 
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+#SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
-SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
-RANGE_NAME = 'Class Data!A1:A1'
+#SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
+#RANGE_NAME = 'Class Data!A1:A1'
 
 
 
@@ -73,34 +73,34 @@ def handle_message(event):
         TextSendMessage(str(output_text)))
 
 
-def db_initiate():
-    creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+#def db_initiate():
+    #creds = None
+    #if os.path.exists('token.pickle'):
+    #    with open('token.pickle', 'rb') as token:
+    #        creds = pickle.load(token)
+    #    if creds and creds.expired and creds.refresh_token:
+    #        creds.refresh(Request())
+    #    else:
+    #        flow = InstalledAppFlow.from_client_secrets_file(
+    #            'credentials.json', SCOPES)
+    #        creds = flow.run_local_server(port=0)
+    #    with open('token.pickle', 'wb') as token:
+    #        pickle.dump(creds, token)
 
-    service = build('sheets', 'v4', credentials=creds)    
+    #service = build('sheets', 'v4', credentials=creds)    
 
-    sheet = service.spreadsheets()
+    #sheet = service.spreadsheets()
 
-def db_call():
+#def db_call():
     
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
-                                range=RANGE_NAME).execute()
-    values = result.get('values', [])
+   # result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,
+   #                             range=RANGE_NAME).execute()
+   # values = result.get('values', [])
 
-    if not values:
-        return "No data"
-    else:
-        return row[0]
+   # if not values:
+    #    return "No data"
+    #else:
+    #    return row[0]
 
 
 if __name__ == "__main__":
