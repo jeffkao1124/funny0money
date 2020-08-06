@@ -101,10 +101,10 @@ def db_call():
 
     if not values:
         return "yesss"
-        return "No data"
+        #return "No data"
     else:
-    return "ahhhh"
-        return row[0]
+        return "ahhhh"
+        #return row[0]
 
 
 if __name__ == "__main__":
