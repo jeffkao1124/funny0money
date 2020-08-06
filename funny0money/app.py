@@ -93,13 +93,15 @@ def db_initiate():
 
 def db_call():
     
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
-    values = result.get('values', [])
+    #result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
+    #values = result.get('values', [])
 
-    if not values:
-        return "No data"
-    else:
-        return row[0]
+    #if not values:
+        #return "yesss"
+        #return "No data"
+   # else:
+        return "ahhhh"
+        #return row[0]
 
 
 if __name__ == "__main__":
