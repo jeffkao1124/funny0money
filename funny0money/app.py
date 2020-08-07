@@ -1,6 +1,10 @@
 from __future__ import print_function
 import pickle
 import os.path
+import httplib2
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 
 from flask import Flask, request, abort
 
@@ -19,41 +23,52 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiHRedvOGSC5Q7zJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFFVJLpDhwB8DRrJ8SAoqK+sEAMuD2PL0h0wdsZxncRwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
-#DB
 
+scopes = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
+secret_file = os.path.join(os.getcwd(),'client_secret.json')
 
+credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
+service = discovery.build('sheets','v4',credentials=credentials)
 
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
-
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
 SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
-RANGE_NAME = 'Class Data!A1:B1'
+RANGE_NAME = 'A1:B2'
 
-def db_initiate():
-    creds = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
 
-    service = build('sheets', 'v4', credentials=creds)    
-    sheet = service.spreadsheets()
-    result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
-    values = result.get('values', [])
-    test_output = '{0} rows retrieved.'.format(len(values))
+values = [
+        ['aaa','gitkraken works'],
+        ['a2','b2'],
+        ]
 
-def db_call():
-    return test_output
+ data = {
+    'values' : values
+    }
+
+service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, body=data, range=RANGE_NAME, valueInputOption='USER_ENTERED').execute()
+
+
+#def db_initiate():
+ #   creds = None
+ #   if os.path.exists('token.pickle'):
+  #      with open('token.pickle', 'rb') as token:
+  #          creds = pickle.load(token)
+  #      if creds and creds.expired and creds.refresh_token:
+  #          creds.refresh(Request())
+  #      else:
+  #          flow = InstalledAppFlow.from_client_secrets_file(
+   #             'credentials.json', SCOPES)
+  #          creds = flow.run_local_server(port=0)
+   #     with open('token.pickle', 'wb') as token:
+    #        pickle.dump(creds, token)
+
+  #  service = build('sheets', 'v4', credentials=creds)    
+ #   sheet = service.spreadsheets()
+ #   result = sheet.values().get(spreadsheetId=SPREADSHEET_ID,range=RANGE_NAME).execute()
+ #   values = result.get('values', [])
+ #   test_output = '{0} rows retrieved.'.format(len(values))
+
+#def db_call():
+    #return test_output
 
 
 @app.route("/")
@@ -89,8 +104,8 @@ def handle_message(event):
         output_text= input_text
     elif  input_text =="0":
         output_text = "早安"
-    elif input_text == "111":
-        output_text = db_call()
+   # elif input_text == "111":
+       # output_text = db_call()
     else:
         output_text="我是可愛的貓咪"
     line_bot_api.reply_message(
@@ -103,6 +118,6 @@ def handle_message(event):
 
 if __name__ == "__main__":
 
-    db_initiate()
+    #db_initiate()
     app.run()
     
