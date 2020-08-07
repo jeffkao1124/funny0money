@@ -15,7 +15,7 @@ try:
     range_name = 'A1:B2'
 
     values = [
-        ['omcoolg','this works'],
+        ['this its test text','this works'],
         ['a2','b2'],
         ]
 
