@@ -22,31 +22,6 @@ line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiH
 handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
 
-scopes = ["https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
-secret_file = os.path.join(os.getcwd(),'client_secret.json')
-
-credentials = service_account.Credentials.from_service_account_file(secret_file, scopes=scopes)
-service = discovery.build('sheets','v4',credentials=credentials)
-
-
-SPREADSHEET_ID = '1a7Rz4BUy6krsQzbj82NS1Z9hFDlkQZLfXi-0ZVMrRXA'
-RANGE_NAME = 'A1:B2'
-
-
-values = [
-        ['aaa','gitkraken works'],
-        ['a2','b2'],
-        ]
-
- data = {
-    'values' : values
-    }
-
-service.spreadsheets().values().update(spreadsheetId=SPREADSHEET_ID, body=data, range=RANGE_NAME, valueInputOption='USER_ENTERED').execute()
-
-
-
-
 #def db_call():
     #return test_output
 
@@ -108,7 +83,7 @@ if __name__ == "__main__":
         range_name = 'A1:B2'
 
         values = [
-            ['omcoolg','this works'],
+            ['omcasdasoolg','this works'],
             ['a2','b2'],
             ]
 
@@ -123,5 +98,5 @@ if __name__ == "__main__":
     except OSError as e:
         print(e)
 
-        app.run()
+    app.run()
     
