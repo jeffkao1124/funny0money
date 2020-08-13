@@ -5,7 +5,7 @@ google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
 requests
-BeautifulSoup
+BeautifulSoup4
 psycopg2
 Flask-Migrate
 Flask-Script
