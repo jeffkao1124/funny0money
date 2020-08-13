@@ -6,3 +6,7 @@ google-auth-httplib2
 google-auth-oauthlib
 requests
 BeautifulSoup
+psycopg2
+Flask-Migrate
+Flask-Script
+Flask-SQLAlchemy
