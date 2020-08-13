@@ -1,4 +1,7 @@
 from flask import Flask, request, abort
+import os
+from dbModel import *
+import json
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -30,6 +33,13 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    add_data = usermessage(
+            id = "1"
+            amount = "100"
+            birth_date = "2"
+        )
+    db.session.add(add_data)
+    db.session.commit()
     # handle webhook body
     try:
         handler.handle(body, signature)
