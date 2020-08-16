@@ -65,7 +65,7 @@ def handle_message(event):
         output_text= input_text
     elif  input_text =="0":
         hot_movie=get_movie()
-        output_text=hot_movie[2]
+        output_text=hot_movie
     else:
         output_text="我是可愛的吉娃娃"
     line_bot_api.reply_message(
