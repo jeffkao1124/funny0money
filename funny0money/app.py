@@ -43,14 +43,14 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-        
+    get_data[]
     input_text = event.message.text
     if (eval(input_text)>0) and (eval(input_text)<=100000):
         output_text= input_text
     elif  input_text =="0":
         output_text= "早安"
     else:
-        output_text="我是可愛的貓咪"
+        output_text="我是可愛的吉娃娃"
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(str(output_text)))
