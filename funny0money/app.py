@@ -44,6 +44,7 @@ def callback():
 def get_exchangeRate():
     numb= []
     cate=[]
+    data=[]
     url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
     resp_1 = requests.get(url_1)
     ms = BeautifulSoup(resp_1.text,"html.parser")
@@ -59,7 +60,10 @@ def get_exchangeRate():
     for child in t2:
         cate.append(child.text.strip())
     for i in range(19):
-        print(cate[i],'買入：',buy[i],'賣出：',sell[i])
+        data.append(cate[i],'買入：',buy[i],'賣出：',sell[i])
+
+        return data
+
 
 def get_movie():
     movies = []
