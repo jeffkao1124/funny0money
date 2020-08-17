@@ -86,10 +86,10 @@ def handle_message(event):
     input_text = event.message.text
     if (eval(input_text)>0) and (eval(input_text)<=100000):
         output_text= input_text
-    elif  input_text =="movie":
+    elif  input_text =="0":
         hot_movie=get_movie()
         output_text=hot_movie
-    elif input_text =="rate":
+    elif input_text =="1":
         exchangeRate=get_exchangeRate()
         output_text=exchangeRate
     else:
