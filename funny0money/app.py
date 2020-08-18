@@ -93,7 +93,7 @@ def handle_message(event):
         exchangeRate=get_exchangeRate()
         output_text=exchangeRate
     else:
-        output_text="我是可愛的吉娃娃"
+        output_text="早安"
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(str(output_text)))
