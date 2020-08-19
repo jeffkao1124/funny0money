@@ -92,8 +92,11 @@ def handle_message(event):
     elif input_text =="1":
         exchangeRate=get_exchangeRate()
         output_text=exchangeRate
+    elif input_text is "查電影":
+          hot_movie=get_movie()
+        output_text=hot_movie
     else:
-        output_text="早安您好"
+        output_text="早安"
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(str(output_text)))
