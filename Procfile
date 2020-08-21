@@ -1,1 +1,1 @@
-web: gunicorn funny0money.app:app
+web: gunicorn app:app
