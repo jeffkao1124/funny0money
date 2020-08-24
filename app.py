@@ -142,7 +142,7 @@ def get_movie():
         movies.append(rank_txt.text.strip())
 
     return movies
-
+'''
 # 加入好友時傳送訊息
 @handler.add(FollowEvent)
 def handle_follow(event):
@@ -162,7 +162,7 @@ def handle_join(event):
             event.reply_token,
             TextMessage(text=newcoming_text)
         )
-
+'''
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
