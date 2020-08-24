@@ -222,6 +222,7 @@ def handle_message(event):
     else:
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
             selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set').delete()
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
             #history_dic = {}
             #history_list = []
