@@ -145,7 +145,7 @@ def get_movie():
 
 # 加入好友時傳送訊息
 @handler.add(FollowEvent)
-def handle_follow(event):
+def handle_follow():
     newcoming_text = "加入好友"
 
     line_bot_api.reply_message(
