@@ -144,7 +144,7 @@ def get_movie():
     return movies
 
 # 加入好友時傳送訊息
-@handler.add(FollowEvent)
+@handler.add(FollowEvent, message=TextMessage)
 def handle_follow(event):
     newcoming_text = "加入好友"
 
