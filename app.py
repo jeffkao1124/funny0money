@@ -158,6 +158,7 @@ def handle_message(event):
         history_dic['Status'] = _data.status
         history_dic['type'] = _data.type
         history_dic['user_id'] = _data.user_id
+        history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
         history_dic = {}
     if history_list[0]['type'] == 'user':   
@@ -220,8 +221,21 @@ def handle_message(event):
         
     else:
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
+            #history_dic = {}
+            #history_list = []
+            count=0
+            for _data in data_UserData:
+                count+=1
+                #history_dic['Mesaage'] = _data.message
+                #history_dic['Account'] = _data.account
+                #history_list.append(history_dic)
+                #history_dic = {}
+            #final_list =[]
 
-            output_text='分帳設定成功'
+
+            output_text='分帳設定成功:共有'+str(count)+'人分帳'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
