@@ -160,12 +160,13 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text.split(' ')[0]=='更改':
+        elif '更改' in input_text':
+            
             changeNumber=input_text.split(' ')[1]
             changeMessage=input_text.split(' ')[2]
             changeAccount=input_text.split(' ')[3]
             selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').get(changeNumber).update({'message':changeMessage, 'account':changeAccount})
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').first().update({'message':str(changeMessage),'account':str(changeAccount)})
             output_text='更改成功'
             line_bot_api.reply_message(
                 event.reply_token,
