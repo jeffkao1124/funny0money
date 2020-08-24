@@ -17,11 +17,12 @@ migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
-
 class usermessage(db.Model):
     __tablename__ ='usermessage'
 
     id = db.Column(db.String(50), primary_key=True)
+    group_num = db.Column(db.text)
+    nickname = db.Column(db.text)
     group_id = db.Column(db.String(50))
     type = db.Column(db.Text)
     status = db.Column(db.Text)
@@ -30,9 +31,10 @@ class usermessage(db.Model):
     message = db.Column(db.Text)
     birth_date = db.Column(db.TIMESTAMP)
 
-
     def __init__(self
                  , id
+                 , group_num
+                 , nickname
                  , group_id
                  , type
                  , status
@@ -42,6 +44,8 @@ class usermessage(db.Model):
                  , birth_date
                  ):
         self.id = id
+        self.group_num = group_num
+        self.nickname = nickname
         self.group_id = group_id
         self.type = type
         self.status = status
@@ -49,8 +53,8 @@ class usermessage(db.Model):
         self.user_id = user_id
         self.message = message
         self.birth_date = birth_date
-#        self.CreateDate = CreateDate
-
 
 if __name__ == '__main__':
     manager.run()
+
+

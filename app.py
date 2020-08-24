@@ -44,6 +44,8 @@ def callback():
         
         add_data = usermessage(
                 id = bodyjson['events'][0]['message']['id'],
+                group_num = '0',
+                nickname = 'None',
                 group_id = bodyjson['events'][0]['source']['groupId'],
                 type = bodyjson['events'][0]['source']['type'],
                 status = 'None',
@@ -59,6 +61,8 @@ def callback():
             chargeNumber=receivedmsg.split(' ')[2]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = 'None',
                     group_id = 'None',
                     type = 'user',
                     status = 'save',
@@ -70,6 +74,8 @@ def callback():
         else:
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = 'None',
                     group_id = 'None',
                     account = '0',
                     type = 'user',
