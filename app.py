@@ -169,7 +169,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
         elif input_text =='查帳':
             selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             history_dic = {}
             history_list = []
             count=0
