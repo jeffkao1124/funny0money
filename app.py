@@ -11,19 +11,19 @@ from linebot.models import (
     TemplateSendMessage,PostbackEvent,AudioMessage,LocationMessage,
     MessageEvent, TextMessage, TextSendMessage
 )
-import sys
-import os
 import requests
 from bs4 import BeautifulSoup
 from dbModel import *
 from datetime import datetime
 import json
+from sqlalchemy import desc
 
 
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiHRedvOGSC5Q7zJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFFVJLpDhwB8DRrJ8SAoqK+sEAMuD2PL0h0wdsZxncRwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
+
 
 @app.route("/")
 def home():
@@ -34,95 +34,159 @@ def home():
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
+
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
+    bodyjson=json.loads(body)
+    app.logger.error("Request body: " + body)
+
+    if bodyjson['events'][0]['source']['type'] == 'group':
+        
+        add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'None',
+                account = '0',
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = bodyjson['events'][0]['message']['text'],
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
+    else:
+        receivedmsg = bodyjson['events'][0]['message']['text']
+        if '記帳' in receivedmsg:
+            chargeName=receivedmsg.split(' ')[1]
+            chargeNumber=receivedmsg.split(' ')[2]
+            add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_id = 'None',
+                    type = 'user',
+                    status = 'save',
+                    account = chargeNumber,
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = chargeName ,
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+        else:
+            add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_id = 'None',
+                    account = '0',
+                    type = 'user',
+                    status = 'None',
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = bodyjson['events'][0]['message']['text'],
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+
+    db.session.add(add_data)
+    db.session.commit()
+
     # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
+        print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
+
     return 'OK'
+
+
+def get_movie():
+    movies = []
+    url_1= "https://movies.yahoo.com.tw/chart.html"
+    resp_1 = requests.get(url_1)
+    ms = BeautifulSoup(resp_1.text,"html.parser")
+
+    ms.find_all("div","rank_txt")
+    movies.append(ms.find('h2').text)
+
+    for rank_txt in ms.find_all("div","rank_txt"):
+        movies.append(rank_txt.text.strip())
+
+    return movies
+
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 各群組的資訊互相獨立
-    try:
-        groupID = event.source.group_id
-    except: # 此機器人設計給群組回報，單兵不可直接一對一回報給機器人
-        message = TextSendMessage(text='我只接收群組內訊息，請先把我邀請到群組!')
-        line_bot_api.reply_message(event.reply_token, message)
-    else:
-        if not reportData.get(groupID): # 如果此群組為新加入，會創立一個新的儲存區
-            reportData[groupID]={}
-        LineMessage = ''
-        receivedmsg = event.message.text
-        if '姓名' in receivedmsg and '學號' in receivedmsg and '手機' in receivedmsg:
-            try:
-                if ( # 檢查資料是否有填，字數注意有換行符
-                    len(receivedmsg.split('姓名')[-1].split('學號')[0])<3 and
-                    len(receivedmsg.split("學號")[-1].split('手機')[0])<3 and 
-                    len(receivedmsg.split('手機')[-1].split('地點')[0])<12 and 
-                    len(receivedmsg.split('地點')[-1].split('收假方式')[0])<3
-                    ):
-                    raise Exception
-                # 得到學號
-                ID = receivedmsg.split("學號")[-1].split('手機')[0][1:]
-                if len(ID)==6:
-                    ID = int(ID[-4:])
-                elif len(ID)<=4:
-                    ID = int(ID)
-            except Exception:
-                LineMessage = '姓名、學號、手機、地點，其中一項未填。'    
-            else:
-                reportData[groupID][ID] = receivedmsg
-                LineMessage = str(ID)+'號弟兄，回報成功。'
+    #line_bot_api.push_message(
+   #             event.reply_token,
+    #            TextSendMessage(text= str(perfect_list)))
+    input_text = event.message.text.lower()
+    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
+    history_dic = {}
+    history_list = []    
+    for _data in data_UserData:
+        history_dic['Status'] = _data.status
+        history_dic['type'] = _data.type
+        history_dic['user_id'] = _data.user_id
+        history_list.append(history_dic)
+        history_dic = {}
+    if history_list[0]['type'] == 'user':   
+        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
 
-        elif '使用說明' in receivedmsg and len(receivedmsg)==4:
-            LineMessage = (
-                '收到正確格式\n'
-                '----------\n'
-                '姓名：\n'
-                '學號：\n'
-                '手機：\n'
-                '地點：\n'
-                '收假方式：\n'
-                '----------\n'
-                '才會正確記錄回報。\n'
-                '[格式]\n'
-                '正確格式範例。\n'
-                '[回報統計]\n'
-                '顯示完成回報的號碼。\n'
-                '[輸出回報]\n'
-                '貼出所有回報，並清空回報紀錄。'
-            )
-        elif '回報統計' in receivedmsg and len(receivedmsg)==4:
-            try:
-                LineMessage = (
-                    '完成回報的號碼有:\n'
-                    +str([number for number in sorted(reportData[groupID].keys())]).strip('[]')
-                )
-            except BaseException as err:
-                LineMessage = '錯誤原因: '+str(err)
-        elif '輸出回報' in receivedmsg and len(receivedmsg)==4:
-            try:
-                LineMessage = ''
-                for data in [reportData[groupID][number] for number in sorted(reportData[groupID].keys())]:
-                    LineMessage = LineMessage + data +'\n\n'
-            except BaseException as err:
-                LineMessage = '錯誤原因: '+str(err)
-            else:
-                reportData[groupID].clear()
+            output_text='記帳成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+        elif input_text =='查帳':
+            selfId = history_list[0]['user_id']
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')
+            history_dic = {}
+            history_list = []
+            count=0
+            for _data in data_UserData:
+                count+=1
+                history_dic['Mesaage'] = _data.message
+                history_dic['Account'] = _data.account
+                history_list.append(history_dic)
+                history_dic = {}
+            final_list =[]
+            for i in range(count):
+                final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
 
-        elif '格式' in receivedmsg and len(receivedmsg)==2:
-            LineMessage = '姓名：\n學號：\n手機：\n地點：\n收假方式：'
+            perfect_list=''
+            for j in range(count):
+                perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(perfect_list)))
+
+        else:
+            output_text='記帳失敗'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
         
-        if LineMessage :
-            message = TextSendMessage(text=LineMessage)
-            line_bot_api.reply_message(event.reply_token, message)
+
+    elif (eval(input_text)>0) and (eval(input_text)<=100000):
+        output_text= input_text
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text))) 
+    elif input_text =="0":
+        hot_movie=get_movie()
+        output_text=hot_movie
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text)))
+    elif ('笨' in input_text):
+        output_text='你才笨!'
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text)))            
+    elif ('擊敗' in input_text):
+        output_text='他真的很擊敗'
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text)))    
+    else:
+        output_text="我是可愛的柴柴"
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text))) 
+
 
 if __name__ == "__main__":
-    global reportData
-    reportData = {}
-    app.run
+    app.run()
