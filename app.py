@@ -143,26 +143,7 @@ def get_movie():
 
     return movies
 
-# 加入好友時傳送訊息
-@handler.add(FollowEvent)
-def handle_follow():
-    newcoming_text = "加入好友"
 
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=str(newcoming_text))
-        )
-'''
-# 加入群組時傳送訊息
-@handler.add(JoinEvent)
-def handle_join(event):
-    newcoming_text = "加入群組"
-
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextMessage(text=newcoming_text)
-        )
-'''
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
