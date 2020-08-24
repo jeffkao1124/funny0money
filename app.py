@@ -50,7 +50,7 @@ def callback():
                     nickname = userName,
                     group_id = bodyjson['events'][0]['source']['groupId'],
                     type = bodyjson['events'][0]['source']['type'],
-                    status = 'save',
+                    status = 'set',
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
@@ -65,7 +65,7 @@ def callback():
                     nickname = 'None',
                     group_id = bodyjson['events'][0]['source']['groupId'],
                     type = bodyjson['events'][0]['source']['type'],
-                    status = 'None',
+                    status = 'save',
                     account = chargeNumber,
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = chargeName,
@@ -219,9 +219,14 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
         
     else:
-        if (history_list[0]['Status'] == 'save') and ('分帳設定' in input_text):
+        if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
 
             output_text='分帳設定成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+        elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
+            output_text='分帳紀錄成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
