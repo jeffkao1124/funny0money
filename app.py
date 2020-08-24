@@ -143,12 +143,15 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             final_list =[]
+            add=0
             for i in range(count):
                 final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+                add += eval(history_list[i]['Account'])
 
             perfect_list=''
             for j in range(count):
                 perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+            perfect_list = perfect_list+'累計花費:'+str(add)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(perfect_list)))
@@ -160,17 +163,17 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif '更改' in input_text':
+        #elif '更改' in input_text':
             
-            changeNumber=input_text.split(' ')[1]
-            changeMessage=input_text.split(' ')[2]
-            changeAccount=input_text.split(' ')[3]
-            selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').first().update({'message':str(changeMessage),'account':str(changeAccount)})
-            output_text='更改成功'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
+        #    changeNumber=input_text.split(' ')[1]
+        #    changeMessage=input_text.split(' ')[2]
+        #    changeAccount=input_text.split(' ')[3]
+        #    selfId = history_list[0]['user_id']
+        #    data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').first().update({'message':str(changeMessage),'account':str(changeAccount)})
+        #    output_text='更改成功'
+        #    line_bot_api.reply_message(
+        #        event.reply_token,
+        #        TextSendMessage(text= str(output_text)))
             
         else:
             output_text='記帳失敗'
