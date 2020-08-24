@@ -9,4 +9,10 @@ BeautifulSoup4
 psycopg2
 Flask-Migrate
 Flask-Script
-Flask-SQLAlchemy
+Flask-SQLAlchemy==2.1
+click==6.7
+itsdangerous==0.24
+MarkupSafe==0.23
+Werkzeug==0.15.5
+jinja2
+datetime
