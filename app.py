@@ -50,7 +50,7 @@ def callback():
                     nickname = userName,
                     group_id = bodyjson['events'][0]['source']['groupId'],
                     type = bodyjson['events'][0]['source']['type'],
-                    status = 'None',
+                    status = 'save',
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
@@ -218,33 +218,40 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         
-
-    elif (eval(input_text)>0) and (eval(input_text)<=100000):
-        output_text= input_text
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text= str(output_text))) 
-    elif input_text =="0":
-        hot_movie=get_movie()
-        output_text=hot_movie
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text= str(output_text)))
-    elif ('笨' in input_text):
-        output_text='你才笨!'
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text= str(output_text)))            
-    elif ('擊敗' in input_text):
-        output_text='他真的很擊敗'
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text= str(output_text)))    
     else:
-        output_text="我是可愛的柴柴"
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text= str(output_text))) 
+        if (history_list[0]['Status'] == 'save') and ('分帳設定' in input_text):
+
+            output_text='分帳設定成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+        
+        elif (eval(input_text)>0) and (eval(input_text)<=100000):
+            output_text= input_text
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text))) 
+        elif input_text =="0":
+            hot_movie=get_movie()
+            output_text=hot_movie
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+        elif ('笨' in input_text):
+            output_text='你才笨!'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))            
+        elif ('擊敗' in input_text):
+            output_text='他真的很擊敗'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))    
+        else:
+            output_text="我是可愛的柴柴"
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text))) 
 
 
 if __name__ == "__main__":
