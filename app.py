@@ -9,7 +9,7 @@ from linebot.exceptions import (
 from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,PostbackEvent,AudioMessage,LocationMessage,
-    MessageEvent, TextMessage, TextSendMessage
+    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
 )
 import requests
 from bs4 import BeautifulSoup
@@ -144,7 +144,7 @@ def get_movie():
     return movies
 
 # 加入好友時傳送訊息
-@handler.add(FollowEvent, message=TextMessage)
+@handler.add(FollowEvent)
 def handle_follow(event):
     newcoming_text = "加入好友"
 
