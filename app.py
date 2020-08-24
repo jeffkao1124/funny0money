@@ -41,19 +41,50 @@ def callback():
     app.logger.error("Request body: " + body)
 
     if bodyjson['events'][0]['source']['type'] == 'group':
-        
-        add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num = '0',
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'None',
-                account = '0',
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = bodyjson['events'][0]['message']['text'],
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
+        receivedmsg = bodyjson['events'][0]['message']['text']
+        if '分帳設定' in receivedmsg:
+            userName=receivedmsg.split(' ')[1]
+            add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = userName,
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'None',
+                    account = '0',
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = bodyjson['events'][0]['message']['text'],
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+        elif '分帳' in receivedmsg:
+            chargeName=receivedmsg.split(' ')[1]
+            chargeNumber=receivedmsg.split(' ')[2]
+            add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'None',
+                    account = chargeNumber,
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = chargeName,
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+        else:
+            add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'None',
+                    account = '0',
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = bodyjson['events'][0]['message']['text'],
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
         if '記帳' in receivedmsg:
@@ -112,6 +143,25 @@ def get_movie():
 
     return movies
 
+# 加入好友時傳送訊息
+@handler.add(FollowEvent)
+def handle_follow(event):
+    newcoming_text = "加入好友"
+
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextMessage(text=newcoming_text)
+        )
+
+# 加入群組時傳送訊息
+@handler.add(JoinEvent)
+def handle_join(event):
+    newcoming_text = "加入群組"
+
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextMessage(text=newcoming_text)
+        )
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
