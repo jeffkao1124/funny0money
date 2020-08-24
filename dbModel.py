@@ -21,8 +21,8 @@ class usermessage(db.Model):
     __tablename__ ='usermessage'
 
     id = db.Column(db.String(50), primary_key=True)
-    group_num = db.Column(db.text)
-    nickname = db.Column(db.text)
+    group_num = db.Column(db.Text)
+    nickname = db.Column(db.Text)
     group_id = db.Column(db.String(50))
     type = db.Column(db.Text)
     status = db.Column(db.Text)
