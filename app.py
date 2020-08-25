@@ -183,8 +183,12 @@ def handle_message(event):
             final_list =[]
             add=0
             for i in range(count):
+                try:
+                    money = int(history_list[i]['Account'])
+                except:
+                    continue
                 final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-                add += float(history_list[i]['Account'])
+                add += money
 
             perfect_list=''
             for j in range(count):
