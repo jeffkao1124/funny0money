@@ -181,15 +181,15 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             final_list =[]
-            #add=0
-            for i in range(count):
+            add=0
+            for i in range(count): 
                 final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-                #add += eval(history_list[i]['Account'])
+                add += float(history_list[i]['Account'])
 
             perfect_list=''
             for j in range(count):
                 perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-            #perfect_list = perfect_list+'累計花費:'+str(add)
+            perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(perfect_list)))
