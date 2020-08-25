@@ -267,6 +267,7 @@ def handle_message(event):
                 #count+=1
                 history_dic['Mesaage'] = _data.message
                 history_dic['Account'] = _data.account
+                history_dic['GroupPeople'] =_data.group_num
                 history_list.append(history_dic)
                 history_dic = {}
             
