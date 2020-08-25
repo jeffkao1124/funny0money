@@ -236,7 +236,7 @@ def handle_message(event):
                 final_list.append(str(history_list[i]['nickname']))
             count=0
             for j in range(SetMsgNumber):
-                if history_list[j]==history_list[SetMsgNumber]:
+                if str(history_list[j]) == str(history_list[SetMsgNumber]):
                     continue
                 else:
                     count+=1
