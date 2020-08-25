@@ -234,12 +234,17 @@ def handle_message(event):
             final_list =[]
             for i in range(SetMsgNumber):
                 final_list.append(str(history_list[i]['nickname']))
+            count=0
+            for j in range(SetMsgNumber):
+                if history_list[j]==history_list[SetMsgNumber]:
+                    continue
+                else:
+                    count+=1
             
-
             #output_text='分帳設定成功:共有'+str(count)+'人分帳'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( final_list )))
+                TextSendMessage(text= str( count )))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
             output_text='分帳紀錄成功'
             line_bot_api.reply_message(
