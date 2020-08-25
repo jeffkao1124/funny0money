@@ -186,7 +186,7 @@ def handle_message(event):
                 try:
                     money = int(history_list[i]['Account'])
                 except:
-                    continue
+                    money = 0
                 final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
                 add += money
 
