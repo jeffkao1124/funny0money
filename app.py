@@ -228,7 +228,6 @@ def handle_message(event):
             history_dic = {}
             history_list = []
             for _data in data_UserData:
-                count+=1
                 history_dic['nickname'] = _data.nickname
                 #history_dic['Account'] = _data.account
                 history_list.append(history_dic)
