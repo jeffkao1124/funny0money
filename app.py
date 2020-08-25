@@ -62,7 +62,7 @@ def callback():
             chargePeople=receivedmsg.split(' ',3)[3]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
+                    group_num =chargePeople ,
                     nickname = 'None',
                     group_id = bodyjson['events'][0]['source']['groupId'],
                     type = bodyjson['events'][0]['source']['type'],
