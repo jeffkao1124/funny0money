@@ -225,7 +225,7 @@ def handle_message(event):
             selfGroupId = history_list[0]['group_id']
             SelfSendNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set').count()
             DeleteNumber = int(SelfSendNumber)-1
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set').limit(DeleteNumber).delete()
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set')[1:DeleteNumber].delete()
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
             history_dic = {}
             history_list = []
