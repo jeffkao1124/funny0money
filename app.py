@@ -182,7 +182,7 @@ def handle_message(event):
                 history_dic = {}
             final_list =[]
             add=0
-            for i in range(count): 
+            for i in range(count):
                 final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
                 add += float(history_list[i]['Account'])
 
@@ -223,7 +223,7 @@ def handle_message(event):
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set').delete()
+            SelfSendNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.user_id==selfId).filter(usermessage.status=='set').count()
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')#會連新資料一起刪掉
             history_dic = {}
             history_list = []
@@ -239,7 +239,7 @@ def handle_message(event):
             #output_text='分帳設定成功:共有'+str(count)+'人分帳'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(history_list)))
+                TextSendMessage(text= str(SelfSendNumber)))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
             output_text='分帳紀錄成功'
             line_bot_api.reply_message(
