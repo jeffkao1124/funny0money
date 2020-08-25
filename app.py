@@ -257,9 +257,22 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        #elif ('結算' in input_text):
-        #    output
-
+        elif ('結算' in input_text):
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
+            history_dic = {}
+            history_list = []
+            #count=0
+            for _data in data_UserData:
+                #count+=1
+                history_dic['Mesaage'] = _data.message
+                history_dic['Account'] = _data.account
+                history_list.append(history_dic)
+                history_dic = {}
+            
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(history_list)))
 
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
