@@ -144,6 +144,36 @@ def get_movie():
     return movies
 
 
+def get_groupPeople(history_list,mode):
+    selfId = history_list[0]['user_id']
+    selfGroupId = history_list[0]['group_id']
+    SetMsgNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').count()
+    data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
+    history_dic = {}
+    history_list = []
+    for _data in data_UserData:
+        history_dic['nickname'] = _data.nickname
+        history_list.append(history_dic)
+        history_dic = {}
+    final_list =[]
+    for i in range(SetMsgNumber):
+        final_list.append(str(history_list[i]['nickname']))
+    count=0
+    new_list = []
+    for i in final_list:
+        if not i in new_list:
+            new_list.append(i)
+            count+=1
+
+    if mode ==1:
+        return count
+    elif mode ==2:
+        return new_list
+    else:
+        return 1
+
+
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -221,27 +251,27 @@ def handle_message(event):
         
     else:
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
-            selfId = history_list[0]['user_id']
-            selfGroupId = history_list[0]['group_id']
-            SetMsgNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').count()
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
-            history_dic = {}
-            history_list = []
-            for _data in data_UserData:
-                history_dic['nickname'] = _data.nickname
-                history_list.append(history_dic)
-                history_dic = {}
-            final_list =[]
-            for i in range(SetMsgNumber):
-                final_list.append(str(history_list[i]['nickname']))
-            count=0
-            new_list = []
-            for i in final_list:
-                if not i in new_list:
-                    new_list.append(i)
-                    count+=1
-            
-            output_text='分帳設定成功:共有'+str(count)+'人分帳'
+            #selfId = history_list[0]['user_id']
+            #selfGroupId = history_list[0]['group_id']
+            #SetMsgNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').count()
+            #data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
+            #history_dic = {}
+            #history_list = []
+            #for _data in data_UserData:
+            #    history_dic['nickname'] = _data.nickname
+            #    history_list.append(history_dic)
+            #    history_dic = {}
+            #final_list =[]
+            #for i in range(SetMsgNumber):
+            #    final_list.append(str(history_list[i]['nickname']))
+            #count=0
+            #new_list = []
+            #for i in final_list:
+            #    if not i in new_list:
+            #        new_list.append(i)
+            #        count+=1
+            groupNumber=get_groupPeople(history_list,1)
+            output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
