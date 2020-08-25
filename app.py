@@ -57,8 +57,9 @@ def callback():
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
         elif '分帳' in receivedmsg:
-            chargeName=receivedmsg.split(' ')[1]
-            chargeNumber=receivedmsg.split(' ')[2]
+            chargeName=receivedmsg.split(' ',3)[1]
+            chargeNumber=receivedmsg.split(' ',3)[2]
+            chargePeople=receivedmsg.split(' ',3)[3]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
                     group_num = '0',
@@ -177,9 +178,6 @@ def get_groupPeople(history_list,mode):
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    #line_bot_api.push_message(
-   #             event.reply_token,
-    #            TextSendMessage(text= str(perfect_list)))
     input_text = event.message.text.lower()
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
     history_dic = {}
@@ -240,18 +238,6 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
 
-        #elif '更改' in input_text':
-            
-        #    changeNumber=input_text.split(' ')[1]
-        #    changeMessage=input_text.split(' ')[2]
-        #    changeAccount=input_text.split(' ')[3]
-        #    selfId = history_list[0]['user_id']
-        #    data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').first().update({'message':str(changeMessage),'account':str(changeAccount)})
-        #    output_text='更改成功'
-        #    line_bot_api.reply_message(
-        #        event.reply_token,
-        #        TextSendMessage(text= str(output_text)))
-            
         else:
             output_text='記帳失敗'
             line_bot_api.reply_message(
@@ -260,25 +246,6 @@ def handle_message(event):
         
     else:
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
-            #selfId = history_list[0]['user_id']
-            #selfGroupId = history_list[0]['group_id']
-            #SetMsgNumber = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').count()
-            #data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
-            #history_dic = {}
-            #history_list = []
-            #for _data in data_UserData:
-            #    history_dic['nickname'] = _data.nickname
-            #    history_list.append(history_dic)
-            #    history_dic = {}
-            #final_list =[]
-            #for i in range(SetMsgNumber):
-            #    final_list.append(str(history_list[i]['nickname']))
-            #count=0
-            #new_list = []
-            #for i in final_list:
-            #    if not i in new_list:
-            #        new_list.append(i)
-            #        count+=1
             groupNumber=get_groupPeople(history_list,1)
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
             line_bot_api.reply_message(
@@ -289,6 +256,11 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+
+        #elif ('結算' in input_text):
+        #    output
+
+
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
