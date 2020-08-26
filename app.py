@@ -283,6 +283,14 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
+        elif input_text == '設定刪除':
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete()
+            output_text='設定刪除成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+
         elif input_text == '查帳':
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
