@@ -309,7 +309,7 @@ def handle_message(event):
             
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(result)))
+                TextSendMessage(text= str(result[0][0])))
 
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
