@@ -259,7 +259,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif input_text == '分帳設定查詢':
-            groupMember=get_groupPeople(history_list,2)
+            groupMember=get_groupPeople(history_list,1)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( groupMember )))
