@@ -272,9 +272,9 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
 
-            dataNumber=len(history_list)
-            Zero= np.zeros((dataNumber,len(get_groupPeople(history_list,2))))
-            for i in range(dataNumber):
+            #dataNumber=len(history_list)
+            Zero= np.zeros((count,get_groupPeople(history_list,1)))
+            for i in range(count):
     
                 b=dict(history_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')
@@ -282,18 +282,18 @@ def handle_message(event):
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))
-                count=0
+                count_duplicate=0
                 for j in range(len(duplicate)):
-                    place=a.index(duplicate[count])
+                    place=get_groupPeople(history_list,2).index(duplicate[count_duplicate])
                     Zero[i][place]=payAmount
-                    count+=1
+                    count_duplicate+=1
 
             replaceZero=Zero
             totalPayment=replaceZero.sum(axis=0)
             #print(totalPayment)
 
-            paid= np.zeros((1,len(get_groupPeople(history_list,2))))
-            for i in range(len(get_groupPeople(history_list,2))):
+            paid= np.zeros((1,get_groupPeople(history_list,1)))
+            for i in range(get_groupPeople(history_list,1)):
                 for j in range(len(history_list)):
                     b=dict(history_list[j])
                     GroupPeopleString=b['GroupPeople'].split(' ')
