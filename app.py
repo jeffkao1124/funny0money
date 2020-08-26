@@ -260,9 +260,13 @@ def handle_message(event):
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
+            output_text=""
+            for i in range(get_groupPeople(history_list,1)):
+                output_text=output_text+groupMember[i]+'\n'
+
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( groupMember )))
+                TextSendMessage(text= str( output_text )))
         
         elif '刪除' in input_text:
             selfId = history_list[0]['user_id']
