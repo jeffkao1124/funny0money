@@ -333,6 +333,7 @@ def handle_message(event):
             sys.stdout.flush()
 
             #重複執行交換動作
+            result=""
             for i in range(len(person_list)-1):
                 #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
@@ -344,19 +345,18 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
-                result=[]
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(min))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(min))+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 person_account[0]=min_tuple
