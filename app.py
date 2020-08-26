@@ -268,14 +268,14 @@ def handle_message(event):
             print('hi')
             sys.stdout.flush()
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
             historySettle_list = []
             count=0
             print('hi2')
             sys.stdout.flush()
             
-            for _data in data_UserData:
+            for _data in dataSettle_UserData:
                 count+=1
                 historySettle_dic['Mesaage'] = _data.message
                 historySettle_dic['Account'] = _data.account
@@ -314,8 +314,8 @@ def handle_message(event):
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))
             for i in range(len(get_groupPeople(history_list,2))):
-                for j in range(len(history_list)):
-                    b=dict(history_list[j])
+                for j in range(len(historySettle_list)):
+                    b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].split(' ')
                     if GroupPeopleString[0] == get_groupPeople(history_list,2)[i]:
                         paidAmount=int(b['Account'])
