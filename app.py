@@ -18,7 +18,7 @@ from datetime import datetime
 import json
 from sqlalchemy import desc
 import numpy as np
-
+import sys
 
 app = Flask(__name__)
 
@@ -266,11 +266,14 @@ def handle_message(event):
 
         elif ('結算' in input_text):
             print('hi')
+            sys.stdout.flush()
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             history_dic = {}
             history_list = []
             count=0
+            print('hi2')
+            sys.stdout.flush()
             for _data in data_UserData:
                 count+=1
                 history_dic['Mesaage'] = _data.message
@@ -278,6 +281,8 @@ def handle_message(event):
                 history_dic['GroupPeople'] =_data.group_num
                 history_list.append(history_dic)
                 history_dic = {}
+            print('hi3')
+            sys.stdout.flush()
 '''
             dataNumber=len(history_list)
             Zero= np.zeros((dataNumber,len(get_groupPeople(history_list,2))))
