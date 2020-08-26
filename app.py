@@ -274,6 +274,7 @@ def handle_message(event):
             count=0
             print('hi2')
             sys.stdout.flush()
+            '''
             for _data in data_UserData:
                 count+=1
                 history_dic['Mesaage'] = _data.message
@@ -281,9 +282,10 @@ def handle_message(event):
                 history_dic['GroupPeople'] =_data.group_num
                 history_list.append(history_dic)
                 history_dic = {}
+            '''
             print('hi3')
             sys.stdout.flush()
-'''
+            '''
             dataNumber=len(history_list)
             Zero= np.zeros((dataNumber,len(get_groupPeople(history_list,2))))
             for i in range(dataNumber):
@@ -318,7 +320,6 @@ def handle_message(event):
 
             result=getpaid-totalPayment
             '''
-            
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str('hello')))
