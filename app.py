@@ -299,7 +299,7 @@ def handle_message(event):
                 duplicate = list(a1.intersection(a2))
                 count=0
                 for j in range(len(duplicate)):
-                    place=a.index(duplicate[count])
+                    place=get_groupPeople(history_list,2).index(duplicate[count])
                     Zero[i][place]=payAmount
                     count+=1
                 print(count, end="")
