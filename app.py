@@ -259,6 +259,15 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif input_text == '結算':
+            group_list=get_groupPeople(history_list,2)
+            output_text=group_list
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+            
+            
+
+'''
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
             history_dic = {}
@@ -272,7 +281,7 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
 
-'''
+
             dataNumber=len(history_list)
             Zero= np.zeros((count,get_groupPeople(history_list,1)))
             for i in range(count):
@@ -307,12 +316,12 @@ def handle_message(event):
 
             result=getpaid-totalPayment
             
-'''            
+            
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(history_list)))  
 
-        
+'''        
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
             line_bot_api.reply_message(
