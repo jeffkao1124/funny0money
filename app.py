@@ -257,7 +257,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-
+'''
         elif input_text == '結算':
             group_list=get_groupPeople(history_list,2)
             output_text=group_list
@@ -267,7 +267,7 @@ def handle_message(event):
             
             
 
-'''
+
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
             history_dic = {}
