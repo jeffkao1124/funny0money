@@ -263,6 +263,15 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( groupMember )))
+        
+        elif '刪除' in input_text:
+            selfId = history_list[0]['user_id']
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete()
+            output_text='刪除成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
 
         elif ('結算' in input_text):
             selfGroupId = history_list[0]['group_id']
