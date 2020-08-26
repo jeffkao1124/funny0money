@@ -278,6 +278,7 @@ def handle_message(event):
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
             historySettle_list = []
+            person_list  = get_groupPeople(history_list,2)
             count=0
             for _data in dataSettle_UserData:
                 count+=1
