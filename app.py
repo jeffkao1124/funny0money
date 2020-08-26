@@ -285,11 +285,12 @@ def handle_message(event):
             
             print('hi3')
             sys.stdout.flush()
-            '''
+            
             dataNumber=len(history_list)
-            Zero= np.zeros((dataNumber,len(get_groupPeople(history_list,2))))
+            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
+            print(Zero)
+            sys.stdout.flush()
             for i in range(dataNumber):
-    
                 b=dict(history_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')
                 payAmount=int(b['Account'])/len(GroupPeopleString)
@@ -301,10 +302,15 @@ def handle_message(event):
                     place=a.index(duplicate[count])
                     Zero[i][place]=payAmount
                     count+=1
+                print(count, end="")
+                sys.stdout.flush()
 
             replaceZero=Zero
+            print(replaceZero)
+            sys.stdout.flush()
             totalPayment=replaceZero.sum(axis=0)
-            #print(totalPayment)
+            print(totalPayment)
+            sys.stdout.flush()
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))
             for i in range(len(get_groupPeople(history_list,2))):
@@ -317,12 +323,16 @@ def handle_message(event):
                     else:
                         continue
             getpaid=paid
+            print(getpaid)
+            sys.stdout.flush()
 
             result=getpaid-totalPayment
-            '''
+            print(result)
+            sys.stdout.flush()
+            
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(history_list)))
+                TextSendMessage(text= str(result)))
                 
 
         
