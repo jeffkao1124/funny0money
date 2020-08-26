@@ -264,8 +264,12 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str( groupMember )))
 
-
         elif ('結算' in input_text):
+            groupMember=get_groupPeople(history_list,2)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( groupMember )))
+            '''
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
             history_dic = {}
@@ -317,6 +321,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(result)))
+                '''
 
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
