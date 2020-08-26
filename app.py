@@ -17,6 +17,7 @@ from dbModel import *
 from datetime import datetime
 import json
 from sqlalchemy import desc
+import numpy as np
 
 
 app = Flask(__name__)
