@@ -257,17 +257,8 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-'''
-        elif input_text == '結算':
-            group_list=get_groupPeople(history_list,2)
-            output_text=group_list
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
-            
-            
 
-
+        elif ('結算' in input_text):
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save')
             history_dic = {}
@@ -281,10 +272,9 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
 
-
             dataNumber=len(history_list)
-            Zero= np.zeros((count,get_groupPeople(history_list,1)))
-            for i in range(count):
+            Zero= np.zeros((dataNumber,len(get_groupPeople(history_list,2))))
+            for i in range(dataNumber):
     
                 b=dict(history_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')
@@ -292,18 +282,18 @@ def handle_message(event):
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))
-                count_duplicate=0
+                count=0
                 for j in range(len(duplicate)):
-                    place=get_groupPeople(history_list,2).index(duplicate[count_duplicate])
+                    place=a.index(duplicate[count])
                     Zero[i][place]=payAmount
-                    count_duplicate+=1
+                    count+=1
 
             replaceZero=Zero
             totalPayment=replaceZero.sum(axis=0)
             #print(totalPayment)
 
-            paid= np.zeros((1,get_groupPeople(history_list,1)))
-            for i in range(get_groupPeople(history_list,1)):
+            paid= np.zeros((1,len(get_groupPeople(history_list,2))))
+            for i in range(len(get_groupPeople(history_list,2))):
                 for j in range(len(history_list)):
                     b=dict(history_list[j])
                     GroupPeopleString=b['GroupPeople'].split(' ')
@@ -319,9 +309,9 @@ def handle_message(event):
             
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(history_list)))  
+                TextSendMessage(text= str(result)))
 
-'''        
+        
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
             line_bot_api.reply_message(
