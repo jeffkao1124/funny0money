@@ -260,9 +260,13 @@ def handle_message(event):
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
+            output_text=""
+            for i in range(get_groupPeople(history_list,1)):
+                output_text=output_text+groupMember[i]+'\n'
+
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( groupMember )))
+                TextSendMessage(text= str( output_text )))
         
         elif '刪除' in input_text:
             selfId = history_list[0]['user_id']
@@ -316,13 +320,18 @@ def handle_message(event):
                         paid[0][i]=paid[0][i]+paidAmount
                     else:
                         continue
+
             account=paid-totalPayment
+            print(account)
+            sys.stdout.flush()
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
             for i in range(len(person_list)):
                 zip_tuple=(person_list[i],account[0][i])
                 person_account.append(zip_tuple)
+            print(person_account)
+            sys.stdout.flush()
 
             #重複執行交換動作
             for i in range(len(person_list)-1):
@@ -353,7 +362,9 @@ def handle_message(event):
                     max_tuple=(max_tuple[0],0)
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            
+            print(result)
+            sys.stdout.flush()
+
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(result)))
