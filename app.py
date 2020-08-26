@@ -319,8 +319,43 @@ def handle_message(event):
                         paid[0][i]=paid[0][i]+paidAmount
                     else:
                         continue
-            getpaid=paid
-            result=getpaid-totalPayment
+            account=paid-totalPayment
+
+            #將人和錢結合成tuple，存到一個空串列
+            person_account=[]
+            for i in range(len(person_list)):
+                zip_tuple=(person_list[i],account[0][i])
+                person_account.append(zip_tuple)
+
+            #重複執行交換動作
+            for i in range(len(person_list)-1):
+                #排序
+                person_account=sorted(person_account, key = lambda s:s[1])
+
+                #找到最大、最小值
+                min_tuple=person_account[0]
+                max_tuple=person_account[-1]
+                min=float(min_tuple[1])
+                max=float(max_tuple[1])
+
+                #交換，印出該付的錢
+                result=[]
+                if min==0 or max==0:
+                    pass
+                elif (min+max)>0:
+                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(min))+'\n')
+                    max_tuple=(max_tuple[0],min+max)
+                    min_tuple=(min_tuple[0],0)
+                elif (min+max)<0:
+                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    min_tuple=(min_tuple[0],min+max)
+                    max_tuple=(max_tuple[0],0)
+                else:
+                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    min_tuple=(min_tuple[0],0)
+                    max_tuple=(max_tuple[0],0)
+                person_account[0]=min_tuple
+                person_account[-1]=max_tuple
             
             line_bot_api.reply_message(
                 event.reply_token,
