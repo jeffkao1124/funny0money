@@ -265,16 +265,11 @@ def handle_message(event):
                 TextSendMessage(text= str( groupMember )))
 
         elif ('結算' in input_text):
-            print('hi')
-            sys.stdout.flush()
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
             historySettle_list = []
             count=0
-            print('hi2')
-            sys.stdout.flush()
-            
             for _data in dataSettle_UserData:
                 count+=1
                 historySettle_dic['Mesaage'] = _data.message
@@ -283,13 +278,8 @@ def handle_message(event):
                 historySettle_list.append(historySettle_dic)
                 historySettle_dic = {}
             
-            print('hi3')
-            sys.stdout.flush()
-            
             dataNumber=len(historySettle_list)
-            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))#
-            print(Zero)
-            sys.stdout.flush()
+            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')
@@ -302,15 +292,9 @@ def handle_message(event):
                     place=get_groupPeople(history_list,2).index(duplicate[count])
                     Zero[i][place]=payAmount
                     count+=1
-                print(count, end="")
-                sys.stdout.flush()
 
             replaceZero=Zero
-            print(replaceZero)
-            sys.stdout.flush()
             totalPayment=replaceZero.sum(axis=0)
-            print(totalPayment)
-            sys.stdout.flush()
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))
             for i in range(len(get_groupPeople(history_list,2))):
@@ -323,12 +307,7 @@ def handle_message(event):
                     else:
                         continue
             getpaid=paid
-            print(getpaid)
-            sys.stdout.flush()
-
             result=getpaid-totalPayment
-            print(result)
-            sys.stdout.flush()
             
             line_bot_api.reply_message(
                 event.reply_token,
