@@ -232,7 +232,6 @@ def handle_message(event):
                 count+=1
                 history_dic['Mesaage'] = _data.message
                 history_dic['Account'] = _data.account
-                history_dic['birth_date'] = _data.birth_date
                 history_list.append(history_dic)
                 history_dic = {}
             final_list =[]
@@ -242,7 +241,7 @@ def handle_message(event):
                     money = int(history_list[i]['Account'])
                 except:
                     money = 0
-                final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account'])+' '+str(history_list[i]['birth_date']))
+                final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
                 add += money
 
             perfect_list=''
@@ -269,7 +268,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif input_text =='刪':
+        elif input_text =='delete':
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             history_dic = {}
@@ -282,6 +281,9 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             deleteNum=re.findall(r"\d+\.?\d*",input_text)
+            print(deleteNum)
+            sys.stdout.flush()
+
             if deleteNum[0] > count:
                 output_text='刪除失敗'
             else:
