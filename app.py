@@ -263,7 +263,7 @@ def handle_message(event):
             output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_list)))
+                TextSendMessage(text= str(output_text)))
 
         elif input_text =='理財小幫手':
             output_text = get_exchangeRate()
