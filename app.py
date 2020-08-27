@@ -245,7 +245,20 @@ def handle_message(event):
                 history_dic['Account'] = _data.account
                 history_list.append(history_dic)
                 history_dic = {}
+            print(count)
+            sys.stdout.flush()
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').get(count).delete()
+            history_dic = {}
+            history_list = []
+            count=0
+            for _data in data_UserData:
+                count+=1
+                history_dic['Mesaage'] = _data.message
+                history_dic['Account'] = _data.account
+                history_list.append(history_dic)
+                history_dic = {}
+            print(history_list)
+            sys.stdout.flush()
             output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
