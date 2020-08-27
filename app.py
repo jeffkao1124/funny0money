@@ -20,6 +20,7 @@ from sqlalchemy import desc
 import numpy as np
 import sys
 import re
+import time
 
 app = Flask(__name__)
 
@@ -199,7 +200,33 @@ def get_groupPeople(history_list,mode):
     else:
         return 1
 
+def get_accountList():
+    selfId = history_list[0]['user_id']
+    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
+    history_dic = {}
+    history_list = []
+    count=0
+    for _data in data_UserData:
+        count+=1
+        history_dic['Mesaage'] = _data.message
+        history_dic['Account'] = _data.account
+        history_list.append(history_dic)
+        history_dic = {}
+    final_list =[]
+    add=0
+    for i in range(count):
+        try:
+            money = int(history_list[i]['Account'])
+        except:
+            money = 0
+        final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+        add += money
 
+    perfect_list=''
+    for j in range(count):
+        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+        perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
+    return perfect_list
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -223,34 +250,10 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='查帳':
-            selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
-            history_dic = {}
-            history_list = []
-            count=0
-            for _data in data_UserData:
-                count+=1
-                history_dic['Mesaage'] = _data.message
-                history_dic['Account'] = _data.account
-                history_list.append(history_dic)
-                history_dic = {}
-            final_list =[]
-            add=0
-            for i in range(count):
-                try:
-                    money = int(history_list[i]['Account'])
-                except:
-                    money = 0
-                final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-                add += money
-
-            perfect_list=''
-            for j in range(count):
-                perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-            perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
+            output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(perfect_list)))
+                TextSendMessage(text= str(output_list)))
 
         elif input_text =='理財小幫手':
             output_text = get_exchangeRate()
@@ -302,7 +305,9 @@ def handle_message(event):
                 print(personID)
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
-                output_text='刪除成功'
+                time.sleep(2)
+                output_text='刪除成功'+'\n'+'記帳清單：'+'\n'+get_accountList
+
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
