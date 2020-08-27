@@ -292,7 +292,6 @@ def handle_message(event):
                 history_dic['Account'] = _data.account
                 history_dic['user_id'] = _data.user_id
                 history_list.append(history_dic)
-                history_dic = {}
             print(history_dic['user_id'])
             sys.stdout.flush()
             output_text='刪除成功'
