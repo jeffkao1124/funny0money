@@ -282,7 +282,7 @@ def handle_message(event):
                 history_dic = {}
             print(count)
             sys.stdout.flush()
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').get(count).delete()
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').get(count-1).delete()
             history_dic = {}
             history_list = []
             count=0
