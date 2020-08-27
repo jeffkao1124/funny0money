@@ -235,7 +235,7 @@ def get_accountList():
     perfect_list=''
     for j in range(count):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-        perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
+    perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
     return perfect_list
 
 # 處理訊息
