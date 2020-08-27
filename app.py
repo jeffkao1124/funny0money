@@ -268,7 +268,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif input_text =='delete':
+        elif 'delete' in input_text:
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             history_dic = {}
