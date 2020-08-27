@@ -288,7 +288,7 @@ def handle_message(event):
             if targetNum > count:
                 output_text='刪除失敗'
             else:
-                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')[targetNum-1:targetNum]
+                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
                 history_dic = {}
                 history_list = []
                 count=0
