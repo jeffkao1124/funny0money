@@ -284,10 +284,11 @@ def handle_message(event):
             print(deleteNum)
             sys.stdout.flush()
 
-            if deleteNum[0] > count:
+            targetNum = int(deleteNum[0])
+            if targetNum > count:
                 output_text='刪除失敗'
             else:
-                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')[deleteNum[0]-1:deleteNum[0]]
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')[targetNum-1:targetNum]
                 history_dic = {}
                 history_list = []
                 count=0
