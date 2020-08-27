@@ -252,7 +252,7 @@ def handle_message(event):
                 TextSendMessage(text= str(perfect_list)))
 
         elif input_text =='理財小幫手':
-            output_text = get_exchangeRate
+            output_text = get_exchangeRate()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
