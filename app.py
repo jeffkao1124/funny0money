@@ -260,6 +260,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='查帳':
+            time.sleep(2)
             output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
