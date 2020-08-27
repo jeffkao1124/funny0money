@@ -316,7 +316,7 @@ def handle_message(event):
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
                 time.sleep(2)
-                output_text='刪除成功'+'\n'+'記帳清單：'+'\n'+get_accountList
+                output_text='刪除成功'+'\n'+'記帳清單：'+'\n'+get_accountList()
 
             line_bot_api.reply_message(
                 event.reply_token,
