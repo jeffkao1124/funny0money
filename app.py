@@ -201,6 +201,16 @@ def get_groupPeople(history_list,mode):
         return 1
 
 def get_accountList():
+    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
+    history_dic = {}
+    history_list = []
+    for _data in data_UserData:
+        history_dic['Status'] = _data.status
+        history_dic['type'] = _data.type
+        history_dic['user_id'] = _data.user_id
+        history_dic['group_id'] = _data.group_id
+        history_list.append(history_dic)
+        history_dic = {}
     selfId = history_list[0]['user_id']
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
