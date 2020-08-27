@@ -145,6 +145,30 @@ def get_movie():
 
     return movies
 
+def get_exchangeRate():
+    numb= []
+    cate=[]
+    data=[]
+    url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
+    resp_1 = requests.get(url_1)
+    ms = BeautifulSoup(resp_1.text,"html.parser")
+
+    t1=ms.find_all("td","rate-content-cash text-right print_hide")
+    for child in t1:
+        numb.append(child.text.strip())
+   
+    buy=numb[0:37:2]
+    sell=numb[1:38:2]
+
+    t2=ms.find_all("div","hidden-phone print_show")
+    for child in t2:
+        cate.append(child.text.strip())
+    for i in range(19):
+        data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
+      
+    return data
+
+
 
 def get_groupPeople(history_list,mode):
     selfId = history_list[0]['user_id']
@@ -226,6 +250,13 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(perfect_list)))
+
+        elif input_text =='理財小幫手':
+            output_text = get_exchangeRate
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete()
