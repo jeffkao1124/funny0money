@@ -234,7 +234,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.刪除--輸入：刪除'
+              help_text='1.分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'2.分帳設定清空--輸入：delete'+'\n'+'3.分帳設定查詢--輸入：設定查詢'+'\n'+'4.分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'5.結算--輸入：結算'+'\n'+'6.刪除--輸入：刪除'+'\n'+'7.查帳--輸入：查帳'+'\n'+'8.使用說明--輸入：help' 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
@@ -258,6 +258,12 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
+        elif input_text =='help':
+            help_text='1.分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'2.分帳設定查詢--輸入：設定查詢'+'\n'+'3.分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'4.結算--輸入：結算'+'\n'+'5.刪除--輸入：刪除'+'\n'+'6.查帳--輸入：查帳'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(help_text)))
+
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
             output_text=""
@@ -268,7 +274,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
         
-        elif '刪除' in input_text:
+        elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete()
@@ -276,6 +282,41 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+
+        elif input_text == 'delete':
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete()
+            output_text='設定刪除成功'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+
+        elif input_text == '查帳':
+            selfGroupId = history_list[0]['group_id']
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            historySettle_dic = {}
+            historySettle_list = []
+            #person_list  = get_groupPeople(history_list,2)
+            for _data in dataSettle_UserData:
+                historySettle_dic['Mesaage'] = _data.message
+                historySettle_dic['Account'] = _data.account
+                historySettle_dic['GroupPeople'] =_data.group_num
+                historySettle_list.append(historySettle_dic)
+                historySettle_dic = {}
+            final_list =[]
+            count=0
+            for i in range(len(historySettle_list)):
+                count+=1
+                final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+            perfect_list=''
+            for j in range(count):
+                perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(perfect_list)))
+
+            
+
 
         elif ('結算' in input_text):
             selfGroupId = history_list[0]['group_id']
@@ -334,6 +375,7 @@ def handle_message(event):
             sys.stdout.flush()
 
             #重複執行交換動作
+            result=""
             for i in range(len(person_list)-1):
                 #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
@@ -345,19 +387,18 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
-                result=[]
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(min))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2))+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+(str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(max))+'\n')
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 person_account[0]=min_tuple
