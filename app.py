@@ -19,6 +19,7 @@ import json
 from sqlalchemy import desc
 import numpy as np
 import sys
+import re
 
 app = Flask(__name__)
 
@@ -268,7 +269,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif input_text =='delete':
+        elif input_text =='刪':
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             history_dic = {}
@@ -280,23 +281,25 @@ def handle_message(event):
                 history_dic['Account'] = _data.account
                 history_list.append(history_dic)
                 history_dic = {}
-            print(count)
-            sys.stdout.flush()
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')[count-1:count]
-            history_dic = {}
-            history_list = []
-            count=0
-            for _data in data_UserData:
-                count+=1
-                history_dic['Mesaage'] = _data.message
-                history_dic['Account'] = _data.account
-                history_dic['id'] = _data.id
-                history_list.append(history_dic)
-            personID=history_dic['id']
-            print(personID)
-            sys.stdout.flush()
-            data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
-            output_text='刪除成功'
+            deleteNum=re.findall(r"\d+\.?\d*",input_text)
+            if deleteNum[0] > count:
+                output_text='刪除失敗'
+            else:
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save')[deleteNum[0]-1:deleteNum[0]]
+                history_dic = {}
+                history_list = []
+                count=0
+                for _data in data_UserData:
+                    count+=1
+                    history_dic['Mesaage'] = _data.message
+                    history_dic['Account'] = _data.account
+                    history_dic['id'] = _data.id
+                    history_list.append(history_dic)
+                personID=history_dic['id']
+                print(personID)
+                sys.stdout.flush()
+                data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
+                output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
