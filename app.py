@@ -253,9 +253,12 @@ def handle_message(event):
 
         elif input_text =='理財小幫手':
             output_text = get_exchangeRate()
+            final_list = ""
+            for i in range(19):
+                final_list = final_list+get_exchangeRate[i]
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= str(final_list)))
 
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
