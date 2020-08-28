@@ -286,11 +286,8 @@ def handle_message(event):
         history_dic = {}
     if history_list[0]['type'] == 'user':   
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
-            try :
-                money=float(history_list[0]['Account'])
-                output_text='記帳成功'
-            except :
-                output_text='記帳失敗'
+
+            output_text='記帳成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
