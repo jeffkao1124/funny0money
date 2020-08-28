@@ -380,7 +380,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text == 'delete':
+        elif 'delete' in input_text:
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
             history_dic = {}
