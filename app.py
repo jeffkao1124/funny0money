@@ -94,18 +94,22 @@ def callback():
         if '記帳' in receivedmsg:
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
-            add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = 'None',
-                    type = 'user',
-                    status = 'save',
-                    account = chargeNumber,
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = chargeName ,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+            usefulNumber=re.findall(r"\d+\.?\d*",chargeNumber)
+            if int(usefulNumber)>0 and int(usefulNumber)<10000000:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'save',
+                        account = usefulNumber[0],
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
+            else:
+                break
         else:
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
@@ -582,7 +586,6 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text))) 
-
 
 if __name__ == "__main__":
     app.run()
