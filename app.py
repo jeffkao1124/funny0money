@@ -95,7 +95,7 @@ def callback():
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
             usefulNumber=re.findall(r"\d+\.?\d*",chargeNumber)
-            if int(usefulNumber)>0 and int(usefulNumber)<10000000:
+            if int(usefulNumber[0])>0 and int(usefulNumber[0])<10000000:
                 add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
                         group_num = '0',
@@ -109,6 +109,18 @@ def callback():
                         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
             else:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'fail',
+                        account = '0',
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = 'None' ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
                 break
         else:
             add_data = usermessage(
