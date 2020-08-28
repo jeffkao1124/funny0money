@@ -323,7 +323,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.刪除--輸入：刪除' +'\n'+'4.使用說明--輸入：help'
+            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.刪除--輸入：刪除' +'\n'+'4.刪除單筆資料--輸入：delete 編號'+'\n'+'5.使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
@@ -372,13 +372,55 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text == 'delete':
+        elif input_text == '設定刪除':
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete()
             output_text='設定刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+
+        elif input_text == 'delete':
+            selfGroupId = history_list[0]['group_id']
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
+            history_dic = {}
+            history_list = []
+            count=0
+            for _data in data_UserData:
+                count+=1
+                history_dic['Mesaage'] = _data.message
+                history_dic['Account'] = _data.account
+                history_list.append(history_dic)
+                history_dic = {}
+            deleteNum=re.findall(r"\d+\.?\d*",input_text)
+            print(deleteNum)
+            sys.stdout.flush()
+
+            targetNum = int(deleteNum[0])
+            if targetNum > count:
+                output_text='刪除失敗'
+            else:
+                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')[targetNum-1:targetNum]
+                history_dic = {}
+                history_list = []
+                count=0
+                for _data in data_UserData:
+                    count+=1
+                    history_dic['Mesaage'] = _data.message
+                    history_dic['Account'] = _data.account
+                    history_dic['id'] = _data.id
+                    history_list.append(history_dic)
+
+                targetID=history_dic['id']
+                print(targetID)
+                sys.stdout.flush()
+                data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
+                time.sleep(2)
+                output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_accountList()
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text= str(output_text)))
+
 
         elif input_text == '查帳':
             selfGroupId = history_list[0]['group_id']
