@@ -238,6 +238,38 @@ def get_accountList():
     perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
     return perfect_list
 
+def get_settleList():
+    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
+    history_dic = {}
+    history_list = []
+    for _data in data_UserData:
+        history_dic['Status'] = _data.status
+        history_dic['type'] = _data.type
+        history_dic['user_id'] = _data.user_id
+        history_dic['group_id'] = _data.group_id
+        history_list.append(history_dic)
+        history_dic = {}
+    selfGroupId = history_list[0]['group_id']
+    dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+    historySettle_dic = {}
+    historySettle_list = []
+    #person_list  = get_groupPeople(history_list,2)
+    for _data in dataSettle_UserData:
+        historySettle_dic['Mesaage'] = _data.message
+        historySettle_dic['Account'] = _data.account
+        historySettle_dic['GroupPeople'] =_data.group_num
+        historySettle_list.append(historySettle_dic)
+        historySettle_dic = {}
+    final_list =[]
+    count=0
+    for i in range(len(historySettle_list)):
+        count+=1
+        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+    perfect_list=''
+    for j in range(count):
+        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+    return perfect_list
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -416,38 +448,18 @@ def handle_message(event):
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
                 time.sleep(2)
-                output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_accountList()
+                output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
 
 
         elif input_text == '查帳':
-            selfGroupId = history_list[0]['group_id']
-            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-            historySettle_dic = {}
-            historySettle_list = []
-            #person_list  = get_groupPeople(history_list,2)
-            for _data in dataSettle_UserData:
-                historySettle_dic['Mesaage'] = _data.message
-                historySettle_dic['Account'] = _data.account
-                historySettle_dic['GroupPeople'] =_data.group_num
-                historySettle_list.append(historySettle_dic)
-                historySettle_dic = {}
-            final_list =[]
-            count=0
-            for i in range(len(historySettle_list)):
-                count+=1
-                final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
-            perfect_list=''
-            for j in range(count):
-                perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+            time.sleep(1.5)
+            output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(perfect_list)))
-
-            
-
+                TextSendMessage(text= str(output_text)))
 
         elif ('結算' in input_text):
             selfGroupId = history_list[0]['group_id']
