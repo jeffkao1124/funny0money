@@ -91,22 +91,9 @@ def callback():
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
-        if '記帳' in receivedmsg:
+        if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
-            if chargeNumber is None:
-                add_data = usermessage(
-                        id = bodyjson['events'][0]['message']['id'],
-                        group_num = '0',
-                        nickname = 'None',
-                        group_id = 'None',
-                        type = 'user',
-                        status = 'None',
-                        account = chargeNumber,
-                        user_id = bodyjson['events'][0]['source']['userId'],
-                        message = chargeName ,
-                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                    )
             if re.search(r"\D",chargeNumber) is None:
                 add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
