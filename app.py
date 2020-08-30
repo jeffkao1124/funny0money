@@ -94,7 +94,7 @@ def callback():
         if '記帳' in receivedmsg:
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
-            if re.search(r"\D",chargeNumber) == 'None':
+            if re.search(r"\D",chargeNumber) is None:
                 add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
                         group_num = '0',
