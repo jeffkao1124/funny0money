@@ -299,7 +299,7 @@ def handle_message(event):
         history_list.append(history_dic)
         history_dic = {}
     if history_list[0]['type'] == 'user':   
-        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text)
+        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
             line_bot_api.reply_message(
                 event.reply_token,
