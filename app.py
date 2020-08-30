@@ -94,18 +94,32 @@ def callback():
         if '記帳' in receivedmsg:
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
-            add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = 'None',
-                    type = 'user',
-                    status = 'save',
-                    account = chargeNumber,
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = chargeName ,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+            if re.search(r"\D",chargeNumber) == 'None':
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'save',
+                        account = chargeNumber,
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
+            else:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'None',
+                        account = chargeNumber,
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
         else:
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
@@ -282,11 +296,10 @@ def handle_message(event):
         history_dic['type'] = _data.type
         history_dic['user_id'] = _data.user_id
         history_dic['group_id'] = _data.group_id
-        history_dic['Account'] = _data.account
         history_list.append(history_dic)
         history_dic = {}
     if history_list[0]['type'] == 'user':   
-        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text) and (re.search(r"\D",history[0]['Account']) == 'None'):
+        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text)
             output_text='記帳成功'
             line_bot_api.reply_message(
                 event.reply_token,
