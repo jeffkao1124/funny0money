@@ -94,6 +94,19 @@ def callback():
         if '記帳' in receivedmsg:
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
+            if chargeNumber is None:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'None',
+                        account = chargeNumber,
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
             if re.search(r"\D",chargeNumber) is None:
                 add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
@@ -374,7 +387,7 @@ def handle_message(event):
                 TextSendMessage(text= str(help_text)))
 
         else:
-            output_text='記帳失敗'
+            output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
