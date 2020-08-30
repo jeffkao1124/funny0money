@@ -91,7 +91,7 @@ def callback():
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
-        receivedmsg = receivedmsg.strip
+        receivedmsg = receivedmsg.strip(' ')
         if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
