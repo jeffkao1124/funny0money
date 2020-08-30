@@ -288,7 +288,7 @@ def handle_message(event):
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             message_1=input_text.split(' ')[1]
             message_2=input_text.split(' ')[2]
-            result=re.search(r"/D",message_2)
+            result=re.search(r"\D",message_2)
             if result='None':
                 output_text='記帳成功'
             else:
