@@ -208,6 +208,8 @@ def handle_join(event):
             event.reply_token,
             TextMessage(text=newcoming_text)
         )
+    print("JoinEvent =", JoinEvent)
+    sys.stdout.flush()
 
 def get_groupPeople(history_list,mode):
     selfId = history_list[0]['user_id']
@@ -590,7 +592,31 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(result)))
                 
-
+        elif input_text is 'split':
+             line_bot_api.reply_message(  # 回復傳入的訊息文字
+                        event.reply_token,
+                        TemplateSendMessage(
+                            alt_text='Buttons template',
+                            template=ButtonsTemplate(
+                                title='分帳',
+                                text='請選擇功能',
+                                actions=[
+                                    URITemplateAction(
+                                        label='分帳',
+                                        uri='https://liff.line.me/1654876504-9wWzOva7'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='結算',
+                                        text='結算'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='help',
+                                        text='help'
+                                    )
+                                ]
+                            )
+                        )
+                    )
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
