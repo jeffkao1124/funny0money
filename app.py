@@ -282,17 +282,12 @@ def handle_message(event):
         history_dic['type'] = _data.type
         history_dic['user_id'] = _data.user_id
         history_dic['group_id'] = _data.group_id
+        history_dic['Account'] = _data.account
         history_list.append(history_dic)
         history_dic = {}
     if history_list[0]['type'] == 'user':   
-        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
-            message_1=input_text.split(' ')[1]
-            message_2=input_text.split(' ')[2]
-            result=re.search(r"\D",message_2)
-            if result='None':
-                output_text='記帳成功'
-            else:
-                output_text='記帳失敗'
+        if (history_list[0]['Status'] == 'save') and ('記帳' in input_text) and (re.search(r"\D",history[0]['Account']) == 'None'):
+            output_text='記帳成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
