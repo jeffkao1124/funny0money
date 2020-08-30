@@ -286,10 +286,12 @@ def handle_message(event):
         history_dic = {}
     if history_list[0]['type'] == 'user':   
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
-            try :
-                money=float(history_list[0]['Account'])
+            message_1=input_text.split(' ')[1]
+            message_2=input_text.split(' ')[2]
+            result=re.search(r"/D",message_2)
+            if result='None':
                 output_text='記帳成功'
-            except :
+            else:
                 output_text='記帳失敗'
             line_bot_api.reply_message(
                 event.reply_token,
