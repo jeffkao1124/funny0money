@@ -592,7 +592,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(result)))
                 
-        elif input_text is 'split':
+        elif 'split' in input_text :
              line_bot_api.reply_message(  # 回復傳入的訊息文字
                         event.reply_token,
                         TemplateSendMessage(
