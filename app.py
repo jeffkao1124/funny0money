@@ -585,8 +585,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif ('結算' in input_text):
-            
+        elif ('結算' in input_text):            
 '''           
             time.sleep(2)
             selfGroupId = history_list[0]['group_id']
