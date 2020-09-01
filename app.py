@@ -338,6 +338,31 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif input_text =='理財小幫手':
+            line_bot_api.reply_message(  
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='理財小幫手',
+                    text='請選擇功能',
+                    actions=[
+                        URITemplateAction(
+                            label='股市',
+                            uri='https://tw.stock.yahoo.com/'
+                        ),
+                        MessageTemplateAction(
+                            label='匯率',
+                            text='get_exchangeRate()'
+                        ),
+                        URITemplateAction(
+                            label='財經新聞',
+                            uri='https://www.msn.com/zh-tw/money'
+                        )
+                        ]
+                    )
+                )
+            )
+            '''
             output_text = get_exchangeRate()
             final_list = ""
             for i in range(19):
@@ -345,7 +370,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(final_list)))
-
+'''
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete()
@@ -413,6 +438,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
+
             output_text='分帳紀錄成功'
             line_bot_api.reply_message(
                 event.reply_token,
