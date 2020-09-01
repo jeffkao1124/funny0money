@@ -295,7 +295,7 @@ def get_groupPeople(history_list,mode):
         return new_list
     else:
         return 1
-
+'''
 #結算
 def settle():
     time.sleep(2)
@@ -386,7 +386,7 @@ def settle():
         person_account[-1]=max_tuple
 
     return result
-
+'''
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -586,7 +586,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif ('結算' in input_text):            
-'''           
+         
             time.sleep(2)
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -673,8 +673,8 @@ def handle_message(event):
                     max_tuple=(max_tuple[0],0)
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-'''
-            output_text = settle()
+
+            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
