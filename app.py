@@ -641,7 +641,7 @@ def handle_message(event):
                                     ),
                                     MessageTemplateAction(
                                         label='使用說明',
-                                        text='使用說明'
+                                        text='help'
                                     )
                                 ]
                             )
