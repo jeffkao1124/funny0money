@@ -201,16 +201,18 @@ def get_exchangeRate():
       
     return data
 
-@handler.add(JoinEvent)
-def handle_join(event):
-    newcoming_text = "謝謝邀請我這個機器來至此群組！！我會盡力為大家服務的～"
-
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextMessage(text=newcoming_text)
-        )
-    print("JoinEvent =", JoinEvent)
-    sys.stdout.flush()
+def get_history_list():
+    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
+    history_dic = {}
+    history_list = []    
+    for _data in data_UserData:
+        history_dic['Status'] = _data.status
+        history_dic['type'] = _data.type
+        history_dic['user_id'] = _data.user_id
+        history_dic['group_id'] = _data.group_id
+        history_list.append(history_dic)
+        history_dic = {}
+    return history_list
 
 def get_groupPeople(history_list,mode):
     selfId = history_list[0]['user_id']
@@ -241,6 +243,8 @@ def get_groupPeople(history_list,mode):
         return 1
 
 def get_accountList():
+    history_list = get_history_list()
+    '''
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
     history_dic = {}
     history_list = []
@@ -251,6 +255,7 @@ def get_accountList():
         history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
         history_dic = {}
+    '''
     selfId = history_list[0]['user_id']
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
@@ -279,6 +284,8 @@ def get_accountList():
     return perfect_list
 
 def get_settleList():
+    history_list = get_history_list()
+    '''
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
     history_dic = {}
     history_list = []
@@ -289,6 +296,7 @@ def get_settleList():
         history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
         history_dic = {}
+    '''
     selfGroupId = history_list[0]['group_id']
     dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_dic = {}
@@ -314,6 +322,8 @@ def get_settleList():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     input_text = event.message.text.lower()
+    history_list = get_history_list()
+    '''
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
     history_dic = {}
     history_list = []    
@@ -324,6 +334,7 @@ def handle_message(event):
         history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
         history_dic = {}
+    '''
     if history_list[0]['type'] == 'user':   
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
@@ -337,7 +348,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='理財小幫手':            
+        elif input_text =='理財':            
             line_bot_api.reply_message(  
             event.reply_token,
             TemplateSendMessage(
@@ -362,15 +373,7 @@ def handle_message(event):
                     )
                 )
             )
-            '''
-            output_text = get_exchangeRate()
-            final_list = ""
-            for i in range(19):
-                final_list = final_list+get_exchangeRate[i]
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(final_list)))
-'''
+
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete()
@@ -419,7 +422,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財小幫手'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
+            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
