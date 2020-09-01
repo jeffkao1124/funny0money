@@ -386,7 +386,7 @@ def settle()
         person_account[0]=min_tuple
         person_account[-1]=max_tuple
 
-return result
+    return result
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
