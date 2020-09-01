@@ -419,7 +419,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.刪除--輸入：刪除' +'\n'+'4.刪除單筆資料--輸入：delete 編號'+'\n'+'5.使用說明--輸入：help'
+            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財小幫手'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
