@@ -594,7 +594,7 @@ def handle_message(event):
                 TextSendMessage(text= str(result)))
                 
         elif '快速選單' in input_text :
-             line_bot_api.reply_message(  # 回復傳入的訊息文字
+             line_bot_api.reply_message(  
                         event.reply_token,
                         TemplateSendMessage(
                             alt_text='Buttons template',
@@ -613,7 +613,7 @@ def handle_message(event):
                                     MessageTemplateAction(
                                         label='查帳',
                                         text='查帳'
-                                    )
+                                    ),
                                     MessageTemplateAction(
                                         label='使用說明',
                                         text='使用說明'
