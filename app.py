@@ -439,8 +439,11 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
-
-            output_text='分帳紀錄成功'
+            first_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).first()
+            if re.search(r"\D",first_UserData.account) is None:
+                output_text='分帳紀錄失敗'
+            else:
+                output_text='分帳紀錄成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
