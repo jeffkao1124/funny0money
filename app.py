@@ -298,7 +298,6 @@ def get_groupPeople(history_list,mode):
 
 #結算
 def settle():
-
     time.sleep(2)
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
@@ -355,7 +354,6 @@ def settle():
     for i in range(len(person_list)):
         zip_tuple=(person_list[i],account[0][i])
         person_account.append(zip_tuple)
-
 
     #重複執行交換動作
     result=""
