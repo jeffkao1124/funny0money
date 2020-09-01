@@ -418,8 +418,8 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='help':
-            help_text='1.分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'2.分帳設定清空--輸入：設定刪除'+'\n'+'3.分帳設定查詢--輸入：設定查詢'+'\n'+'4.分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'5.結算--輸入：結算'+'\n'+'6.刪除--輸入：刪除'+'\n'+'7.刪除單筆資料--輸入：delete 編號'+'\n'+'8.查帳--輸入：查帳'+'\n'+'9.使用說明--輸入：help'
+        elif input_text =='使用說明':
+            help_text='1.快速選單--輸入：快速選單'+'\n'+'2.分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3.分帳設定清空--輸入：設定刪除'+'\n'+'4.分帳設定查詢--輸入：設定查詢'+'\n'+'5.分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6.結算--輸入：結算'+'\n'+'7.刪除--輸入：刪除'+'\n'+'8.刪除單筆資料--輸入：delete 編號'+'\n'+'9.查帳--輸入：查帳'+'\n'+'10.使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
@@ -593,13 +593,13 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(result)))
                 
-        elif 'split' in input_text :
+        elif '快速選單' in input_text :
              line_bot_api.reply_message(  # 回復傳入的訊息文字
                         event.reply_token,
                         TemplateSendMessage(
                             alt_text='Buttons template',
                             template=ButtonsTemplate(
-                                title='分帳',
+                                title='快速選單',
                                 text='請選擇功能',
                                 actions=[
                                     URITemplateAction(
@@ -611,8 +611,12 @@ def handle_message(event):
                                         text='結算'
                                     ),
                                     MessageTemplateAction(
-                                        label='help',
-                                        text='help'
+                                        label='查帳',
+                                        text='查帳'
+                                    )
+                                    MessageTemplateAction(
+                                        label='使用說明',
+                                        text='使用說明'
                                     )
                                 ]
                             )
