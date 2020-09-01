@@ -337,8 +337,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='理財小幫手':
-            
+        elif input_text =='理財小幫手':            
             line_bot_api.reply_message(  
             event.reply_token,
             TemplateSendMessage(
@@ -623,7 +622,9 @@ def handle_message(event):
                         event.reply_token,
                         TemplateSendMessage(
                             alt_text='Buttons template',
-                            template=ButtonsTemplate(
+                            template=CarouselTemplate(
+                            columns=[
+                                CarouselColumn(
                                 title='快速選單',
                                 text='請選擇功能',
                                 actions=[
@@ -644,6 +645,30 @@ def handle_message(event):
                                         text='使用說明'
                                     )
                                 ]
+                                ),
+                                CarouselColumn(
+                                title='this is menu2',
+                                text='description2',
+                                actions=[
+                                    MessageTemplateAction(
+                                        label='分帳設定',
+                                        text='分帳設定'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='分帳設定查詢',
+                                        text='設定查詢'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='分帳設定清空',
+                                        text='設定刪除'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='分帳資料清空',
+                                        text='刪除'
+                                    )
+                                ]
+                                )
+                            ]
                             )
                         )
                     )
