@@ -338,10 +338,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif input_text =='理財小幫手':
-            output_text = get_exchangeRate()
-            final_list = ""
-            for i in range(19):
-                final_list = final_list+get_exchangeRate[i]
+            
             line_bot_api.reply_message(  
             event.reply_token,
             TemplateSendMessage(
@@ -354,9 +351,9 @@ def handle_message(event):
                             label='股市',
                             uri='https://tw.stock.yahoo.com/'
                         ),
-                        MessageTemplateAction(
+                        URITemplateAction(
                             label='匯率',
-                            text='str(final_list)'
+                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
                         ),
                         URITemplateAction(
                             label='財經新聞',
