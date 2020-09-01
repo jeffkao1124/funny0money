@@ -549,6 +549,7 @@ def handle_message(event):
                 for j in range(1,len(GroupPeopleString),1):
                     if GroupPeopleString[0] == GroupPeopleString[j]:
                         del GroupPeopleString[j]
+                        break
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
