@@ -6,13 +6,12 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
-from linebot.models import *
-'''(
+from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,ButtonsTemplate,CarouselTemplate,CarouselColumn,
     MessageTemplateAction,URITemplateAction,PostbackEvent,AudioMessage,LocationMessage,
     MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
-)'''
+)
 import requests
 from bs4 import BeautifulSoup
 from dbModel import *
@@ -590,9 +589,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
                 
         elif '快速選單' in input_text :
-            line_bot_api.reply_message(  
-                        event.reply_token,
-                        TemplateSendMessage(
+            Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
                             template=CarouselTemplate(
                             columns=[
@@ -648,7 +645,7 @@ def handle_message(event):
                                 )]                            
                             )
                         )
-                    )
+            line_bot_api.reply_message(event.reply_token,Carousel_template)
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
