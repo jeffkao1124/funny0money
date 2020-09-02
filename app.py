@@ -692,6 +692,10 @@ def handle_message(event):
                                         label='分帳',
                                         uri='https://liff.line.me/1654876504-9wWzOva7'
                                     ),
+                                    URITemplateAction(
+                                        label='分帳設定',
+                                        uri='https://liff.line.me/1654876504-QNXjnrl2'
+                                    ),
                                     MessageTemplateAction(
                                         label='結算',
                                         text='結算'
