@@ -701,10 +701,6 @@ def handle_message(event):
                                         MessageTemplateAction(
                                             label='查帳',
                                             text='查帳'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='使用說明',
-                                            text='help'
                                         )
                                     ]
                                 ),
@@ -723,11 +719,21 @@ def handle_message(event):
                                         MessageTemplateAction(
                                             label='清空分帳設定',
                                             text='設定刪除'
-                                        ),
+                                        )
+                                    ]
+                                )
+                                CarouselColumn(
+                                    title='快速選單',
+                                    text='請選擇功能',
+                                    actions=[                        
                                         MessageTemplateAction(
                                             label='清空分帳資料',
                                             text='刪除'
-                                        )
+                                        ),
+                                        MessageTemplateAction(
+                                            label='使用說明',
+                                            text='help'
+                                        )                                        
                                     ]
                                 )
                             ]
