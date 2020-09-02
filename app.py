@@ -6,12 +6,13 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
-from linebot.models import (
+from linebot.models import *
+'''(
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,ButtonsTemplate,CarouselTemplate,MessageTemplateAction,URITemplateAction,
     PostbackEvent,AudioMessage,LocationMessage,
     MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
-)
+)'''
 import requests
 from bs4 import BeautifulSoup
 from dbModel import *
