@@ -594,8 +594,8 @@ def handle_message(event):
                             template=CarouselTemplate(
                             columns=[
                                 CarouselColumn(
-                                    title='快速選單',
-                                    text='請選擇功能',
+                                    title='快速選單-1',
+                                    text='請選擇功能-1',
                                     actions=[
                                         URITemplateAction(
                                             label='分帳',
@@ -612,8 +612,8 @@ def handle_message(event):
                                     ]
                                 ),
                                 CarouselColumn(
-                                    title='快速選單',
-                                    text='請選擇功能',
+                                    title='快速選單-2',
+                                    text='請選擇功能-2',
                                     actions=[
                                         URITemplateAction(
                                             label='分帳設定',
@@ -640,7 +640,11 @@ def handle_message(event):
                                         MessageTemplateAction(
                                             label='使用說明',
                                             text='help'
-                                        )                                        
+                                        ),
+                                        MessageTemplateAction(
+                                            label='使用說明',
+                                            text='help'
+                                        )                                       
                                     ]
                                 )]                            
                             )
