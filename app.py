@@ -721,7 +721,7 @@ def handle_message(event):
                                             text='設定刪除'
                                         )
                                     ]
-                                )
+                                ),
                                 CarouselColumn(
                                     title='快速選單',
                                     text='請選擇功能',
