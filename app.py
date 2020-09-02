@@ -621,7 +621,7 @@ def handle_message(event):
                             columns=[
                                 CarouselColumn(
                                     title='開始分帳',
-                                    text='請選擇功能：'+'\n'+'分帳--進入表單，進行分帳紀錄'+'\n'+'結算--進行分帳結算'+'\n'+'查帳--查詢過往帳目',
+                                    text='分帳--進入表單進行分帳紀錄'+'\n'+'結算--進行分帳結算'+'\n'+'查帳--查詢過往帳目',
                                     actions=[
                                         URITemplateAction(
                                             label='分帳',
@@ -639,7 +639,7 @@ def handle_message(event):
                                 ),
                                 CarouselColumn(
                                     title='分帳設定',
-                                    text='請選擇功能：'+'\n'+'分帳設定--進入表單，設定分帳者姓名'+'\n'+'查詢分帳設定--查詢分帳者姓名'+'\n'+'清空分帳設定--刪除分帳者姓名',
+                                    text='分帳設定--進入表單設定分帳者姓名'+'\n'+'查詢分帳設定--查詢分帳者姓名'+'\n'+'清空分帳設定--刪除分帳者姓名',
                                     actions=[
                                         URITemplateAction(
                                             label='分帳設定',
@@ -657,7 +657,7 @@ def handle_message(event):
                                 ),
                                 CarouselColumn(
                                     title='其他',
-                                    text='請選擇功能：'+'\n'+'清空分帳資料--刪除所有過往帳目'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
+                                    text='清空分帳資料--刪除所有過往帳目'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
                                     actions=[                        
                                         MessageTemplateAction(
                                             label='清空分帳資料',
