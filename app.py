@@ -8,7 +8,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
-    TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,URITemplateAction,
+    TemplateSendMessage,ButtonsTemplate,CarouselTemplate,MessageTemplateAction,URITemplateAction,
     PostbackEvent,AudioMessage,LocationMessage,
     MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
 )
@@ -683,32 +683,54 @@ def handle_message(event):
              line_bot_api.reply_message(  
                         event.reply_token,
                         TemplateSendMessage(
-                            alt_text='Buttons template',
-                            template=ButtonsTemplate(
-                                title='快速選單',
-                                text='請選擇功能',
-                                actions=[
-                                    URITemplateAction(
-                                        label='分帳',
-                                        uri='https://liff.line.me/1654876504-9wWzOva7'
-                                    ),
-                                    URITemplateAction(
-                                        label='分帳設定',
-                                        uri='https://liff.line.me/1654876504-QNXjnrl2'
-                                    ),
-                                    MessageTemplateAction(
-                                        label='結算',
-                                        text='結算'
-                                    ),
-                                    MessageTemplateAction(
-                                        label='查帳',
-                                        text='查帳'
-                                    ),
-                                    MessageTemplateAction(
-                                        label='使用說明',
-                                        text='help'
-                                    )
-                                ]
+                            alt_text='Carousel template',
+                            template=CarouselTemplate(
+                            columns=[
+                                CarouselColumn(
+                                    title='快速選單',
+                                    text='請選擇功能',
+                                    actions=[
+                                        URITemplateAction(
+                                            label='分帳',
+                                            uri='https://liff.line.me/1654876504-9wWzOva7'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='結算',
+                                            text='結算'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='查帳',
+                                            text='查帳'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='使用說明',
+                                            text='help'
+                                        )
+                                    ]
+                                ),
+                                CarouselColumn(
+                                    title='快速選單',
+                                    text='請選擇功能',
+                                    actions=[
+                                        URITemplateAction(
+                                            label='分帳設定',
+                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='查詢分帳設定',
+                                            text='設定查詢'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳設定',
+                                            text='設定刪除'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳資料',
+                                            text='刪除'
+                                        )
+                                    ]
+                                )
+                            ]
                             )
                         )
                     )
