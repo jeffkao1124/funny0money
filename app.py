@@ -308,7 +308,6 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='查帳':
-            time.sleep(2)
             output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
@@ -458,8 +457,6 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             deleteNum=re.findall(r"\d+\.?\d*",input_text)
-            print(deleteNum)
-            sys.stdout.flush()
 
             targetNum = int(deleteNum[0])
             if targetNum > count:
@@ -488,15 +485,12 @@ def handle_message(event):
 
 
         elif input_text == '查帳':
-            time.sleep(1.5)
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
         elif ('結算' in input_text):            
-         
-            time.sleep(2)
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
