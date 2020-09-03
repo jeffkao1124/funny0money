@@ -63,11 +63,11 @@ def callback():
                 )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):
             
-            split_1=receivedmsg.split(' ')[1].strip(' ')
+            split_1=receivedmsg.split(' ')[1]
             chargeName=split_1.split(' ')[0]
-            split_2=split_1.split(' ')[1].strip(' ')
+            split_2=split_1.split(' ')[1]
             chargeNumber=split_2.split(' ')[0]
-            chargePeople=split_2.split(' ')[1].strip(' ')
+            chargePeople=split_2.split(' ')[1]
             '''
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
