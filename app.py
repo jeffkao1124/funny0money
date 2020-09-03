@@ -380,10 +380,10 @@ def handle_message(event):
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
                 test1_dic={}
                 test1_list=[]
-                for _data in data_UserData:
-                    test1_dic['Message'] = _data.message
-                    test1_list.append(test1_dic)
-                    test1_dic={}
+                # for _data in data_UserData:
+                #     test1_dic['Message'] = _data.message
+                #     test1_list.append(test1_dic)
+                #     test1_dic={}
                 print('test1')
                 sys.stdout.flush()
                 print(test1_list)
@@ -409,10 +409,10 @@ def handle_message(event):
                     print('test4')
                     sys.stdout.flush()
                     
-                if test1_list == test2_list:
-                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-                else:
-                    output_text='wait'
+                # if test1_list == test2_list:
+                #     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+                # else:
+                #     output_text='wait'
 
                 # time.sleep(1)
                 # output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
