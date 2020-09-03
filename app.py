@@ -217,6 +217,7 @@ def get_history_list():
 #記帳查帳
 def get_accountList():
     history_list = get_history_list()
+    time.sleep(2)
     selfId = history_list[0]['user_id']
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
@@ -248,7 +249,6 @@ def get_accountList():
 def get_settleList():
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
-    time.sleep(2)
     dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_dic = {}
     historySettle_list = []
@@ -361,8 +361,6 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             deleteNum=re.findall(r"\d+\.?\d*",input_text)
-            print(deleteNum)
-            sys.stdout.flush()
 
             targetNum = int(deleteNum[0])
             if targetNum > count:
@@ -379,8 +377,6 @@ def handle_message(event):
                     history_dic['id'] = _data.id
                     history_list.append(history_dic)
                 personID=history_dic['id']
-                print(personID)
-                sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
                 time.sleep(2)
                 output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
@@ -480,6 +476,7 @@ def handle_message(event):
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
                 output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
+                time.sleep(2)
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
