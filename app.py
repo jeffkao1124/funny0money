@@ -378,7 +378,7 @@ def handle_message(event):
                     history_list.append(history_dic)
                 personID=history_dic['id']
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
-                time.sleep(5)
+                time.sleep(10)
                 checkData = usermessage.query.filter(usermessage.id==personID)
                 if checkData == data_UserData:
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
