@@ -377,7 +377,9 @@ def handle_message(event):
                     history_dic['id'] = _data.id
                     history_list.append(history_dic)
                 personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
+                data_UserData = usermessage.query.filter(usermessage.id==personID)
+                db.session.delete(data_UserData)
+                db.session.commit()
                 test1_dic={}
                 test1_list=[]
                 # for _data in data_UserData:
