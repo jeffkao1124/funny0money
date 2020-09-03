@@ -628,7 +628,7 @@ def handle_message(event):
                                         URITemplateAction(
                                             label='分帳者設定',
                                             uri='https://liff.line.me/1654876504-QNXjnrl2'
-                                        ),
+                                        )
                                     ]
                                 ),
                                 CarouselColumn(
@@ -642,11 +642,11 @@ def handle_message(event):
                                         MessageTemplateAction(
                                             label='清空分帳者設定',
                                             text='設定刪除'
-                                        )
+                                        ),
                                         MessageTemplateAction(
                                             label='清空分帳資料',
                                             text='刪除'
-                                        ),
+                                        )
                                     ]
                                 ),
                                 CarouselColumn(
