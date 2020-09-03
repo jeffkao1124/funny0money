@@ -615,7 +615,7 @@ def handle_message(event):
                             columns=[
                                 CarouselColumn(
                                     title='開始分帳',
-                                    text='分帳記錄--進入表單進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--進入表單設定分帳者姓名',
+                                    text='分帳記錄--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
                                     actions=[
                                         URITemplateAction(
                                             label='分帳紀錄',
