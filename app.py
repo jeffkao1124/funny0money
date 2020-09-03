@@ -8,7 +8,8 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
-    TemplateSendMessage,PostbackEvent,AudioMessage,LocationMessage,
+    TemplateSendMessage,ButtonsTemplate,CarouselTemplate,CarouselColumn,
+    MessageTemplateAction,URITemplateAction,PostbackEvent,AudioMessage,LocationMessage,
     MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
 )
 import requests
@@ -45,6 +46,7 @@ def callback():
 
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
+        receivedmsg = receivedmsg.strip(' ')
         if '分帳設定' in receivedmsg:
             userName=receivedmsg.split(' ')[1]
             add_data = usermessage(
@@ -59,11 +61,12 @@ def callback():
                     message = bodyjson['events'][0]['message']['text'],
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
-        elif '分帳' in receivedmsg:
+        elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
-            chargePeople=receivedmsg.split(' ',3)[3]
-            add_data = usermessage(
+            chargePeople=receivedmsg.split(' ',3)[3]            
+            if re.search(r"\D",chargeNumber) is None:
+                add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
                     group_num =chargePeople ,
                     nickname = 'None',
@@ -73,6 +76,19 @@ def callback():
                     account = chargeNumber,
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = chargeName,
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            else:
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num = '0',
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'None',
+                    account = '0',
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = bodyjson['events'][0]['message']['text'],
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
         else:
@@ -91,21 +107,36 @@ def callback():
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
-        if '記帳' in receivedmsg:
+        receivedmsg = receivedmsg.strip(' ')
+        if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
             chargeName=receivedmsg.split(' ')[1]
             chargeNumber=receivedmsg.split(' ')[2]
-            add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = 'None',
-                    type = 'user',
-                    status = 'save',
-                    account = chargeNumber,
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = chargeName ,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+            if re.search(r"\D",chargeNumber) is None:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'save',
+                        account = chargeNumber,
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
+            else:
+                add_data = usermessage(
+                        id = bodyjson['events'][0]['message']['id'],
+                        group_num = '0',
+                        nickname = 'None',
+                        group_id = 'None',
+                        type = 'user',
+                        status = 'None',
+                        account = chargeNumber,
+                        user_id = bodyjson['events'][0]['source']['userId'],
+                        message = chargeName ,
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    )
         else:
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
@@ -170,8 +201,74 @@ def get_exchangeRate():
       
     return data
 
+def get_history_list():
+    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
+    history_dic = {}
+    history_list = []    
+    for _data in data_UserData:
+        history_dic['Status'] = _data.status
+        history_dic['type'] = _data.type
+        history_dic['user_id'] = _data.user_id
+        history_dic['group_id'] = _data.group_id
+        history_list.append(history_dic)
+        history_dic = {}
+    return history_list
 
+#記帳查帳
+def get_accountList():
+    history_list = get_history_list()
+    time.sleep(2)
+    selfId = history_list[0]['user_id']
+    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
+    history_dic = {}
+    history_list = []
+    count=0
+    for _data in data_UserData:
+        count+=1
+        history_dic['Mesaage'] = _data.message
+        history_dic['Account'] = _data.account
+        history_list.append(history_dic)
+        history_dic = {}
+    final_list =[]
+    add=0
+    for i in range(count):
+        try:
+            money = int(history_list[i]['Account'])
+        except:
+            money = 0
+        final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+        add += money
 
+    perfect_list=''
+    for j in range(count):
+        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+    perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
+    return perfect_list
+
+#分帳查帳
+def get_settleList():
+    history_list = get_history_list()
+    selfGroupId = history_list[0]['group_id']
+    dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+    historySettle_dic = {}
+    historySettle_list = []
+    for _data in dataSettle_UserData:
+        historySettle_dic['Mesaage'] = _data.message
+        historySettle_dic['Account'] = _data.account
+        historySettle_dic['GroupPeople'] =_data.group_num
+        historySettle_list.append(historySettle_dic)
+        historySettle_dic = {}
+    final_list =[]
+    count=0
+    for i in range(len(historySettle_list)):
+        count+=1
+        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+    perfect_list=''
+    for j in range(count):
+        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+    return perfect_list
+
+#群組人數/名單
 def get_groupPeople(history_list,mode):
     selfId = history_list[0]['user_id']
     selfGroupId = history_list[0]['group_id']
@@ -200,112 +297,49 @@ def get_groupPeople(history_list,mode):
     else:
         return 1
 
-def get_accountList():
-    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
-    history_dic = {}
-    history_list = []
-    for _data in data_UserData:
-        history_dic['Status'] = _data.status
-        history_dic['type'] = _data.type
-        history_dic['user_id'] = _data.user_id
-        history_dic['group_id'] = _data.group_id
-        history_list.append(history_dic)
-        history_dic = {}
-    selfId = history_list[0]['user_id']
-    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
-    history_dic = {}
-    history_list = []
-    count=0
-    for _data in data_UserData:
-        count+=1
-        history_dic['Mesaage'] = _data.message
-        history_dic['Account'] = _data.account
-        history_list.append(history_dic)
-        history_dic = {}
-    final_list =[]
-    add=0
-    for i in range(count):
-        try:
-            money = int(history_list[i]['Account'])
-        except:
-            money = 0
-        final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-        add += money
-
-    perfect_list=''
-    for j in range(count):
-        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
-    return perfect_list
-
-def get_settleList():
-    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
-    history_dic = {}
-    history_list = []
-    for _data in data_UserData:
-        history_dic['Status'] = _data.status
-        history_dic['type'] = _data.type
-        history_dic['user_id'] = _data.user_id
-        history_dic['group_id'] = _data.group_id
-        history_list.append(history_dic)
-        history_dic = {}
-    selfGroupId = history_list[0]['group_id']
-    dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-    historySettle_dic = {}
-    historySettle_list = []
-    #person_list  = get_groupPeople(history_list,2)
-    for _data in dataSettle_UserData:
-        historySettle_dic['Mesaage'] = _data.message
-        historySettle_dic['Account'] = _data.account
-        historySettle_dic['GroupPeople'] =_data.group_num
-        historySettle_list.append(historySettle_dic)
-        historySettle_dic = {}
-    final_list =[]
-    count=0
-    for i in range(len(historySettle_list)):
-        count+=1
-        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
-    perfect_list=''
-    for j in range(count):
-        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    return perfect_list
-
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     input_text = event.message.text.lower()
-    data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
-    history_dic = {}
-    history_list = []    
-    for _data in data_UserData:
-        history_dic['Status'] = _data.status
-        history_dic['type'] = _data.type
-        history_dic['user_id'] = _data.user_id
-        history_dic['group_id'] = _data.group_id
-        history_list.append(history_dic)
-        history_dic = {}
+    history_list = get_history_list()
     if history_list[0]['type'] == 'user':   
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
-
             output_text='記帳成功'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+                
         elif input_text =='查帳':
-            time.sleep(2)
             output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='理財小幫手':
-            output_text = get_exchangeRate()
-            final_list = ""
-            for i in range(19):
-                final_list = final_list+get_exchangeRate[i]
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(final_list)))
+        elif input_text =='理財':            
+            line_bot_api.reply_message(  
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='理財小幫手',
+                    text='請選擇功能',
+                    actions=[
+                        URITemplateAction(
+                            label='股市',
+                            uri='https://tw.stock.yahoo.com/'
+                        ),
+                        URITemplateAction(
+                            label='匯率',
+                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
+                        ),
+                        URITemplateAction(
+                            label='財經新聞',
+                            uri='https://www.msn.com/zh-tw/money'
+                        )
+                        ]
+                    )
+                )
+            )
 
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
@@ -327,8 +361,6 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             deleteNum=re.findall(r"\d+\.?\d*",input_text)
-            print(deleteNum)
-            sys.stdout.flush()
 
             targetNum = int(deleteNum[0])
             if targetNum > count:
@@ -345,23 +377,25 @@ def handle_message(event):
                     history_dic['id'] = _data.id
                     history_list.append(history_dic)
                 personID=history_dic['id']
-                print(personID)
-                sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
-                time.sleep(2)
-                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+                checkData = usermessage.query.filter(usermessage.id==personID)
+                if checkData == data_UserData:
+                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+                else:
+                    time.sleep(3)
+                    output_text='wait'
 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.刪除--輸入：刪除' +'\n'+'4.刪除單筆資料--輸入：delete 編號'+'\n'+'5.使用說明--輸入：help'
+            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
 
         else:
-            output_text='記帳失敗'
+            output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -380,7 +414,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         elif input_text =='help':
-            help_text='1.分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'2.分帳設定清空--輸入：設定刪除'+'\n'+'3.分帳設定查詢--輸入：設定查詢'+'\n'+'4.分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'5.結算--輸入：結算'+'\n'+'6.刪除--輸入：刪除'+'\n'+'7.刪除單筆資料--輸入：delete 編號'+'\n'+'8.查帳--輸入：查帳'+'\n'+'9.使用說明--輸入：help'
+            help_text='1. 快速選單--輸入：快速選單'+'\n'+'2. 分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3. 分帳設定清空--輸入：設定刪除'+'\n'+'4. 分帳設定查詢--輸入：設定查詢'+'\n'+'5. 分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6. 結算--輸入：結算'+'\n'+'7. 刪除--輸入：刪除'+'\n'+'8. 刪除單筆資料--輸入：delete 編號'+'\n'+'9. 查帳--輸入：查帳'+'\n'+'10. 理財小幫手--輸入：理財'+'\n'+'11. 使用說明--輸入：help'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
@@ -425,8 +459,6 @@ def handle_message(event):
                 history_list.append(history_dic)
                 history_dic = {}
             deleteNum=re.findall(r"\d+\.?\d*",input_text)
-            print(deleteNum)
-            sys.stdout.flush()
 
             targetNum = int(deleteNum[0])
             if targetNum > count:
@@ -447,22 +479,20 @@ def handle_message(event):
                 print(targetID)
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
-                time.sleep(2)
                 output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
+                time.sleep(2)
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
 
 
         elif input_text == '查帳':
-            time.sleep(1.5)
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif ('結算' in input_text):
-            time.sleep(2)
+        elif ('結算' in input_text):            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
@@ -482,6 +512,10 @@ def handle_message(event):
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')
+                for j in range(1,len(GroupPeopleString),1):
+                    if GroupPeopleString[0] == GroupPeopleString[j]:
+                        del GroupPeopleString[j]
+                        break
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
@@ -507,16 +541,13 @@ def handle_message(event):
                         continue
 
             account=paid-totalPayment
-            print(account)
-            sys.stdout.flush()
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
             for i in range(len(person_list)):
                 zip_tuple=(person_list[i],account[0][i])
                 person_account.append(zip_tuple)
-            print(person_account)
-            sys.stdout.flush()
+
 
             #重複執行交換動作
             result=""
@@ -547,14 +578,100 @@ def handle_message(event):
                     max_tuple=(max_tuple[0],0)
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            print(result)
-            sys.stdout.flush()
 
+            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(result)))
-                
+                TextSendMessage(text= str(output_text)))
 
+        elif input_text =='理財':            
+            line_bot_api.reply_message(  
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='理財小幫手',
+                    text='請選擇功能',
+                    actions=[
+                        URITemplateAction(
+                            label='股市',
+                            uri='https://tw.stock.yahoo.com/'
+                        ),
+                        URITemplateAction(
+                            label='匯率',
+                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
+                        ),
+                        URITemplateAction(
+                            label='財經新聞',
+                            uri='https://www.msn.com/zh-tw/money'
+                        )
+                        ]
+                    )
+                )
+            )
+
+        elif '快速選單' in input_text :
+            Carousel_template = TemplateSendMessage(
+                            alt_text='Carousel template',
+                            template=CarouselTemplate(
+                            columns=[
+                                CarouselColumn(
+                                    title='開始分帳',
+                                    text='分帳記錄--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
+                                    actions=[
+                                        URITemplateAction(
+                                            label='分帳紀錄',
+                                            uri='https://liff.line.me/1654876504-9wWzOva7'
+                                        ),
+                                        URITemplateAction(
+                                            label='查帳＆結算',
+                                            uri='https://liff.line.me/1654876504-rK3v07Pk'
+                                        ),
+                                        URITemplateAction(
+                                            label='分帳者設定',
+                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
+                                        )
+                                    ]
+                                ),
+                                CarouselColumn(
+                                    title='設定',
+                                    text='查詢分帳者設定--查詢分帳者姓名'+'\n'+'清空分帳者設定--刪除分帳者姓名'+'\n'+'清空分帳資料--刪除所有過往帳目',
+                                    actions=[
+                                        MessageTemplateAction(
+                                            label='查詢分帳者設定',
+                                            text='設定查詢'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳者設定',
+                                            text='設定刪除'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳資料',
+                                            text='刪除'
+                                        )
+                                    ]
+                                ),
+                                CarouselColumn(
+                                    title='其他',
+                                    text='結算--進行分帳結算'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
+                                    actions=[                        
+                                        MessageTemplateAction(
+                                            label='結算',
+                                            text='結算'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='理財小幫手',
+                                            text='理財'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='使用說明',
+                                            text='help'
+                                        )                                       
+                                    ]
+                                )]                            
+                            )
+                        )
+            line_bot_api.reply_message(event.reply_token,Carousel_template)
         
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
