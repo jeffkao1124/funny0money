@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
+    <title>記帳表單</title>
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script>
+	function initializeApp(data) {  //初始化LIFF
+		var userid = data.context.userId; //取得ID
+	}
+
+	function pushMsg(item, cost) {
+		if (item == '' || cost == '' ) {  //資料檢查
+			alert('每個項目都必須輸入！');
+			return;
+		}
+		var msg = "記帳 ";  //回傳訊息字串
+		msg = msg + item + " ";
+		msg = msg + cost ;
+
+		liff.sendMessages([  //推播訊息
+			{ type: 'text',
+			  text: msg 
+			},
+		])
+			.then(() => {
+				liff.closeWindow();  //關閉視窗
+			});
+	}
+
+	$(document).ready(function () {
+		liff.init(function (data) {  //初始化LIFF
+			initializeApp(data);
+		});
+		
+		$('#sure').click(function (e) {  //按下確定鈕
+			pushMsg($('#item').val(), $('#cost').val());
+		});
+	});
+</script>
+</head>
+<body>
+<div align="center">
+    <br><img style="float: center" src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/118591971_3901929859834211_9155588508050284823_o.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=ijfpRatlcXQAX-dLZNp&_nc_ht=scontent-tpe1-1.xx&oh=b3e5d8e6be58665e1930d6581bf5c96d&oe=5F6DA126" alt="logo" width="110" height="110"/></br><p></p><h3>Welcome to</h3></p><h3><span style="background-color: #914c53; color: #ffffff;">Account Mastiff</span></h3>
+    <br/>
+    <p><strong><form>項目：<input id="item" type="text" name="欄位名稱"></strong></p></form>
+    <p><strong><form>金額：<input id="cost" type="number" name="欄位名稱" value=""></strong></p></form>
+    <!--<p><strong><form>代墊者：<input type="text" name="欄位名稱"></strong></p></form>
+    <p><strong><form>分帳者：<input type="text" name="欄位名稱"></strong></p></form>
+    <p><strong><form>分帳者：<input type="text" name="欄位名稱"></strong></p></form>
+    <p><strong><form>分帳者：<input type="text" name="欄位名稱"></strong></p></form>
+    <button id="add">增加</button>
+    <button id="del">刪除</button>-->
+    <br/>
+	<button id="sure">確認送出</button>
+</div>
+</body>
+</html>

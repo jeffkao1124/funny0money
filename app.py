@@ -378,12 +378,17 @@ def handle_message(event):
                     history_list.append(history_dic)
                 personID=history_dic['id']
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
+<<<<<<< HEAD
                 checkData = usermessage.query.filter(usermessage.id==personID)
                 if checkData == data_UserData:
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
                 else:
                     time.sleep(3)
                     output_text='wait'
+=======
+                time.sleep(1)
+                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+>>>>>>> master
 
             line_bot_api.reply_message(
                 event.reply_token,
