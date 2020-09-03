@@ -310,7 +310,8 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
                 
         elif input_text =='查帳':
-            output_text = get_accountList()
+            for i in range(10):
+                output_text = get_accountList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -377,39 +378,40 @@ def handle_message(event):
                     history_dic['id'] = _data.id
                     history_list.append(history_dic)
                 personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID)
-                db.session.delete(data_UserData)
-                db.session.commit()
-                test1_dic={}
-                test1_list=[]
+                data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
+                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+                # db.session.delete(data_UserData)
+                # db.session.commit()
+                # test1_dic={}
+                # test1_list=[]
                 # for _data in data_UserData:
                 #     test1_dic['Message'] = _data.message
                 #     test1_list.append(test1_dic)
                 #     test1_dic={}
-                print('test1')
-                sys.stdout.flush()
-                print(test1_list)
-                sys.stdout.flush()
-                print('test2')
-                sys.stdout.flush()
-                for i in range(10):
-                    get_accountList()
-                    time.sleep(2)
-                    checkData = usermessage.query.filter(usermessage.id==personID)
-                    test2_dic={}
-                    test2_list=[]
-                    for _data in checkData:
-                        test2_dic['Message'] = _data.message
-                        test2_list.append(test2_dic)
-                        test2_dic={}
-                    print('test3')
-                    sys.stdout.flush()
+                # print('test1')
+                # sys.stdout.flush()
+                # print(test1_list)
+                # sys.stdout.flush()
+                # print('test2')
+                # sys.stdout.flush()
+                # for i in range(10):
+                #     get_accountList()
+                #     time.sleep(2)
+                #     checkData = usermessage.query.filter(usermessage.id==personID)
+                #     test2_dic={}
+                #     test2_list=[]
+                #     for _data in checkData:
+                #         test2_dic['Message'] = _data.message
+                #         test2_list.append(test2_dic)
+                #         test2_dic={}
+                #     print('test3')
+                #     sys.stdout.flush()
 
-                    print(test2_list)
-                    sys.stdout.flush()
+                #     print(test2_list)
+                #     sys.stdout.flush()
                 
-                    print('test4')
-                    sys.stdout.flush()
+                #     print('test4')
+                #     sys.stdout.flush()
                     
                 # if test1_list == test2_list:
                 #     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
