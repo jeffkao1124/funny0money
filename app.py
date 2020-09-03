@@ -216,9 +216,9 @@ def get_history_list():
 
 #記帳查帳
 def get_accountList():
-    history_list = get_history_list()
-    time.sleep(2)
-    selfId = history_list[0]['user_id']
+    #history_list = get_history_list()
+    time.sleep(1)
+    #selfId = history_list[0]['user_id']
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
     history_list = []
@@ -302,6 +302,7 @@ def get_groupPeople(history_list,mode):
 def handle_message(event):
     input_text = event.message.text.lower()
     history_list = get_history_list()
+    selfId = history_list[0]['user_id']
     if history_list[0]['type'] == 'user':   
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
