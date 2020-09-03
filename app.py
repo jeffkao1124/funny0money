@@ -216,6 +216,7 @@ def get_history_list():
 
 #記帳查帳
 def get_accountList(selfId):
+    time.sleep(0.2)
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
     history_list = []
