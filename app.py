@@ -381,7 +381,7 @@ def handle_message(event):
                 test1_dic={}
                 test1_list=[]
                 for _data in data_UserData:
-                    test1_dic['id'] = _data.id
+                    test1_dic['Message'] = _data.message
                     test1_list.append(test1_dic)
                     test1_dic={}
                 print('test1')
@@ -397,7 +397,7 @@ def handle_message(event):
                     test2_dic={}
                     test2_list=[]
                     for _data in checkData:
-                        test2_dic['id'] = _data.id
+                        test2_dic['Message'] = _data.message
                         test2_list.append(test2_dic)
                         test2_dic={}
                     print('test3')
