@@ -485,7 +485,7 @@ def handle_message(event):
 
         elif 'delete' in input_text:
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
+            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
             history_dic = {}
             history_list = []
             count=0
