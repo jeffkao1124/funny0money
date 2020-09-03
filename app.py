@@ -62,9 +62,16 @@ def callback():
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):
+            split_1=receivedmsg.split(' ')[1].strip(' ')
+            chargeName=split_1.split(' ')[0]
+            split_2=split_1.split(' ')[1].strip(' ')
+            chargeNumber=split_2.split(' ')[0]
+            chargePeople=split_2.split(' ')[1].strip(' ')
+'''
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
             chargePeople=receivedmsg.split(' ',3)[3]
+'''
             if re.search(r"\D",chargeNumber) is None:
                 add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
@@ -307,6 +314,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+                
         elif input_text =='查帳':
             output_text = get_accountList()
             line_bot_api.reply_message(
