@@ -378,24 +378,36 @@ def handle_message(event):
                     history_list.append(history_dic)
                 personID=history_dic['id']
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
+                test1_dic={}
+                test1_list=[]
+                for _data in data_UserData:
+                    test1_dic['id'] = _data.id
+                    test1_list.append(test1_dic)
+                    test1_dic={}
                 print('test1')
                 sys.stdout.flush()
-                print(data_UserData)
+                print(test1_list)
                 sys.stdout.flush()
-                # db.session.delete(query)
-                # db.session.commit()
                 print('test2')
                 sys.stdout.flush()
                 for i in range(10):
+                    time.sleep(2)
                     checkData = usermessage.query.filter(usermessage.id==personID)
-                print('test3')
-                sys.stdout.flush()
+                    test2_dic={}
+                    test2_list=[]
+                    for _data in checkData:
+                        test2_dic['id'] = _data.id
+                        test2_list.append(test2_dic)
+                        test2_dic={}
+                    print('test3')
+                    sys.stdout.flush()
 
-                print(checkData)
-                sys.stdout.flush()
+                    print(checkData)
+                    sys.stdout.flush()
                 
-                print('test4')
-                sys.stdout.flush()
+                    print('test4')
+                    sys.stdout.flush()
+                    
                 if checkData == data_UserData:
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
                 else:
