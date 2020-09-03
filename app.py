@@ -513,11 +513,9 @@ def handle_message(event):
                     history_list.append(history_dic)
 
                 targetID=history_dic['id']
-                print(targetID)
-                sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==targetID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
-                time.sleep(2)
+                db.session.commit()
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
