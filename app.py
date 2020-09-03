@@ -652,10 +652,10 @@ def handle_message(event):
                             columns=[
                                 CarouselColumn(
                                     title='開始分帳',
-                                    text='分帳記錄--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
+                                    text='記錄分帳--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
                                     actions=[
                                         URITemplateAction(
-                                            label='分帳紀錄',
+                                            label='紀錄分帳',
                                             uri='https://liff.line.me/1654876504-9wWzOva7'
                                         ),
                                         URITemplateAction(
