@@ -391,6 +391,7 @@ def handle_message(event):
                 print('test2')
                 sys.stdout.flush()
                 for i in range(10):
+                    get_accountList()
                     time.sleep(2)
                     checkData = usermessage.query.filter(usermessage.id==personID)
                     test2_dic={}
@@ -402,13 +403,13 @@ def handle_message(event):
                     print('test3')
                     sys.stdout.flush()
 
-                    print(checkData)
+                    print(test2_list)
                     sys.stdout.flush()
                 
                     print('test4')
                     sys.stdout.flush()
                     
-                if checkData == data_UserData:
+                if test1_list == test2_list:
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
                 else:
                     output_text='wait'
