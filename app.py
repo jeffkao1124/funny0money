@@ -615,47 +615,47 @@ def handle_message(event):
                             columns=[
                                 CarouselColumn(
                                     title='開始分帳',
-                                    text='分帳--進入表單進行分帳紀錄'+'\n'+'結算--進行分帳結算'+'\n'+'查帳--查詢過往帳目',
+                                    text='分帳記錄--進入表單進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--進入表單設定分帳者姓名',
                                     actions=[
                                         URITemplateAction(
-                                            label='分帳',
+                                            label='分帳紀錄',
                                             uri='https://liff.line.me/1654876504-9wWzOva7'
                                         ),
-                                        MessageTemplateAction(
-                                            label='結算',
-                                            text='結算'
+                                        URITemplateAction(
+                                            label='查帳＆結算',
+                                            uri='https://liff.line.me/1654876504-rK3v07Pk'
                                         ),
-                                        MessageTemplateAction(
-                                            label='查帳',
-                                            text='查帳'
-                                        )
+                                        URITemplateAction(
+                                            label='分帳者設定',
+                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
+                                        ),
                                     ]
                                 ),
                                 CarouselColumn(
-                                    title='分帳設定',
-                                    text='分帳設定--進入表單設定分帳者姓名'+'\n'+'查詢分帳設定--查詢分帳者姓名'+'\n'+'清空分帳設定--刪除分帳者姓名',
+                                    title='設定',
+                                    text='查詢分帳者設定--查詢分帳者姓名'+'\n'+'清空分帳者設定--刪除分帳者姓名'+'\n'+'清空分帳資料--刪除所有過往帳目',
                                     actions=[
-                                        URITemplateAction(
-                                            label='分帳設定',
-                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
-                                        ),
                                         MessageTemplateAction(
-                                            label='查詢分帳設定',
+                                            label='查詢分帳者設定',
                                             text='設定查詢'
                                         ),
                                         MessageTemplateAction(
-                                            label='清空分帳設定',
+                                            label='清空分帳者設定',
                                             text='設定刪除'
                                         )
+                                        MessageTemplateAction(
+                                            label='清空分帳資料',
+                                            text='刪除'
+                                        ),
                                     ]
                                 ),
                                 CarouselColumn(
                                     title='其他',
-                                    text='清空分帳資料--刪除所有過往帳目'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
+                                    text='結算--進行分帳結算'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
                                     actions=[                        
                                         MessageTemplateAction(
-                                            label='清空分帳資料',
-                                            text='刪除'
+                                            label='結算',
+                                            text='結算'
                                         ),
                                         MessageTemplateAction(
                                             label='理財小幫手',
