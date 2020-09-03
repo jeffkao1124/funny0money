@@ -216,9 +216,6 @@ def get_history_list():
 
 #記帳查帳
 def get_accountList(selfId):
-    #history_list = get_history_list()
-    time.sleep(1)
-    #selfId = history_list[0]['user_id']
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
     history_list = []
@@ -311,8 +308,8 @@ def handle_message(event):
                 
         elif input_text =='查帳':
             selfId = history_list[0]['user_id']
-#            for i in range(10):
-            output_text = get_accountList(selfId)
+            for i in range(10):
+                output_text = get_accountList(selfId)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -380,7 +377,7 @@ def handle_message(event):
                     history_list.append(history_dic)
                 personID=history_dic['id']
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
-                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
+                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                 # db.session.delete(data_UserData)
                 # db.session.commit()
                 # test1_dic={}
