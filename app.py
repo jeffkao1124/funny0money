@@ -248,6 +248,7 @@ def get_accountList():
 def get_settleList():
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
+    time.sleep(2)
     dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_dic = {}
     historySettle_list = []
@@ -478,7 +479,6 @@ def handle_message(event):
                 print(targetID)
                 sys.stdout.flush()
                 data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
-                time.sleep(2)
                 output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
                 line_bot_api.reply_message(
                     event.reply_token,
