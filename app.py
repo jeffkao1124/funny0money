@@ -247,7 +247,7 @@ def get_accountList(selfId):
 def get_settleList():
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
-    dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+    dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_dic = {}
     historySettle_list = []
     for _data in dataSettle_UserData:
