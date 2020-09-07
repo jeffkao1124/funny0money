@@ -713,27 +713,13 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text))) 
-        elif input_text =="0":
+        else:
             hot_movie=get_movie()
             output_text=hot_movie
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif ('笨' in input_text):
-            output_text='你才笨!'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))            
-        elif ('擊敗' in input_text):
-            output_text='他真的很擊敗'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))    
-        else:
-            output_text="我是可愛的柴柴"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text))) 
+
 
 if __name__ == "__main__":
     app.run()
