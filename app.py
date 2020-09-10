@@ -571,7 +571,7 @@ def handle_message(event):
                     result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
-                result=result+str(max_tuple[0])+'下次付錢比較好!'
+                result=result+'hi'
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
 
