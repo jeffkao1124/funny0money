@@ -556,7 +556,7 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
-                result=str(max_tuple[0])+'下次付錢比較好!'
+                
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
@@ -571,6 +571,7 @@ def handle_message(event):
                     result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
+                result=result+str(max_tuple[0])+'下次付錢比較好!'
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
 
