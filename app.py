@@ -573,7 +573,7 @@ def handle_message(event):
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'下次'+str(max_tuple[0])+'先付錢比較好，因為TA欠最多錢!'
+            result=result+'下次'+str(min_tuple[0])+'先付錢比較好，因為TA欠最多錢!'
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
