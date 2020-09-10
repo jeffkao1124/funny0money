@@ -48,7 +48,7 @@ def callback():
         receivedmsg = bodyjson['events'][0]['message']['text']
         receivedmsg = receivedmsg.strip(' ')
         if '分帳設定' in receivedmsg:
-            userName=receivedmsg.split(' ')[1]
+            userName=receivedmsg.split('/',1)[1]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
                     group_num = '0',
@@ -60,7 +60,7 @@ def callback():
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+            )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
