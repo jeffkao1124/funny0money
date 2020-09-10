@@ -630,7 +630,7 @@ def handle_message(event):
                     actions=[
                         URITemplateAction(
                             label='股市',
-                            uri='https://www.instagram.com/jeffbosspanda/?hl=zh-tw'
+                            uri='https://tw.stock.yahoo.com/h/getclass.php'
                         ),
                         URITemplateAction(
                             label='匯率',
