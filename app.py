@@ -560,21 +560,21 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'\n'+'hi'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'+'hi'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'+'hi'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
-                result=result+'hi'
+                
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-
+            result=result+'hi'
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
