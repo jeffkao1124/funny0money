@@ -556,7 +556,7 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
-                
+                result=''
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
