@@ -574,7 +574,7 @@ def handle_message(event):
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'hi'
+            
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
