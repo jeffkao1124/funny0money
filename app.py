@@ -380,47 +380,6 @@ def handle_message(event):
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                 db.session.commit()
-                # db.session.delete(data_UserData)
-                # db.session.commit()
-                # test1_dic={}
-                # test1_list=[]
-                # for _data in data_UserData:
-                #     test1_dic['Message'] = _data.message
-                #     test1_list.append(test1_dic)
-                #     test1_dic={}
-                # print('test1')
-                # sys.stdout.flush()
-                # print(test1_list)
-                # sys.stdout.flush()
-                # print('test2')
-                # sys.stdout.flush()
-                # for i in range(10):
-                #     get_accountList()
-                #     time.sleep(2)
-                #     checkData = usermessage.query.filter(usermessage.id==personID)
-                #     test2_dic={}
-                #     test2_list=[]
-                #     for _data in checkData:
-                #         test2_dic['Message'] = _data.message
-                #         test2_list.append(test2_dic)
-                #         test2_dic={}
-                #     print('test3')
-                #     sys.stdout.flush()
-
-                #     print(test2_list)
-                #     sys.stdout.flush()
-                
-                #     print('test4')
-                #     sys.stdout.flush()
-                    
-                # if test1_list == test2_list:
-                #     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-                # else:
-                #     output_text='wait'
-
-                # time.sleep(1)
-                # output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -585,7 +544,7 @@ def handle_message(event):
 
 
             #重複執行交換動作
-            result=""
+            
             for i in range(len(person_list)-1):
                 #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
@@ -597,6 +556,7 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
+                result=str(max_tuple[0])+'下次付錢比較好!'
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
