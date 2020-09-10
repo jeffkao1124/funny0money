@@ -215,10 +215,8 @@ def get_history_list():
     return history_list
 
 #記帳查帳
-def get_accountList():
-    history_list = get_history_list()
-    time.sleep(2)
-    selfId = history_list[0]['user_id']
+def get_accountList(selfId):
+    time.sleep(0.2)
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
     history_dic = {}
     history_list = []
@@ -249,7 +247,7 @@ def get_accountList():
 def get_settleList():
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
-    dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+    dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_dic = {}
     historySettle_list = []
     for _data in dataSettle_UserData:
@@ -310,8 +308,9 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
                 
         elif input_text =='查帳':
+            selfId = history_list[0]['user_id']
             for i in range(10):
-                output_text = get_accountList()
+                output_text = get_accountList(selfId)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -344,7 +343,7 @@ def handle_message(event):
 
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete()
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
@@ -378,49 +377,9 @@ def handle_message(event):
                     history_dic['id'] = _data.id
                     history_list.append(history_dic)
                 personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID).delete()
-                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-                # db.session.delete(data_UserData)
-                # db.session.commit()
-                # test1_dic={}
-                # test1_list=[]
-                # for _data in data_UserData:
-                #     test1_dic['Message'] = _data.message
-                #     test1_list.append(test1_dic)
-                #     test1_dic={}
-                # print('test1')
-                # sys.stdout.flush()
-                # print(test1_list)
-                # sys.stdout.flush()
-                # print('test2')
-                # sys.stdout.flush()
-                # for i in range(10):
-                #     get_accountList()
-                #     time.sleep(2)
-                #     checkData = usermessage.query.filter(usermessage.id==personID)
-                #     test2_dic={}
-                #     test2_list=[]
-                #     for _data in checkData:
-                #         test2_dic['Message'] = _data.message
-                #         test2_list.append(test2_dic)
-                #         test2_dic={}
-                #     print('test3')
-                #     sys.stdout.flush()
-
-                #     print(test2_list)
-                #     sys.stdout.flush()
-                
-                #     print('test4')
-                #     sys.stdout.flush()
-                    
-                # if test1_list == test2_list:
-                #     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-                # else:
-                #     output_text='wait'
-
-                # time.sleep(1)
-                # output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList()
-
+                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                db.session.commit()
 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -469,7 +428,7 @@ def handle_message(event):
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete()
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
@@ -477,7 +436,7 @@ def handle_message(event):
 
         elif input_text == '設定刪除':
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete()
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             output_text='設定刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
@@ -485,7 +444,7 @@ def handle_message(event):
 
         elif 'delete' in input_text:
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
+            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
             history_dic = {}
             history_list = []
             count=0
@@ -513,11 +472,9 @@ def handle_message(event):
                     history_list.append(history_dic)
 
                 targetID=history_dic['id']
-                print(targetID)
-                sys.stdout.flush()
-                data_UserData = usermessage.query.filter(usermessage.id==targetID).delete()
+                data_UserData = usermessage.query.filter(usermessage.id==targetID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
-                time.sleep(2)
+                db.session.commit()
                 line_bot_api.reply_message(
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
@@ -556,7 +513,7 @@ def handle_message(event):
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))
+                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
                 count=0
                 for j in range(len(duplicate)):
                     place=get_groupPeople(history_list,2).index(duplicate[count])
@@ -602,20 +559,21 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'元'+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
+                
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-
+            result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
@@ -632,7 +590,7 @@ def handle_message(event):
                     actions=[
                         URITemplateAction(
                             label='股市',
-                            uri='https://tw.stock.yahoo.com/'
+                            uri='https://tw.stock.yahoo.com/h/getclass.php'
                         ),
                         URITemplateAction(
                             label='匯率',
@@ -654,10 +612,10 @@ def handle_message(event):
                             columns=[
                                 CarouselColumn(
                                     title='開始分帳',
-                                    text='分帳記錄--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
+                                    text='記錄分帳--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
                                     actions=[
                                         URITemplateAction(
-                                            label='分帳紀錄',
+                                            label='紀錄分帳',
                                             uri='https://liff.line.me/1654876504-9wWzOva7'
                                         ),
                                         URITemplateAction(
@@ -715,27 +673,13 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text))) 
-        elif input_text =="0":
+        else:
             hot_movie=get_movie()
             output_text=hot_movie
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif ('笨' in input_text):
-            output_text='你才笨!'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))            
-        elif ('擊敗' in input_text):
-            output_text='他真的很擊敗'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))    
-        else:
-            output_text="我是可愛的柴柴"
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text))) 
+
 
 if __name__ == "__main__":
     app.run()
