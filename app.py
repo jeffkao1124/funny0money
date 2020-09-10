@@ -554,7 +554,7 @@ def handle_message(event):
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))
                 a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))
+                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
                 count=0
                 for j in range(len(duplicate)):
                     place=get_groupPeople(history_list,2).index(duplicate[count])
