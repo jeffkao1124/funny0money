@@ -567,13 +567,13 @@ def handle_message(event):
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
+            result=result++'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
