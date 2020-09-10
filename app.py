@@ -544,7 +544,7 @@ def handle_message(event):
 
 
             #重複執行交換動作
-            result=''
+            result=""
             for i in range(len(person_list)-1):
                 #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
@@ -556,7 +556,6 @@ def handle_message(event):
                 max=float(max_tuple[1])
 
                 #交換，印出該付的錢
-                
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
@@ -574,7 +573,7 @@ def handle_message(event):
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'hi'
+            result=result+str(min_tuple[0])+'先付錢比較好'
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
