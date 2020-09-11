@@ -59,7 +59,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(6)
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
@@ -76,7 +76,7 @@ def callback():
                     account = chargeNumber,
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = chargeName,
-                    birth_date = datetime.fromtimestamp(6)
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
             else:
                 add_data = usermessage(
@@ -89,7 +89,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(6)
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
         else:
             add_data = usermessage(
@@ -102,7 +102,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(6)
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
             
     else:
@@ -122,7 +122,7 @@ def callback():
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
                         message = chargeName ,
-                        birth_date = datetime.fromtimestamp(6)
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
             else:
                 add_data = usermessage(
@@ -135,7 +135,7 @@ def callback():
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
                         message = chargeName ,
-                        birth_date = datetime.fromtimestamp(6)
+                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
         else:
             add_data = usermessage(
@@ -148,7 +148,7 @@ def callback():
                     status = 'None',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(6)
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
 
     db.session.add(add_data)
@@ -344,7 +344,8 @@ def handle_message(event):
 
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
@@ -429,7 +430,8 @@ def handle_message(event):
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             line_bot_api.reply_message(
                 event.reply_token,
