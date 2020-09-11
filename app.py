@@ -48,7 +48,7 @@ def callback():
         receivedmsg = bodyjson['events'][0]['message']['text']
         receivedmsg = receivedmsg.strip(' ')
         if '分帳設定' in receivedmsg:
-            userName=receivedmsg.split('/',1)[1]
+            userName=receivedmsg.split(' ')[1]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
                     group_num = '0',
@@ -60,7 +60,7 @@ def callback():
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
+                )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
@@ -254,13 +254,14 @@ def get_settleList():
         historySettle_dic['Mesaage'] = _data.message
         historySettle_dic['Account'] = _data.account
         historySettle_dic['GroupPeople'] =_data.group_num
+        historySettle_dic['Time'] =_data.birth_date
         historySettle_list.append(historySettle_dic)
         historySettle_dic = {}
     final_list =[]
     count=0
     for i in range(len(historySettle_list)):
         count+=1
-        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople'])+str(historySettle_list[i]['Time']))
     perfect_list=''
     for j in range(count):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
@@ -343,8 +344,10 @@ def handle_message(event):
 
         elif input_text =='刪除':
             selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
+            db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -428,8 +431,10 @@ def handle_message(event):
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
+            db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
@@ -438,6 +443,7 @@ def handle_message(event):
             selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             output_text='設定刪除成功'
+            db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
