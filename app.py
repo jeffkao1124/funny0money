@@ -59,7 +59,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    birth_date = datetime.fromtimestamp(6)
                 )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
@@ -76,7 +76,7 @@ def callback():
                     account = chargeNumber,
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = chargeName,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    birth_date = datetime.fromtimestamp(6)
                 )
             else:
                 add_data = usermessage(
@@ -89,7 +89,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    birth_date = datetime.fromtimestamp(6)
                 )
         else:
             add_data = usermessage(
@@ -102,7 +102,7 @@ def callback():
                     account = '0',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    birth_date = datetime.fromtimestamp(6)
                 )
             
     else:
@@ -122,7 +122,7 @@ def callback():
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
                         message = chargeName ,
-                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        birth_date = datetime.fromtimestamp(6)
                     )
             else:
                 add_data = usermessage(
@@ -135,7 +135,7 @@ def callback():
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
                         message = chargeName ,
-                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        birth_date = datetime.fromtimestamp(6)
                     )
         else:
             add_data = usermessage(
@@ -148,7 +148,7 @@ def callback():
                     status = 'None',
                     user_id = bodyjson['events'][0]['source']['userId'],
                     message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                    birth_date = datetime.fromtimestamp(6)
                 )
 
     db.session.add(add_data)
