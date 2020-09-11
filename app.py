@@ -254,13 +254,14 @@ def get_settleList():
         historySettle_dic['Mesaage'] = _data.message
         historySettle_dic['Account'] = _data.account
         historySettle_dic['GroupPeople'] =_data.group_num
+        historySettle_dic['Time'] =_data.birth_date
         historySettle_list.append(historySettle_dic)
         historySettle_dic = {}
     final_list =[]
     count=0
     for i in range(len(historySettle_list)):
         count+=1
-        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople'])+str(historySettle_list[i]['Time']))
     perfect_list=''
     for j in range(count):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
