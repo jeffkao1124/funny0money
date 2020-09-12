@@ -583,14 +583,14 @@ def handle_message(event):
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
             result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
-<<<<<<< HEAD
+
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
 
-        elif input_text =='不簡化版本':
+         elif ('不簡化' in input_text):        
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
@@ -620,10 +620,8 @@ def handle_message(event):
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
                 for j in range(1,len(duplicate)):          #分帳金額
-                    result += str(duplicate[j])+'付給'+str(duplicate[0])+payAmount)+'元'+'\n'
+                    result += str(duplicate[j])+'付給'+duplicate[0]+str(payAmount)+'元'+'\n'
 
-=======
->>>>>>> master
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
