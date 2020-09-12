@@ -673,7 +673,7 @@ def handle_message(event):
                     place1=person_list.index(GroupPeopleString[0]) 
                     place2=person_list.index(duplicate[j]) 
                     Zero[place1][place2]=payAmount 
- 
+            result=""
             for i in range(get_groupPeople(history_list,1)): #誰付誰錢輸出 
                 for j in range(get_groupPeople(history_list,1)): 
                     if i!=j and Zero[i][j] != 0 : 
