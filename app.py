@@ -618,7 +618,7 @@ def handle_message(event):
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
+                duplicate = list(a2.intersection(a1))                     #a1和a2重複的人名
                 for j in range(1,len(duplicate)):          #分帳金額
                     result += str(duplicate[j])+'付給'+duplicate[0]+str(payAmount)+'元'+'\n'
 
@@ -627,33 +627,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-
-        elif input_text =='理財':            
-            line_bot_api.reply_message(  
-            event.reply_token,
-            TemplateSendMessage(
-                alt_text='Buttons template',
-                template=ButtonsTemplate(
-                    title='理財小幫手',
-                    text='請選擇功能',
-                    actions=[
-                        URITemplateAction(
-                            label='股市',
-                            uri='https://tw.stock.yahoo.com/h/getclass.php'
-                        ),
-                        URITemplateAction(
-                            label='匯率',
-                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
-                        ),
-                        URITemplateAction(
-                            label='財經新聞',
-                            uri='https://www.msn.com/zh-tw/money'
-                        )
-                        ]
-                    )
-                )
-            )
-
+     
         elif '快速選單' in input_text :
             Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
