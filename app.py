@@ -528,7 +528,6 @@ def handle_message(event):
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
             historySettle_list = []
-            person_list  = get_groupPeople(history_list,2)
             count=0
             for _data in dataSettle_UserData:
                 count+=1
@@ -620,7 +619,6 @@ def handle_message(event):
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
             historySettle_list = []
-            person_list  = get_groupPeople(history_list,2)
             count=0
             for _data in dataSettle_UserData:
                 count+=1
@@ -650,6 +648,41 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
+        elif ('稍微' in input_text):            
+            selfGroupId = history_list[0]['group_id']
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            historySettle_dic = {}
+            historySettle_list = []
+            for _data in dataSettle_UserData:
+                historySettle_dic['Mesaage'] = _data.message
+                historySettle_dic['Account'] = _data.account
+                historySettle_dic['GroupPeople'] =_data.group_num
+                historySettle_list.append(historySettle_dic)
+                historySettle_dic = {}
+            
+            dataNumber=len(historySettle_list)
+            Zero= np.zeros((get_groupPeople(history_list,1),get_groupPeople(history_list,1)))
+            for i in range(dataNumber):
+                b=dict(historySettle_list[i])
+                GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
+                payAmount=int(b['Account'])/(len(GroupPeopleString)-1)
+                a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
+                a2=set(GroupPeopleString)
+                duplicate = list(a1.intersection(a2))         #a1和a2重複的人名
+                for j in range(len(duplicate)):      #誰付誰錢矩陣 2給1
+                    place1=get_groupPeople(history_list,2).index(GroupPeopleString[0])
+                    place2=get_groupPeople(history_list,2).index(duplicate[j])
+                    Zero[place1][place2]=payAmount
+
+            for i in range(get_groupPeople(history_list,1)): #誰付誰錢輸出
+                for j in range(get_groupPeople(history_list,1)):
+                    if i!=j and Zero[i][j] != 0 :
+                        result += get_groupPeople(history_list,2)[j]+'付給'+get_groupPeople(history_list,2)[i] + str(Zero[i][j]) +'元'+'\n'
+
+            output_text = result
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
      
         elif '快速選單' in input_text :
             Carousel_template = TemplateSendMessage(
