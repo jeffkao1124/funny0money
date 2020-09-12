@@ -22,11 +22,7 @@ import numpy as np
 import sys
 import re
 import time
-from seaborn 
-import load_dataset 
-import pandas as pd
 
-原文網址：https://kknews.cc/code/4225az3.html
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiHRedvOGSC5Q7zJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFFVJLpDhwB8DRrJ8SAoqK+sEAMuD2PL0h0wdsZxncRwdB04t89/1O/w1cDnyilFU=')
@@ -687,54 +683,6 @@ def handle_message(event):
             line_bot_api.reply_message( 
                 event.reply_token, 
                 TextSendMessage(text= str(output_text))) 
-
-        elif '畫圖' in input_text :
-            selfGroupId = history_list[0]['group_id']
-            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-            historySettle_dic = {}
-            historySettle_list = []
-            person_list  = get_groupPeople(history_list,2)
-            for _data in dataSettle_UserData:
-                historySettle_dic['Mesaage'] = _data.message
-                historySettle_dic['Account'] = _data.account
-                historySettle_dic['GroupPeople'] =_data.group_num
-                historySettle_list.append(historySettle_dic)
-                historySettle_dic = {}
-            
-            dataNumber=len(historySettle_list)
-            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
-            for i in range(dataNumber):
-                b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
-                del GroupPeopleString[0]
-                payAmount=int(b['Account'])/len(GroupPeopleString)
-                a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
-                a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
-                count=0
-                for j in range(len(duplicate)):      #分帳金額
-                    place=get_groupPeople(history_list,2).index(duplicate[count])
-                    Zero[i][place]=payAmount
-                    count+=1
-
-            replaceZero=Zero
-            totalPayment=replaceZero.sum(axis=0)
-
-            paid= np.zeros((1,len(get_groupPeople(history_list,2))))  #代墊金額
-            for i in range(len(get_groupPeople(history_list,2))):
-                for j in range(len(historySettle_list)):
-                    b=dict(historySettle_list[j])
-                    GroupPeopleString=b['GroupPeople'].split(' ')
-                    if GroupPeopleString[0] == get_groupPeople(history_list,2)[i]:
-                        paidAmount=int(b['Account'])
-                        paid[0][i]=paid[0][i]+paidAmount
-                    else:
-                        continue
-
-            account=paid-totalPayment
-
-            bar = Bar('分錢錢') 
-            bar.add(name='欠債', x_axis=person_list, y_axis=account, is_stack=False is_more_utils=True) 
 
         elif '快速選單' in input_text :
             Carousel_template = TemplateSendMessage(
