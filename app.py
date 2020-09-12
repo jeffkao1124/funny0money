@@ -635,9 +635,9 @@ def handle_message(event):
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 
-                payAmount=int(b['Account'])/len(GroupPeopleString)
                 payer=GroupPeopleString[0] #抓出代墊者
                 del GroupPeopleString[0]
+                payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))      #a1和a2重複的人名
