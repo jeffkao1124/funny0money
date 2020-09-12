@@ -235,7 +235,7 @@ def get_accountList(selfId):
             money = int(history_list[i]['Account'])
         except:
             money = 0
-        final_list.append(str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+        final_list.append(str(history_list[i]['birth_date'])+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
         add += money
 
     perfect_list=''
