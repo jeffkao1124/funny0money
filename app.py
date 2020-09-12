@@ -223,6 +223,7 @@ def get_accountList(selfId):
     count=0
     for _data in data_UserData:
         count+=1
+        history_dic['birth_date'] = _data.birth_date
         history_dic['Mesaage'] = _data.message
         history_dic['Account'] = _data.account
         history_list.append(history_dic)
