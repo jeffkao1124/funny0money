@@ -263,7 +263,8 @@ def get_settleList():
     count=0
     for i in range(len(historySettle_list)):
         count+=1
-        final_list.append(str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople'])+str(historySettle_list[i]['Time']))
+        settleTime = str(historySettle_list[i]['Time'])
+        final_list.append(msgTime[:10]+' '+str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
     perfect_list=''
     for j in range(count):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
