@@ -583,6 +583,7 @@ def handle_message(event):
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
             result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
+<<<<<<< HEAD
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
@@ -621,6 +622,8 @@ def handle_message(event):
                 for j in range(1,len(duplicate)):          #分帳金額
                     result += str(duplicate[j])+'付給'+str(duplicate[0])+payAmount)+'元'+'\n'
 
+=======
+>>>>>>> master
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
