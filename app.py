@@ -618,7 +618,7 @@ def handle_message(event):
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
-                duplicate = list(a2.intersection(a1))                     #a1和a2重複的人名
+                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
                 for j in range(1,len(duplicate)):          #分帳金額
                     result += str(duplicate[j])+'付給'+duplicate[0]+str(payAmount)+'元'+'\n'
 
