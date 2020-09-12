@@ -495,6 +495,34 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
+
+        elif input_text =='理財':            
+            line_bot_api.reply_message(  
+            event.reply_token,
+            TemplateSendMessage(
+                alt_text='Buttons template',
+                template=ButtonsTemplate(
+                    title='理財小幫手',
+                    text='請選擇功能',
+                    actions=[
+                        URITemplateAction(
+                            label='股市',
+                            uri='https://tw.stock.yahoo.com/'
+                        ),
+                        URITemplateAction(
+                            label='匯率',
+                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
+                        ),
+                        URITemplateAction(
+                            label='財經新聞',
+                            uri='https://www.msn.com/zh-tw/money'
+                        )
+                        ]
+                    )
+                )
+            )
+
+
         elif ('結算' in input_text):            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -607,20 +635,15 @@ def handle_message(event):
             
             result=""
             dataNumber=len(historySettle_list)
-            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 去除重複
-                for j in range(1,len(GroupPeopleString),1):
-                    if GroupPeopleString[0] == GroupPeopleString[j]:
-                        del GroupPeopleString[j]
-                        break
+                GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 
                 payAmount=int(b['Account'])/len(GroupPeopleString)
-                payer=GroupPeopleString[0] #刪除代墊者
+                payer=GroupPeopleString[0] #抓出代墊者
                 del GroupPeopleString[0]
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
+                duplicate = list(a1.intersection(a2))      #a1和a2重複的人名
                 for j in range(len(duplicate)):          #分帳金額
                     result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
