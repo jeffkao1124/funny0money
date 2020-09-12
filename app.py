@@ -642,8 +642,7 @@ def handle_message(event):
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))      #a1和a2重複的人名
                 for j in range(len(duplicate)):          #分帳金額
-                   if str(duplicate[j])!=payer #不用給自己錢
-                        result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
+                    result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
             output_text = result
             line_bot_api.reply_message(
