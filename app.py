@@ -576,27 +576,25 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,1)))+'元'+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
-            output_text = result
+            result+= '\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
-
+                TextSendMessage(text= result))
 
         elif '不簡化' in input_text:        
             selfGroupId = history_list[0]['group_id']
@@ -625,10 +623,9 @@ def handle_message(event):
                     if str(duplicate[j]) != payer:
                         result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
-            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= result))
 
         elif ('稍微' in input_text):             
             selfGroupId = history_list[0]['group_id'] 
@@ -662,10 +659,9 @@ def handle_message(event):
                     if i!=j and Zero[i][j] != 0 : 
                         result += person_list[j]+'付給'+person_list[i] + str(Zero[i][j]) +'元'+'\n' 
  
-            output_text = result 
             line_bot_api.reply_message( 
                 event.reply_token, 
-                TextSendMessage(text= str(output_text))) 
+                TextSendMessage(text= result)) 
      
         elif '快速選單' in input_text :
             Carousel_template = TemplateSendMessage(
