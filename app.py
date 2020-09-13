@@ -765,9 +765,11 @@ def handle_message(event):
             ),
             URIImagemapAction(
                 #使用說明
-                link_uri="https://www.facebook.com/wuborjenn.wu/",
+                link_uri="https://liff.line.me/1654876504-9wWz",
                 area=ImagemapArea(
-                    x=1000, y=0, width=1000, height=1000
+                    x=0, y=1000, width=1000, height=1000
+                )
+            ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
