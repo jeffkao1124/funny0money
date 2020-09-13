@@ -49,6 +49,19 @@ def callback():
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
 
+     add_data = usermessage(
+        id = bodyjson['events'][0]['message']['id'],
+        group_num = '0',
+        nickname = 'None',
+        group_id = bodyjson['events'][0]['source']['groupId'],
+        type = bodyjson['events'][0]['source']['type'],
+        status = 'None',
+        account = '0',
+        user_id = bodyjson['events'][0]['source']['userId'],
+        message = bodyjson['events'][0]['message']['text'],
+        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+    )
+
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
         receivedmsg = receivedmsg.strip(' ')
