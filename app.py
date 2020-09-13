@@ -743,7 +743,7 @@ def handle_message(event):
 
 def imagemap_message():
     message = ImagemapSendMessage(
-        base_url="https://i.imgur.com/BfTFVDN.jpg",
+        base_url="https://imgur.com/cOv6XCU.png",
         alt_text='最新的合作廠商有誰呢？',
         base_size=BaseSize(height=2000, width=2000),
         actions=[
