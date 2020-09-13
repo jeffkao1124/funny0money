@@ -687,6 +687,13 @@ def handle_message(event):
                 event.reply_token, 
                 TextSendMessage(text= str(output_text))) 
      
+        elif input_text == '清空資料庫':
+            data_UserData = usermessage.query..filter(usermessage.status=='None').delete(synchronize_session='fetch')
+            db.session.commit()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= '砍砍資料酷酷酷'))
+
         elif '快速選單' in input_text :
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/BfTFVDN.jpg",
