@@ -1,6 +1,6 @@
 {
   "type": "imagemap",
-  "baseUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+  "baseUrl": "https://imgur.com/RmJfpgi",
   "altText": "This is an imagemap",
   "baseSize": {
     "width": 1040,
