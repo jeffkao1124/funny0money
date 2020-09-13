@@ -766,7 +766,7 @@ def handle_message(event):
             URIImagemapAction(
                 #使用說明
                 label="使用說明",
-                text="help"
+                text="help",
                 area=ImagemapArea(
                     x=0, y=1000, width=1000, height=1000
                 )
