@@ -67,8 +67,6 @@ def callback():
                     message = bodyjson['events'][0]['message']['text'], 
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
                 )
-                db.session.add(add_data)
-                db.session.commit()
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
