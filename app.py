@@ -295,7 +295,13 @@ def get_groupPeople(history_list,mode):
         if not i in new_list:
             new_list.append(i)
             count+=1
-
+    GroupPeopleString=''
+    for _data in data_UserData:
+        GroupPeopleString += _data.nickname +' '
+    test_list = GroupPeopleString..strip('  ').split(' ')
+    test_list=list(set(test_list)) #刪除重複
+    print(test_list()
+    sys.stdout.flush()
     if mode ==1:
         return count
     elif mode ==2:
