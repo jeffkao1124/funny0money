@@ -48,25 +48,24 @@ def callback():
     body = request.get_data(as_text=True)
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
-
+    check_data=1 #是否為無用資料
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
         receivedmsg = receivedmsg.strip(' ')
         if '分帳設定' in receivedmsg: 
-            userName=receivedmsg.split(' ') 
-            for name in userName: 
-                add_data = usermessage( 
-                    id = bodyjson['events'][0]['message']['id'], 
-                    group_num = '0', 
-                    nickname = name, 
-                    group_id = bodyjson['events'][0]['source']['groupId'], 
-                    type = bodyjson['events'][0]['source']['type'], 
-                    status = 'set', 
-                    account = '0', 
-                    user_id = bodyjson['events'][0]['source']['userId'], 
-                    message = bodyjson['events'][0]['message']['text'], 
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
-                )
+            userName=receivedmsg.split(':') 
+            add_data = usermessage( 
+                id = bodyjson['events'][0]['message']['id'], 
+                group_num = '0', 
+                nickname = userName, 
+                group_id = bodyjson['events'][0]['source']['groupId'], 
+                type = bodyjson['events'][0]['source']['type'], 
+                status = 'set', 
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'], 
+                message = bodyjson['events'][0]['message']['text'], 
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
+            )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
@@ -85,31 +84,9 @@ def callback():
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
             else:
-                add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = bodyjson['events'][0]['source']['groupId'],
-                    type = bodyjson['events'][0]['source']['type'],
-                    status = 'None',
-                    account = '0',
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+                check_data=0
         else:
-            add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = bodyjson['events'][0]['source']['groupId'],
-                    type = bodyjson['events'][0]['source']['type'],
-                    status = 'None',
-                    account = '0',
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
+            check_data=0
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
@@ -131,34 +108,12 @@ def callback():
                         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
             else:
-                add_data = usermessage(
-                        id = bodyjson['events'][0]['message']['id'],
-                        group_num = '0',
-                        nickname = 'None',
-                        group_id = 'None',
-                        type = 'user',
-                        status = 'None',
-                        account = chargeNumber,
-                        user_id = bodyjson['events'][0]['source']['userId'],
-                        message = chargeName ,
-                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                    )
+                check_data=0
         else:
-            add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = '0',
-                    nickname = 'None',
-                    group_id = 'None',
-                    account = '0',
-                    type = 'user',
-                    status = 'None',
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = bodyjson['events'][0]['message']['text'],
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                )
-
-    db.session.add(add_data)
-    db.session.commit()
+            check_data=0
+    if (check_data):
+        db.session.add(add_data)
+        db.session.commit()
 
     # handle webhook body
     try:
