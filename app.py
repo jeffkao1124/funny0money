@@ -747,7 +747,6 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif 'test' in input_text :
             
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
