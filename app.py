@@ -425,7 +425,7 @@ def handle_message(event):
             groupMember=get_groupPeople(history_list,2)
             output_text="分帳名單："
             for i in range(get_groupPeople(history_list,1)):
-                output_text='\n'+output_text+groupMember[i]
+                output_text+='\n'+groupMember[i]
 
             line_bot_api.reply_message(
                 event.reply_token,
