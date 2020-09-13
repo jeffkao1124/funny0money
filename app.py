@@ -164,7 +164,7 @@ def callback():
     return 'OK'
 
 
-def get_movie():
+def get_movie():   #電影討論度
     movies = []
     url_1= "https://movies.yahoo.com.tw/chart.html"
     resp_1 = requests.get(url_1)
@@ -178,7 +178,7 @@ def get_movie():
 
     return movies
 
-def get_exchangeRate():
+def get_exchangeRate():   #匯率
     numb= []
     cate=[]
     data=[]
@@ -201,7 +201,7 @@ def get_exchangeRate():
       
     return data
 
-def get_history_list():
+def get_history_list():   #取得最新資料
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
     history_dic = {}
     history_list = []    
@@ -304,7 +304,7 @@ def get_groupPeople(history_list,mode):
 def handle_message(event):
     input_text = event.message.text.lower()
     history_list = get_history_list()
-    if history_list[0]['type'] == 'user':   
+    if history_list[0]['type'] == 'user':      #個人部分
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
             line_bot_api.reply_message(
@@ -402,7 +402,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         
-    else:
+    else:  #群組部分
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
             groupNumber=get_groupPeople(history_list,1)
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
@@ -423,9 +423,9 @@ def handle_message(event):
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
-            output_text=""
+            output_text="分帳名單："
             for i in range(get_groupPeople(history_list,1)):
-                output_text=output_text+groupMember[i]+'\n'
+                output_text='\n'+output_text+groupMember[i]+
 
             line_bot_api.reply_message(
                 event.reply_token,
