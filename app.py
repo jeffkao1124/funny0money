@@ -688,7 +688,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text))) 
      
         elif input_text == '清空資料庫':
-            data_UserData = usermessage.query..filter(usermessage.status=='None').delete(synchronize_session='fetch')
+            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
