@@ -152,6 +152,8 @@ def callback():
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
 
+    db.session.add(add_data)
+    db.session.commit()
 
     # handle webhook body
     try:
