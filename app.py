@@ -276,17 +276,13 @@ def get_settleList():
 
 #群組人數/名單
 def get_groupPeople(history_list,mode):
-    selfId = history_list[0]['user_id']
     selfGroupId = history_list[0]['group_id']
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
-
     GroupPeopleString=''
     for _data in data_UserData:
         GroupPeopleString += _data.nickname +' '
     new_list = GroupPeopleString.strip('  ').split(' ')
     new_list=list(set(new_list)) #刪除重複
-    print(new_list)
-    sys.stdout.flush()
 
     if mode ==1:
         return len(new_list)
