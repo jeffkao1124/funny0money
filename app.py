@@ -53,7 +53,7 @@ def callback():
         receivedmsg = bodyjson['events'][0]['message']['text']
         receivedmsg = receivedmsg.strip(' ')
         if '分帳設定' in receivedmsg:
-            userName=receivedmsg.split(' ')[1]
+            userName=receivedmsg.split(':')[1]
             add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
                     group_num = '0',
