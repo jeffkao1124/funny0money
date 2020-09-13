@@ -391,7 +391,8 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
         elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
+            with open('test.json', 'r') as f:
+            help_text = json.load(f)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(help_text)))
@@ -683,7 +684,7 @@ def handle_message(event):
             line_bot_api.reply_message( 
                 event.reply_token, 
                 TextSendMessage(text= str(output_text))) 
-
+     
         elif '快速選單' in input_text :
             Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
@@ -746,7 +747,8 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        
+        elif 'test' in input_text :
+            
         elif (eval(input_text)>0) and (eval(input_text)<=100000):
             output_text= input_text
             line_bot_api.reply_message(
