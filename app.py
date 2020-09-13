@@ -774,7 +774,7 @@ def handle_message(event):
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=1000, y=2000, width=1000, height=1000
+                    x=1000, y=1000, width=1000, height=1000
                 )
             )
         ]
