@@ -692,8 +692,69 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= '砍砍資料酷酷酷'))
-
         elif '快速選單' in input_text :
+            Carousel_template = TemplateSendMessage(
+                            alt_text='Carousel template',
+                            template=CarouselTemplate(
+                            columns=[
+                                CarouselColumn(
+                                    title='開始分帳',
+                                    text='記錄分帳--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
+                                    actions=[
+                                        URITemplateAction(
+                                            label='紀錄分帳',
+                                            uri='https://liff.line.me/1654876504-9wWzOva7'
+                                        ),
+                                        URITemplateAction(
+                                            label='查帳＆結算',
+                                            uri='https://liff.line.me/1654876504-rK3v07Pk'
+                                        ),
+                                        URITemplateAction(
+                                            label='分帳者設定',
+                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
+                                        )
+                                    ]
+                                ),
+                                CarouselColumn(
+                                    title='設定',
+                                    text='查詢分帳者設定--查詢分帳者姓名'+'\n'+'清空分帳者設定--刪除分帳者姓名'+'\n'+'清空分帳資料--刪除所有過往帳目',
+                                    actions=[
+                                        MessageTemplateAction(
+                                            label='查詢分帳者設定',
+                                            text='設定查詢'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳者設定',
+                                            text='設定刪除'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='清空分帳資料',
+                                            text='刪除'
+                                        )
+                                    ]
+                                ),
+                                CarouselColumn(
+                                    title='其他',
+                                    text='結算--進行分帳結算'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
+                                    actions=[                        
+                                        MessageTemplateAction(
+                                            label='結算',
+                                            text='結算'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='理財小幫手',
+                                            text='理財'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='使用說明',
+                                            text='help'
+                                        )                                       
+                                    ]
+                                )]                            
+                            )
+                        )
+            line_bot_api.reply_message(event.reply_token,Carousel_template)
+        elif '選單' in input_text :
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/BfTFVDN.jpg",
                             alt_text='選擇',
