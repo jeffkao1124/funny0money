@@ -296,6 +296,14 @@ def get_groupPeople(history_list,mode):
             new_list.append(i)
             count+=1
 
+    GroupPeopleString=''
+    for _data in data_UserData:
+        GroupPeopleString += _data.nickname +' '
+    test_list = GroupPeopleString.strip('  ').split(' ')
+    test_list=list(set(test_list)) #刪除重複
+    print(test_list)
+    sys.stdout.flush()
+
     if mode ==1:
         return count
     elif mode ==2:
@@ -757,7 +765,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif '快速' in input_text :
             message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/BfTFVDN.jpg",
+                            base_url="https://imgur.com/1nvK5rZ.png",
                             alt_text='選擇',
                             base_size=BaseSize(height=2000, width=2000),
                             actions=[
