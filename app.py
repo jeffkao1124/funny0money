@@ -51,22 +51,20 @@ def callback():
 
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
-        receivedmsg = receivedmsg.strip(' ')
-        if '分帳設定' in receivedmsg:
-            userName=receivedmsg.split(' ')
-            for name in userName:
-                add_data = usermessage(
-                        id = bodyjson['events'][0]['message']['id'],
-                        group_num = '0',
-                        nickname = name,
-                        group_id = bodyjson['events'][0]['source']['groupId'],
-                        type = bodyjson['events'][0]['source']['type'],
-                        status = 'set',
-                        account = '0',
-                        user_id = bodyjson['events'][0]['source']['userId'],
-                        message = bodyjson['events'][0]['message']['text'],
-                        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                    )
+        if '分帳設定' in receivedmsg: 
+            userName = receivedmsg.strip(' 分帳設定 ')
+            add_data = usermessage( 
+                id = bodyjson['events'][0]['message']['id'], 
+                group_num = '0', 
+                nickname = userName, 
+                group_id = bodyjson['events'][0]['source']['groupId'], 
+                type = bodyjson['events'][0]['source']['type'], 
+                status = 'set', 
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'], 
+                message = bodyjson['events'][0]['message']['text'], 
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
+            )
         elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
             chargeName=receivedmsg.split(' ',3)[1]
             chargeNumber=receivedmsg.split(' ',3)[2]
@@ -416,9 +414,10 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
+            output_text='分帳紀錄成功'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text='分帳紀錄成功'))
+                TextSendMessage(text= str(output_text)))
 
         elif input_text =='help':
             help_text='1. 快速選單--輸入：快速選單'+'\n'+'2. 分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3. 分帳設定清空--輸入：設定刪除'+'\n'+'4. 分帳設定查詢--輸入：設定查詢'+'\n'+'5. 分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6. 結算--輸入：結算'+'\n'+'7. 刪除--輸入：刪除'+'\n'+'8. 刪除單筆資料--輸入：delete 編號'+'\n'+'9. 查帳--輸入：查帳'+'\n'+'10. 理財小幫手--輸入：理財'+'\n'+'11. 使用說明--輸入：help'
@@ -440,10 +439,11 @@ def handle_message(event):
             selfGroupId = history_list[0]['group_id']
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            output_text='刪除成功'
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text='刪除成功'))
+                TextSendMessage(text= str(output_text)))
 
         elif input_text == '設定刪除':
             selfGroupId = history_list[0]['group_id']
@@ -474,7 +474,9 @@ def handle_message(event):
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')[targetNum-1:targetNum]
                 history_dic = {}
                 history_list = []
+                count=0
                 for _data in data_UserData:
+                    count+=1
                     history_dic['Mesaage'] = _data.message
                     history_dic['Account'] = _data.account
                     history_dic['id'] = _data.id
@@ -488,11 +490,13 @@ def handle_message(event):
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
 
+
         elif input_text == '查帳':
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -527,7 +531,9 @@ def handle_message(event):
             historySettle_dic = {}
             historySettle_list = []
             person_list  = get_groupPeople(history_list,2)
+            count=0
             for _data in dataSettle_UserData:
+                count+=1
                 historySettle_dic['Mesaage'] = _data.message
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
@@ -535,7 +541,7 @@ def handle_message(event):
                 historySettle_dic = {}
             
             dataNumber=len(historySettle_list)
-            totalPayment= np.zeros((dataNumber,get_groupPeople(history_list,1)))
+            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
@@ -544,9 +550,14 @@ def handle_message(event):
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
+                count=0
                 for j in range(len(duplicate)):      #分帳金額
-                    place=get_groupPeople(history_list,2).index(duplicate[j])
-                    totalPayment[i][place]=payAmount
+                    place=get_groupPeople(history_list,2).index(duplicate[count])
+                    Zero[i][place]=payAmount
+                    count+=1
+
+            replaceZero=Zero
+            totalPayment=replaceZero.sum(axis=0)
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))  #代墊金額
             for i in range(len(get_groupPeople(history_list,2))):
@@ -556,8 +567,10 @@ def handle_message(event):
                     if GroupPeopleString[0] == get_groupPeople(history_list,2)[i]:
                         paidAmount=int(b['Account'])
                         paid[0][i]=paid[0][i]+paidAmount
+                    else:
+                        continue
 
-            account=paid- totalPayment.sum(axis=0)
+            account=paid-totalPayment
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
@@ -582,25 +595,27 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,1)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'元'+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
+            result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
-            result+= '\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
+            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= result))
+                TextSendMessage(text= str(output_text)))
+
 
         elif '不簡化' in input_text:        
             selfGroupId = history_list[0]['group_id']
@@ -629,9 +644,10 @@ def handle_message(event):
                     if str(duplicate[j]) != payer:
                         result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
+            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= result))
+                TextSendMessage(text= str(output_text)))
 
         elif ('稍微' in input_text):             
             selfGroupId = history_list[0]['group_id'] 
@@ -665,10 +681,18 @@ def handle_message(event):
                     if i!=j and Zero[i][j] != 0 : 
                         result += person_list[j]+'付給'+person_list[i] + str(Zero[i][j]) +'元'+'\n' 
  
+            output_text = result 
             line_bot_api.reply_message( 
                 event.reply_token, 
-                TextSendMessage(text= result)) 
+                TextSendMessage(text= str(output_text))) 
      
+        elif input_text == '清空資料庫':
+            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
+            db.session.commit()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= '砍砍資料酷酷酷'))
+
         elif '快速選單' in input_text :
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/BfTFVDN.jpg",
