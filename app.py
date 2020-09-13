@@ -765,7 +765,7 @@ def handle_message(event):
             ),
             URIImagemapAction(
                 #使用說明
-                link_uri="#",
+                link_uri="https://liff.line.me/1654876504-9wWz",
                 area=ImagemapArea(
                     x=0, y=1000, width=1000, height=1000
                 )
