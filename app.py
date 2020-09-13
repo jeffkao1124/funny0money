@@ -529,7 +529,7 @@ def handle_message(event):
                 historySettle_dic = {}
             
             dataNumber=len(historySettle_list)
-            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
+            totalPayment= np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
@@ -540,9 +540,7 @@ def handle_message(event):
                 duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
                 for j in range(len(duplicate)):      #分帳金額
                     place=get_groupPeople(history_list,2).index(duplicate[j])
-                    Zero[i][place]=payAmount
-
-            totalPayment=Zero.sum(axis=0) #分帳加總
+                    totalPayment[i][place]=payAmount
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))  #代墊金額
             for i in range(len(get_groupPeople(history_list,2))):
@@ -552,10 +550,8 @@ def handle_message(event):
                     if GroupPeopleString[0] == get_groupPeople(history_list,2)[i]:
                         paidAmount=int(b['Account'])
                         paid[0][i]=paid[0][i]+paidAmount
-                    else:
-                        continue
 
-            account=paid-totalPayment
+            account=paid- totalPayment.sum(axis=0)
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
