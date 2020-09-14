@@ -532,7 +532,7 @@ def handle_message(event):
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
-                print(duplicate)
+                print(GroupPeopleString)
                 sys.stdout.flush()
                 for j in range(len(duplicate)):      #分帳金額
                     place=person_list.index(duplicate[j])
