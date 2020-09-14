@@ -49,11 +49,15 @@ def callback():
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
 
+    Group_id='None'
+    if bodyjson['events'][0]['source']['type'] == 'group':
+        Group_id =  bodyjson['events'][0]['source']['groupId']
+
     add_data = usermessage(
     id = bodyjson['events'][0]['message']['id'],
     group_num = '0',
     nickname = 'None',
-    group_id = bodyjson['events'][0]['source']['groupId'],
+    group_id = Group_id,
     type = bodyjson['events'][0]['source']['type'],
     status = 'None',
     account = '0',
@@ -61,10 +65,7 @@ def callback():
     message = bodyjson['events'][0]['message']['text'],
     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
     )
-    print(add_data)
-    sys.stdout.flush()
-    print(usermessage)
-    sys.stdout.flush()
+
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
         if '分帳設定' in receivedmsg: 
