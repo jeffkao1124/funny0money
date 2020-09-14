@@ -61,7 +61,10 @@ def callback():
     message = bodyjson['events'][0]['message']['text'],
     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
     )
-    
+    print(add_data)
+    sys.stdout.flush()
+    print(usermessage)
+    sys.stdout.flush()
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
         if '分帳設定' in receivedmsg: 
