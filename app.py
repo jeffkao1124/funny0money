@@ -254,24 +254,21 @@ def get_settleList():
     history_list = get_history_list()
     selfGroupId = history_list[0]['group_id']
     dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-    historySettle_dic = {}
     historySettle_list = []
     for _data in dataSettle_UserData:
+        historySettle_dic = {}
         historySettle_dic['Mesaage'] = _data.message
         historySettle_dic['Account'] = _data.account
         historySettle_dic['GroupPeople'] =_data.group_num
         historySettle_dic['Time'] =_data.birth_date
         historySettle_list.append(historySettle_dic)
-        historySettle_dic = {}
     final_list =[]
-    count=0
     for i in range(len(historySettle_list)):
-        count+=1
         settleTime = str(historySettle_list[i]['Time'])
         final_list.append(settleTime[:10]+' '+str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
     perfect_list=''
-    for j in range(count):
-        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+    for j in range(len(final_list)):
+        perfect_list += str(j+1)+'.'+str(final_list[j])+'\n'
     return perfect_list
 
 #群組人數/名單
