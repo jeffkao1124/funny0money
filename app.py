@@ -560,13 +560,13 @@ def handle_message(event):
             
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
-            for i in range(len(person_list)):
-                zip_tuple=(person_list[i],account[0][i])
+            for i in range(person_num):
+                zip_tuple=(person_list[i],account[i])
                 person_account.append(zip_tuple)
 
             #重複執行交換動作
             result=""
-            for i in range(len(person_list)-1):
+            for i in range(person_num-1):
                 #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
 
