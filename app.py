@@ -526,12 +526,12 @@ def handle_message(event):
             account = np.zeros(person_num)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
+                GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
+                duplicate = list(a1.intersection(a2))       #a1和a2重複的人名
                 print(GroupPeopleString)
                 sys.stdout.flush()
                 for j in range(len(duplicate)):      #分帳金額
@@ -591,15 +591,13 @@ def handle_message(event):
         elif input_text =='不簡化':        
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-            historySettle_dic = {}
             historySettle_list = []
             for _data in dataSettle_UserData:
-                historySettle_dic['Mesaage'] = _data.message
+                historySettle_dic = {}
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
                 historySettle_list.append(historySettle_dic)
-                historySettle_dic = {}
-            
+                
             result=""
             dataNumber=len(historySettle_list)
             for i in range(dataNumber):
@@ -615,47 +613,44 @@ def handle_message(event):
                     if str(duplicate[j]) != payer:
                         result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
-            output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= result))
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group') 
-            historySettle_dic = {} 
             historySettle_list = [] 
-            person_list  = get_groupPeople(history_list,2) #分帳設定人名
+            person_list  = get_groupPeople(history_list,2)  #分帳設定人名
+            person_num = get_groupPeople(history_list,1)  #分帳設定人數
             for _data in dataSettle_UserData: 
-                historySettle_dic['Mesaage'] = _data.message 
+                historySettle_dic = {} 
                 historySettle_dic['Account'] = _data.account 
                 historySettle_dic['GroupPeople'] =_data.group_num 
                 historySettle_list.append(historySettle_dic) 
-                historySettle_dic = {} 
-             
+                
             dataNumber=len(historySettle_list) 
-            Zero= np.zeros((get_groupPeople(history_list,1),get_groupPeople(history_list,1))) 
+            account= np.zeros((person_num)) 
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
-                GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者 
-                payAmount=int(b['Account'])/(len(GroupPeopleString)-1) 
+                GroupPeopleString=b['GroupPeople'].split(' ')
+                payAmount=int(b['Account'])/(len(GroupPeopleString)-1)  #不包含代墊者
                 a1=set(person_list)      #分帳設定有的人 
                 a2=set(GroupPeopleString) 
                 duplicate = list(a1.intersection(a2))         #a1和a2重複的人名 
                 for j in range(len(duplicate)):      #誰付誰錢矩陣 2給1 
                     place1=person_list.index(GroupPeopleString[0]) 
                     place2=person_list.index(duplicate[j]) 
-                    Zero[place1][place2]+=payAmount 
+                    account[place1][place2]+=payAmount 
             result=""
-            for i in range(get_groupPeople(history_list,1)): #誰付誰錢輸出 
-                for j in range(get_groupPeople(history_list,1)): 
-                    if i!=j and Zero[i][j] != 0 : 
-                        result += person_list[j]+'付給'+person_list[i] + str(Zero[i][j]) +'元'+'\n' 
- 
-            output_text = result 
+            for i in range ( person_num ): #誰付誰錢輸出 
+                for j in range ( person_num ): 
+                    if i!=j and account[i][j] != 0 : 
+                        result += person_list[j]+'付給'+person_list[i] + str(account[i][j]) +'元'+'\n' 
+
             line_bot_api.reply_message( 
                 event.reply_token, 
-                TextSendMessage(text= str(output_text))) 
+                TextSendMessage(text= result )) 
      
         elif input_text == '清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
