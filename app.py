@@ -527,7 +527,7 @@ def handle_message(event):
                 historySettle_dic = {}
             
             dataNumber=len(historySettle_list)
-            payment = np.zeros(dataNumber,get_groupPeople(history_list,1))
+            payment = np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
@@ -540,7 +540,7 @@ def handle_message(event):
                     place=get_groupPeople(history_list,2).index(duplicate[j])
                     payment[i][place]=payAmount
 
-            paid= np.zeros(1,get_groupPeople(history_list,1))  #代墊金額
+            paid= np.zeros((1,get_groupPeople(history_list,1)))  #代墊金額
             for i in range(get_groupPeople(history_list,1)):
                 for j in range(dataNumber):
                     b=dict(historySettle_list[j])
