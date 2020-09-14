@@ -513,7 +513,7 @@ def handle_message(event):
             )
 
 
-        elif ('結算' in input_text):            
+        elif input_text =='結算':            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_list = []
@@ -589,7 +589,7 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
 
-        elif '不簡化' in input_text:        
+        elif input_text =='不簡化':        
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_dic = {}
@@ -621,7 +621,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif ('稍微' in input_text):             
+        elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group') 
             historySettle_dic = {} 
@@ -665,7 +665,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '砍砍資料酷酷酷'))
 
-        elif '快速選單' in input_text :
+        elif input_text =='快速選單'  :
             Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
                             template=CarouselTemplate(
@@ -727,7 +727,7 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif '快速' in input_text :
+        elif input_text =='快速'  :
             message = ImagemapSendMessage(
                             base_url="https://imgur.com/1nvK5rZ.png",
                             alt_text='選擇',
@@ -777,7 +777,6 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-
 
 
 
