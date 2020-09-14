@@ -519,7 +519,9 @@ def handle_message(event):
             historySettle_dic = {}
             historySettle_list = []
             person_list  = get_groupPeople(history_list,2)
+            count=0
             for _data in dataSettle_UserData:
+                count+=1
                 historySettle_dic['Mesaage'] = _data.message
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
@@ -527,7 +529,7 @@ def handle_message(event):
                 historySettle_dic = {}
             
             dataNumber=len(historySettle_list)
-            totalPayment = np.zeros((dataNumber,get_groupPeople(history_list,1)))
+            Zero= np.zeros((dataNumber,get_groupPeople(history_list,1)))
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
@@ -536,20 +538,27 @@ def handle_message(event):
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))                     #a1和a2重複的人名
+                count=0
                 for j in range(len(duplicate)):      #分帳金額
                     place=get_groupPeople(history_list,2).index(duplicate[count])
-                    totalPayment[i][place]=payAmount
+                    Zero[i][place]=payAmount
+                    count+=1
+
+            replaceZero=Zero
+            totalPayment=replaceZero.sum(axis=0)
 
             paid= np.zeros((1,len(get_groupPeople(history_list,2))))  #代墊金額
             for i in range(len(get_groupPeople(history_list,2))):
-                for j in range(dataNumber):
+                for j in range(len(historySettle_list)):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].split(' ')
                     if GroupPeopleString[0] == get_groupPeople(history_list,2)[i]:
                         paidAmount=int(b['Account'])
-                        paid[0][i] += paidAmount
+                        paid[0][i]=paid[0][i]+paidAmount
+                    else:
+                        continue
 
-            account=paid-totalPayment.sum(axis=0)
+            account=paid-totalPayment
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
