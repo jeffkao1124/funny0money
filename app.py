@@ -521,7 +521,6 @@ def handle_message(event):
             person_num = get_groupPeople(history_list,1)
             for _data in dataSettle_UserData:
                 historySettle_dic = {}
-                historySettle_dic['Mesaage'] = _data.message
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
                 historySettle_list.append(historySettle_dic)
@@ -540,8 +539,7 @@ def handle_message(event):
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
 
-            paid= np.zeros(person_num)  #代墊金額
-            for i in range(person_num):
+            for i in range(person_num):  #代墊金額
                 for j in range(dataNumber):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].split(' ')
@@ -556,8 +554,7 @@ def handle_message(event):
 
             #重複執行交換動作
             result=""
-            for i in range(person_num-1):
-                #排序
+            for i in range(person_num-1):  #排序
                 person_account=sorted(person_account, key = lambda s:s[1])
 
                 #找到最大、最小值
