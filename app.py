@@ -630,7 +630,7 @@ def handle_message(event):
                 historySettle_list.append(historySettle_dic) 
                 
             dataNumber=len(historySettle_list) 
-            account= np.zeros((person_num)) 
+            account= np.zeros((person_num,person_num)) 
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
                 GroupPeopleString=b['GroupPeople'].split(' ')
