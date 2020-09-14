@@ -277,7 +277,7 @@ def get_groupPeople(history_list,mode):
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
     GroupPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname +' '
+        GroupPeopleString += _data.nickname.strip('       ') +' '
     new_list = GroupPeopleString.strip('  ').split(' ')
     new_list=list(set(new_list)) #刪除重複
 
@@ -286,7 +286,7 @@ def get_groupPeople(history_list,mode):
     elif mode ==2:
         return new_list
     else:
-        return 1
+        return 0
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
