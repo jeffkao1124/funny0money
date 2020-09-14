@@ -72,7 +72,7 @@ def callback():
             if re.search(r"\D",chargeNumber) is None:
                 add_data = usermessage(
                     id = bodyjson['events'][0]['message']['id'],
-                    group_num =chargePeople ,
+                    group_num = chargePeople.strip(' ') ,
                     nickname = 'None',
                     group_id = bodyjson['events'][0]['source']['groupId'],
                     type = bodyjson['events'][0]['source']['type'],
@@ -277,8 +277,8 @@ def get_groupPeople(history_list,mode):
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
     GroupPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname.strip('       ') +' '
-    new_list = GroupPeopleString.strip('  ').split(' ')
+        GroupPeopleString += _data.nickname.strip(' ') +' '
+    new_list = GroupPeopleString.strip(' ').split(' ')
     new_list=list(set(new_list)) #刪除重複
 
     if mode ==1:
@@ -526,7 +526,7 @@ def handle_message(event):
             account = np.zeros(person_num)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].strip('      ').split(' ')  #刪除代墊者
+                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
