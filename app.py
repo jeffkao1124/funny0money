@@ -492,6 +492,8 @@ def handle_message(event):
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
+                print(GroupPeopleString)
+                sys.stdout.flush()
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
