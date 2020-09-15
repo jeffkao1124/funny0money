@@ -185,7 +185,7 @@ def get_exchangeRate(mode):
         match = regex.search(EUR)
         return eval(match.group(1))
     else:
-        return 0
+        return 1
 
 def get_history_list():   #取得最新資料
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
@@ -501,11 +501,14 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                exchange_rate = 1
-                if 'JYP' in b['message']:   #匯率轉換
-                    exchange_rate = 10
-                print(exchange_rate)
-                sys.stdout.flush()
+                exchange_rate = 0
+                if 'USD' in b['message']:   #匯率轉換
+                    exchange_rate = 1
+                elif 'JPY' in b['message']:
+                    exchange_rate = 2
+                elif 'EUR' in b['message']:
+                    exchange_rate = 3
+                exchange_rate = get_exchangeRate(exchange_rate)
                 payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
