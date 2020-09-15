@@ -708,7 +708,7 @@ def handle_message(event):
             ),
             URIImagemapAction(
                 #使用說明
-                link_uri="https://www.youtube.com/watch?v=3Y0Ut5ozaKs",
+                text="help",
                 area=ImagemapArea(
                     x=0, y=1000, width=1000, height=1000
                 )
