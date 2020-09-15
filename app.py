@@ -486,7 +486,7 @@ def handle_message(event):
                 del GroupPeopleString[0]
                 
                 exchange_rate = 1
-                if '晚餐' in b['message']:
+                if 'JYP' in b['message']:   #匯率轉換
                     exchange_rate = 10
                 print(exchange_rate)
                 sys.stdout.flush()
