@@ -486,6 +486,8 @@ def handle_message(event):
                 del GroupPeopleString[0]
                 
                 exchange_rate = 1
+                print(b['message'])
+                sys.stdout.flush()
                 payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
@@ -590,7 +592,7 @@ def handle_message(event):
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
                 GroupPeopleString=b['GroupPeople'].split(' ')
-                payAmount=int(b['Account'])/(len(GroupPeopleString)-1)  #不包含代墊者
+                payAmount = round( int(b['Account']) / (len(GroupPeopleString)-1),2)  #不包含代墊者
                 a1=set(person_list)      #分帳設定有的人 
                 a2=set(GroupPeopleString) 
                 duplicate = list(a1.intersection(a2))         #a1和a2重複的人名 
@@ -602,7 +604,7 @@ def handle_message(event):
             for i in range ( person_num ): #誰付誰錢輸出 
                 for j in range ( person_num ): 
                     if i!=j and account[i][j] != 0 : 
-                        result += person_list[j]+'付給'+person_list[i] + str(round(account[i][j],2)) +'元'+'\n' 
+                        result += person_list[j]+'付給'+person_list[i] + str(account[i][j]) +'元'+'\n' 
 
             line_bot_api.reply_message( 
                 event.reply_token, 
