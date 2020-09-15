@@ -243,8 +243,8 @@ def get_groupPeople(history_list,mode):
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
     GroupPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname.strip(' ') +' '
-    new_list = GroupPeopleString.strip(' ').split(' ')
+        GroupPeopleString += _data.nickname.strip(' ') +'/'
+    new_list = GroupPeopleString.strip(' /').split('/')
     new_list=list(set(new_list)) #刪除重複
 
     if mode ==1:
@@ -475,7 +475,6 @@ def handle_message(event):
                 )
             )
 
-
         elif input_text =='結算':            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -492,7 +491,7 @@ def handle_message(event):
             account = np.zeros(person_num)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].split(' ')  #刪除代墊者
+                GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
@@ -507,7 +506,7 @@ def handle_message(event):
             for i in range(person_num):  #代墊金額
                 for j in range(dataNumber):
                     b=dict(historySettle_list[j])
-                    GroupPeopleString=b['GroupPeople'].split(' ')
+                    GroupPeopleString=b['GroupPeople'].strip(' ').split('/')
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += int(b['Account'])
 
