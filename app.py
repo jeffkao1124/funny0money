@@ -493,9 +493,9 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                if 'JPY' in str(b['message']) #匯率轉換
+                if 'JPY' in str(b['message']) :#匯率轉換
                     exchange_rate = 10
-                else
+                else:
                     exchange_rate = 1
                 payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
