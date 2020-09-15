@@ -517,12 +517,10 @@ def handle_message(event):
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
 
-            for j in range(dataNumber):  #代墊金額
-                for i in range(person_num): 
+            for i in range(person_num):  #代墊金額
+                for j in range(dataNumber):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
-                    exchange_rate = 1
-                    
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
@@ -547,15 +545,15 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+' '+str(abs(round(min,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'元'+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+' '+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+' '+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 
