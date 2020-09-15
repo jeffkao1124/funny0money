@@ -522,7 +522,9 @@ def handle_message(event):
                     account[place] -= payAmount
                     
             for j in range(dataNumber):
-                 exchange_rate = 0
+                b=dict(historySettle_list[j])
+                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
+                exchange_rate = 0
                 if 'USD' in b['message']:   #匯率轉換
                     exchange_rate = 1
                 elif 'JPY' in b['message']:
@@ -535,8 +537,6 @@ def handle_message(event):
                 sys.stdout.flush()
 
                 for i in range(person_num):  #代墊金額
-                    b=dict(historySettle_list[j])
-                    GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
