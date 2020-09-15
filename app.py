@@ -259,7 +259,11 @@ def get_groupPeople(history_list,mode):
 def handle_message(event):
     input_text = event.message.text.lower()
     history_list = get_history_list()
-    if history_list[0]['type'] == 'user':      #個人部分
+    if history_list[0]['type'] == 'room':
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= '請建立群組來使用機器人功能'))
+    elif history_list[0]['type'] == 'user':      #個人部分
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
             line_bot_api.reply_message(
