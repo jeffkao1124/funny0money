@@ -494,6 +494,8 @@ def handle_message(event):
                 del GroupPeopleString[0]
                 
                 exchange_rate = 1
+                print(b['message'])
+                sys.stdout.flush()
                 payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
