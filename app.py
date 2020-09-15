@@ -494,8 +494,6 @@ def handle_message(event):
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
-                print(GroupPeopleString)
-                sys.stdout.flush()
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
@@ -712,11 +710,10 @@ def handle_message(event):
             ),
             URIImagemapAction(
                 #使用說明
-                type: "message",
+                link_uri="https://www.youtube.com/watch?v=3Y0Ut5ozaKs",
                 area=ImagemapArea(
                     x=0, y=1000, width=1000, height=1000
-                ),
-                text="help",
+                )
             ),
             URIImagemapAction(
                 #查帳結算
