@@ -505,7 +505,7 @@ def handle_message(event):
             for i in range(person_num):  #代墊金額
                 for j in range(dataNumber):
                     b=dict(historySettle_list[j])
-                    GroupPeopleString=b['GroupPeople'].strip(' ').split('/')
+                    GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
