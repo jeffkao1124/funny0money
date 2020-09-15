@@ -493,7 +493,7 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                if 'JPY' in b['GroupPeople']  #匯率轉換
+                if 'JPY' in str(b['message']) #匯率轉換
                     exchange_rate = 10
                 else
                     exchange_rate = 1
