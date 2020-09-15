@@ -521,6 +521,14 @@ def handle_message(event):
                 for j in range(dataNumber):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
+                    exchange_rate = 0
+                    if 'USD' in b['message']:   #匯率轉換
+                        exchange_rate = 1
+                    elif 'JPY' in b['message']:
+                        exchange_rate = 2
+                    elif 'EUR' in b['message']:
+                        exchange_rate = 3
+                    exchange_rate = get_exchangeRate(exchange_rate)
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
