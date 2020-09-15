@@ -517,9 +517,9 @@ def handle_message(event):
                 for j in range(len(duplicate)):      #分帳金額
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
-
-            for i in range(person_num):  #代墊金額
-                for j in range(dataNumber):
+                    
+            for j in range(dataNumber):
+                for i in range(person_num):  #代墊金額
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
 
