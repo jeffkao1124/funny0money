@@ -441,13 +441,11 @@ def handle_message(event):
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
 
-
         elif input_text == '查帳':
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -485,6 +483,7 @@ def handle_message(event):
                 historySettle_dic = {}
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
+                historySettle_dic['message'] = _data.message
                 historySettle_list.append(historySettle_dic)
             
             dataNumber=len(historySettle_list)
@@ -493,12 +492,15 @@ def handle_message(event):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
                 del GroupPeopleString[0]
-                payAmount=int(b['Account'])/len(GroupPeopleString)
+                
+                if 'JPY' in b['GroupPeople']  #匯率轉換
+                    exchange_rate = 10
+                else
+                    exchange_rate = 1
+                payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))       #a1和a2重複的人名
-                print(GroupPeopleString)
-                sys.stdout.flush()
                 for j in range(len(duplicate)):      #分帳金額
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
@@ -508,7 +510,7 @@ def handle_message(event):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].strip(' ').split('/')
                     if GroupPeopleString[0] ==  person_list[i]:
-                        account[i] += int(b['Account'])
+                        account[i] += exchange_rate * int(b['Account'])
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
