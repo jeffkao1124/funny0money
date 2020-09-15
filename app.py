@@ -370,11 +370,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='help':
-            help_text='1. 快速選單--輸入：快速選單'+'\n'+'2. 分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3. 分帳設定清空--輸入：設定刪除'+'\n'+'4. 分帳設定查詢--輸入：設定查詢'+'\n'+'5. 分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6. 結算--輸入：結算'+'\n'+'7. 刪除--輸入：刪除'+'\n'+'8. 刪除單筆資料--輸入：delete 編號'+'\n'+'9. 查帳--輸入：查帳'+'\n'+'10. 理財小幫手--輸入：理財'+'\n'+'11. 使用說明--輸入：help'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(help_text)))
+
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
@@ -441,13 +437,11 @@ def handle_message(event):
                     event.reply_token,
                     TextSendMessage(text= str(output_text)))
 
-
         elif input_text == '查帳':
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -485,6 +479,7 @@ def handle_message(event):
                 historySettle_dic = {}
                 historySettle_dic['Account'] = _data.account
                 historySettle_dic['GroupPeople'] =_data.group_num
+                historySettle_dic['message'] = _data.message
                 historySettle_list.append(historySettle_dic)
             
             dataNumber=len(historySettle_list)
@@ -493,12 +488,15 @@ def handle_message(event):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split('/')  #刪除代墊者
                 del GroupPeopleString[0]
-                payAmount=int(b['Account'])/len(GroupPeopleString)
+                
+                if 'JPY' in str(b['message']) :#匯率轉換
+                    exchange_rate = 10
+                else:
+                    exchange_rate = 1
+                payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))       #a1和a2重複的人名
-                print(GroupPeopleString)
-                sys.stdout.flush()
                 for j in range(len(duplicate)):      #分帳金額
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
@@ -508,7 +506,7 @@ def handle_message(event):
                     b=dict(historySettle_list[j])
                     GroupPeopleString=b['GroupPeople'].strip(' ').split('/')
                     if GroupPeopleString[0] ==  person_list[i]:
-                        account[i] += int(b['Account'])
+                        account[i] += exchange_rate * int(b['Account'])
 
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
@@ -624,65 +622,40 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '砍砍資料酷酷酷'))
 
-        elif input_text =='快速選單' :
+        elif input_text =='help' :
             Carousel_template = TemplateSendMessage(
-                            alt_text='Carousel template',
-                            template=CarouselTemplate(
+                            alt_text='使用說明',
+                            template=ImageCarouselTemplate(
                             columns=[
-                                CarouselColumn(
-                                    title='開始分帳',
-                                    text='記錄分帳--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
-                                    actions=[
-                                        URITemplateAction(
-                                            label='紀錄分帳',
-                                            uri='https://liff.line.me/1654876504-9wWzOva7'
-                                        ),
-                                        URITemplateAction(
-                                            label='查帳＆結算',
-                                            uri='https://liff.line.me/1654876504-rK3v07Pk'
-                                        ),
-                                        URITemplateAction(
-                                            label='分帳者設定',
-                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
-                                        )
-                                    ]
-                                ),
-                                CarouselColumn(
-                                    title='設定',
-                                    text='查詢分帳者設定--查詢分帳者姓名'+'\n'+'清空分帳者設定--刪除分帳者姓名'+'\n'+'清空分帳資料--刪除所有過往帳目',
-                                    actions=[
-                                        MessageTemplateAction(
-                                            label='查詢分帳者設定',
-                                            text='設定查詢'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='清空分帳者設定',
-                                            text='設定刪除'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='清空分帳資料',
-                                            text='刪除'
-                                        )
-                                    ]
-                                ),
-                                CarouselColumn(
-                                    title='其他',
-                                    text='結算--進行分帳結算'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
-                                    actions=[                        
-                                        MessageTemplateAction(
-                                            label='結算',
-                                            text='結算'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='理財小幫手',
-                                            text='理財'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='使用說明',
-                                            text='help'
-                                        )                                       
-                                    ]
-                                )]                            
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/uKYgfVs.jpg",
+                    action=URITemplateAction(
+                        label="新鮮水果",
+                        uri="http://img.juimg.com/tuku/yulantu/110709/222-110F91G31375.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/QOcAvjt.jpg",
+                    action=URITemplateAction(
+                        label="新鮮蔬菜",
+                        uri="https://cdn.101mediaimage.com/img/file/1410464751urhp5.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/Np7eFyj.jpg",
+                    action=URITemplateAction(
+                        label="可愛狗狗",
+                        uri="http://imgm.cnmo-img.com.cn/appimg/screenpic/big/674/673928.JPG"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/QRIa5Dz.jpg",
+                    action=URITemplateAction(
+                        label="可愛貓咪",
+                        uri="https://m-miya.net/wp-content/uploads/2014/07/0-065-1.min_.jpg"
+                    )
+                )
+            ]     
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
