@@ -148,7 +148,7 @@ def get_movie():   #電影討論度
 
     return movies
 
-def get_exchangeRate():   #匯率
+def get_exchangeRate(mode):
     numb= []
     cate=[]
     data=[]
@@ -159,7 +159,7 @@ def get_exchangeRate():   #匯率
     t1=ms.find_all("td","rate-content-cash text-right print_hide")
     for child in t1:
         numb.append(child.text.strip())
-   
+
     buy=numb[0:37:2]
     sell=numb[1:38:2]
 
@@ -168,8 +168,24 @@ def get_exchangeRate():   #匯率
         cate.append(child.text.strip())
     for i in range(19):
         data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
-      
-    return data
+
+    if mode==1:
+        USD = data[0][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(USD)
+        return eval(match.group(1))
+    elif mode==2:
+        JPY = data[7][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(JPY)
+        return eval(match.group(1))
+    elif mode==3:
+        EUR = data[14][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(EUR)
+        return eval(match.group(1))
+    else:
+        return 0
 
 def get_history_list():   #取得最新資料
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
