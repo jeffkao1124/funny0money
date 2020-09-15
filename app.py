@@ -345,11 +345,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif input_text =='help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(help_text)))
+        
 
         else:
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
@@ -370,11 +366,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
 
-        elif input_text =='help':
-            help_text='1. 快速選單--輸入：快速選單'+'\n'+'2. 分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3. 分帳設定清空--輸入：設定刪除'+'\n'+'4. 分帳設定查詢--輸入：設定查詢'+'\n'+'5. 分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6. 結算--輸入：結算'+'\n'+'7. 刪除--輸入：刪除'+'\n'+'8. 刪除單筆資料--輸入：delete 編號'+'\n'+'9. 查帳--輸入：查帳'+'\n'+'10. 理財小幫手--輸入：理財'+'\n'+'11. 使用說明--輸入：help'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(help_text)))
+        
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
@@ -626,7 +618,93 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= '砍砍資料酷酷酷'))
-
+        elif input_text =='help' :
+            Carousel_template = TemplateSendMessage(
+                            alt_text='使用說明',
+                            template=ImageCarouselTemplate(
+                            columns=[
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/uKYgfVs.jpg",
+                    action=URITemplateAction(
+                        label="新鮮水果",
+                        uri="http://img.juimg.com/tuku/yulantu/110709/222-110F91G31375.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/QOcAvjt.jpg",
+                    action=URITemplateAction(
+                        label="新鮮蔬菜",
+                        uri="https://cdn.101mediaimage.com/img/file/1410464751urhp5.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/Np7eFyj.jpg",
+                    action=URITemplateAction(
+                        label="可愛狗狗",
+                        uri="http://imgm.cnmo-img.com.cn/appimg/screenpic/big/674/673928.JPG"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/QRIa5Dz.jpg",
+                    action=URITemplateAction(
+                        label="可愛貓咪",
+                        uri="https://m-miya.net/wp-content/uploads/2014/07/0-065-1.min_.jpg"
+                    )
+                )
+            ]     
+                            )
+                        )
+            line_bot_api.reply_message(event.reply_token,Carousel_template)
+        elif input_text =='快速'  :
+            message = ImagemapSendMessage(
+                            base_url="https://imgur.com/1nvK5rZ.png",
+                            alt_text='選擇',
+                            base_size=BaseSize(height=2000, width=2000),
+                            actions=[
+            URIImagemapAction(
+                #分帳者設定
+                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
+                area=ImagemapArea(
+                    x=0, y=0, width=1000, height=1000
+                )
+            ),
+            URIImagemapAction(
+                #記錄分帳
+                link_uri="https://liff.line.me/1654876504-9wWzOva7",
+                area=ImagemapArea(
+                    x=1000, y=0, width=1000, height=1000
+                )
+            ),
+            MessageImagemapAction(
+                #使用說明
+                text="help",
+                area=ImagemapArea(
+                    x=0, y=1000, width=1000, height=1000
+                )
+            ),
+            URIImagemapAction(
+                #查帳結算
+                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
+                area=ImagemapArea(
+                    x=1000, y=1000, width=1000, height=1000
+                )
+            )
+        ]
+                       
+                            )
+                        
+            line_bot_api.reply_message(event.reply_token,message)
+        elif (eval(input_text)>0) and (eval(input_text)<=100000):
+            output_text= input_text
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text))) 
+        else:
+            hot_movie=get_movie()
+            output_text=hot_movie
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
         elif input_text =='快速選單' :
             Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
