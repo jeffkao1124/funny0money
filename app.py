@@ -572,7 +572,7 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 
                 payer=GroupPeopleString[0] #抓出代墊者
                 del GroupPeopleString[0]
-                payAmount=int(b['Account'])/len(GroupPeopleString)
+                payAmount=round( int(b['Account']) / len(GroupPeopleString) ,2)
                 a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))      #a1和a2重複的人名
@@ -613,7 +613,7 @@ def handle_message(event):
             for i in range ( person_num ): #誰付誰錢輸出 
                 for j in range ( person_num ): 
                     if i!=j and account[i][j] != 0 : 
-                        result += person_list[j]+'付給'+person_list[i] + str(account[i][j]) +'元'+'\n' 
+                        result += person_list[j]+'付給'+person_list[i] + str(round(account[i][j],2)) +'元'+'\n' 
 
             line_bot_api.reply_message( 
                 event.reply_token, 
