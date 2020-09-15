@@ -710,11 +710,11 @@ def handle_message(event):
             ),
             URIImagemapAction(
                 #使用說明
-                type="message",
-                text="help",
+                type: "message",
                 area=ImagemapArea(
                     x=0, y=1000, width=1000, height=1000
-                )
+                ),
+                text="help",
             ),
             URIImagemapAction(
                 #查帳結算
