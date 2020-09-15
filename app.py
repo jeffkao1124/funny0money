@@ -567,7 +567,7 @@ def handle_message(event):
             dataNumber=len(historySettle_list)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 
+                GroupPeopleString=b['GroupPeople'].split('/')  #分帳者設定 
                 payer=GroupPeopleString[0] #抓出代墊者
                 del GroupPeopleString[0]
                 payAmount=int(b['Account'])/len(GroupPeopleString)
@@ -598,7 +598,7 @@ def handle_message(event):
             account= np.zeros((person_num,person_num)) 
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
-                GroupPeopleString=b['GroupPeople'].split(' ')
+                GroupPeopleString=b['GroupPeople'].split('/')
                 payAmount=int(b['Account'])/(len(GroupPeopleString)-1)  #不包含代墊者
                 a1=set(person_list)      #分帳設定有的人 
                 a2=set(GroupPeopleString) 
@@ -624,7 +624,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '砍砍資料酷酷酷'))
 
-        elif input_text =='快速選單'  :
+        elif input_text =='快速選單' :
             Carousel_template = TemplateSendMessage(
                             alt_text='Carousel template',
                             template=CarouselTemplate(
