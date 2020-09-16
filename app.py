@@ -590,14 +590,14 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                exchange_rate = int(1)
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate = 1
+                    exchange_rate =get_exchangeRate(1)
                 elif 'JPY' in b['message']:
-                    exchange_rate = 2
+                    exchange_rate = get_exchangeRate(2)
                 elif 'EUR' in b['message']:
-                    exchange_rate = 3
-                exchange_rate = get_exchangeRate(exchange_rate)
+                    exchange_rate =  get_exchangeRate(3)
+                else:
+                    exchange_rate = int(1)
 
                 print(exchange_rate)
                 sys.stdout.flush()
@@ -613,14 +613,14 @@ def handle_message(event):
             for j in range(dataNumber):
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
-                exchange_rate = int(1)
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate = 1
+                    exchange_rate =get_exchangeRate(1)
                 elif 'JPY' in b['message']:
-                    exchange_rate = 2
+                    exchange_rate = get_exchangeRate(2)
                 elif 'EUR' in b['message']:
-                    exchange_rate = 3
-                exchange_rate = get_exchangeRate(exchange_rate)
+                    exchange_rate =  get_exchangeRate(3)
+                else:
+                    exchange_rate = int(1)
                 
                 print(exchange_rate)
                 sys.stdout.flush()
