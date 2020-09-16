@@ -590,7 +590,7 @@ def handle_message(event):
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                exchange_rate = 0
+                exchange_rate = int(1)
                 if 'USD' in b['message']:   #匯率轉換
                     exchange_rate = 1
                 elif 'JPY' in b['message']:
@@ -602,7 +602,7 @@ def handle_message(event):
                 print(exchange_rate)
                 sys.stdout.flush()
 
-                payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
+                payAmount = exchange_rate*int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))       #a1和a2重複的人名
@@ -613,7 +613,7 @@ def handle_message(event):
             for j in range(dataNumber):
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
-                exchange_rate = 0
+                exchange_rate = int(1)
                 if 'USD' in b['message']:   #匯率轉換
                     exchange_rate = 1
                 elif 'JPY' in b['message']:
