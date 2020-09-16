@@ -228,43 +228,33 @@ def get_movie():   #電影討論度
     return movies
 
 def get_exchangeRate(mode):
-    numb= []
-    cate=[]
-    data=[]
-    url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
-    resp_1 = requests.get(url_1)
-    ms = BeautifulSoup(resp_1.text,"html.parser")
-
-    t1=ms.find_all("td","rate-content-cash text-right print_hide")
-    for child in t1:
-        numb.append(child.text.strip())
-
-    buy=numb[0:37:2]
-    sell=numb[1:38:2]
-
-    t2=ms.find_all("div","hidden-phone print_show")
-    for child in t2:
-        cate.append(child.text.strip())
-    for i in range(19):
-        data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
-
     if mode==1:
-        USD = data[0][0]
-        regex = re.compile(r'賣出：(\d+.*\d*)')
-        match = regex.search(USD)
-        return eval(match.group(1))
-    elif mode==2:
-        JPY = data[7][0]
-        regex = re.compile(r'賣出：(\d+.*\d*)')
-        match = regex.search(JPY)
-        return eval(match.group(1))
-    elif mode==3:
-        EUR = data[14][0]
-        regex = re.compile(r'賣出：(\d+.*\d*)')
-        match = regex.search(EUR)
-        return eval(match.group(1))
-    else:
-        return 1
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='USD' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        USDrate=eval(history_dic['Mesaage'])
+        return USDrate
+    if mode==2:
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='JPY' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        JPYrate=eval(history_dic['Mesaage'])
+        return JPYrate
+    if mode==3:
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='EUR' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        EURrate=eval(history_dic['Mesaage'])
+        return EURrate
 
 def get_history_list():   #取得最新資料
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
