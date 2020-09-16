@@ -473,21 +473,21 @@ def handle_message(event):
 
         elif '美金設定' in input_text:
             NowRate=get_TodayRate(1)
-            output_text="今日匯率："+NowRate
+            output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
 
         elif '日圓設定' in input_text:
             NowRate=get_TodayRate(2)
-            output_text="今日匯率："+NowRate
+            output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
         
         elif '歐元設定' in input_text:
             NowRate=get_TodayRate(3)
-            output_text="今日匯率："+NowRate
+            output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
