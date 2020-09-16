@@ -38,6 +38,46 @@ handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 def home():
     return 'home OK'
 
+
+def get_TodayRate(mode):
+    numb= []
+    cate=[]
+    data=[]
+    url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
+    resp_1 = requests.get(url_1)
+    ms = BeautifulSoup(resp_1.text,"html.parser")
+
+    t1=ms.find_all("td","rate-content-cash text-right print_hide")
+    for child in t1:
+        numb.append(child.text.strip())
+
+    buy=numb[0:37:2]
+    sell=numb[1:38:2]
+
+    t2=ms.find_all("div","hidden-phone print_show")
+    for child in t2:
+        cate.append(child.text.strip())
+    for i in range(19):
+        data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
+
+    if mode==1:
+        USD = data[0][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(USD)
+        return eval(match.group(1))
+    elif mode==2:
+        JPY = data[7][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(JPY)
+        return eval(match.group(1))
+    elif mode==3:
+        EUR = data[14][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(EUR)
+        return eval(match.group(1))
+    else:
+        return 1
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -99,6 +139,45 @@ def callback():
                     message = chargeName,
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
+        elif ('美金設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'USD',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(1),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
+        elif ('日圓設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'JPY',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(2),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
+        elif ('歐元設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'EUR',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(3),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
@@ -383,12 +462,32 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         
-
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
             output_text="分帳名單:"
             for i in range(get_groupPeople(history_list,1)):
                 output_text+='\n'+groupMember[i]
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+
+        elif '美金設定' in input_text:
+            NowRate=get_TodayRate(1)
+            output_text="今日匯率："+NowRate
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+
+        elif '日圓設定' in input_text:
+            NowRate=get_TodayRate(2)
+            output_text="今日匯率："+NowRate
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+        
+        elif '歐元設定' in input_text:
+            NowRate=get_TodayRate(3)
+            output_text="今日匯率："+NowRate
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
