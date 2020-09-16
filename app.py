@@ -585,19 +585,22 @@ def handle_message(event):
             
             dataNumber=len(historySettle_list)
             account = np.zeros(person_num)
+            exchange_rate_USD = get_exchangeRate(1)
+            exchange_rate_JPY = get_exchangeRate(2)
+            exchange_rate_EUR = get_exchangeRate(3)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate =get_exchangeRate(1)
+                    exchange_rate = exchange_rate_USD
                 elif 'JPY' in b['message']:
-                    exchange_rate = get_exchangeRate(2)
+                    exchange_rate = exchange_rate_JPY
                 elif 'EUR' in b['message']:
-                    exchange_rate =  get_exchangeRate(3)
+                    exchange_rate =  exchange_rate_EUR 
                 else:
-                    exchange_rate = int(1)
+                    exchange_rate = 1
 
                 print(exchange_rate)
                 sys.stdout.flush()
