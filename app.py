@@ -807,7 +807,10 @@ def handle_message(event):
             print('第一筆'+str(data_UserData))
             sys.stdout.flush()
             data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' )
-            print('第二筆'+str(len(data_UserData)))
+            count=0
+            for _data in data_UserData
+                count++
+            print('第二筆'+count)
             sys.stdout.flush()
             db.session.commit()
             line_bot_api.reply_message(
