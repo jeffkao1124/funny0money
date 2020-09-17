@@ -806,7 +806,7 @@ def handle_message(event):
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             print('第一筆'+str(data_UserData))
             sys.stdout.flush()
-            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' or usermessage.status=='JPY'  or usermessage.status=='EUR' )
+            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' )
             print('第二筆'+str(data_UserData))
             sys.stdout.flush()
             db.session.commit()
