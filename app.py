@@ -865,28 +865,28 @@ def handle_message(event):
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=100, y=555, width=420, height=235
+                    x=60, y=509, width=479, height=274
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=100, y=315, width=420, height=235
+                    x=60, y=231, width=479, height=274
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="help",
                 area=ImagemapArea(
-                    x=530, y=555, width=420, height=235
+                    x=543, y=513, width=462, height=273
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=530, y=315, width=420, height=235
+                    x=543, y=223, width=445, height=282
                 )
             )
         ]
