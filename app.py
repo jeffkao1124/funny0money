@@ -790,36 +790,36 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='快速'  :
             message = ImagemapSendMessage(
-                            base_url="https://imgur.com/9fiwOg8.jpg",
+                            base_url="https://i.imgur.com/pABJnFu.png",
                             alt_text='選擇',
-                            base_size=BaseSize(height=484, width=1040),
+                            base_size=BaseSize(height=1040, width=1040),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=367, y=264, width=312, height=159
+                    x=100, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=367, y=73, width=312, height=170
+                    x=100, y=315, width=420, height=235
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="help",
                 area=ImagemapArea(
-                    x=693, y=262, width=315, height=163
+                    x=530, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=696, y=73, width=305, height=168
+                    x=530, y=315, width=420, height=235
                 )
             )
         ]
