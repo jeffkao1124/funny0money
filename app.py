@@ -810,7 +810,7 @@ def handle_message(event):
             ),
             MessageImagemapAction(
                 #使用說明
-                text="help",
+                data="help",
                 area=ImagemapArea(
                     x=530, y=555, width=420, height=235
                 )
