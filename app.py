@@ -92,9 +92,11 @@ def callback():
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
         Group_id =  bodyjson['events'][0]['source']['groupId']
-
+    ID = '0'
+    if bodyjson['events'][0]['source']['type'] != 'join':
+        ID =  bodyjson['events'][0]['message']['id']
     add_data = usermessage(
-    id = bodyjson['events'][0]['message']['id'],
+    id =ID,
     group_num = '0',
     nickname = 'None',
     group_id = Group_id,
