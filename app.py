@@ -38,6 +38,46 @@ handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 def home():
     return 'home OK'
 
+
+def get_TodayRate(mode):
+    numb= []
+    cate=[]
+    data=[]
+    url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
+    resp_1 = requests.get(url_1)
+    ms = BeautifulSoup(resp_1.text,"html.parser")
+
+    t1=ms.find_all("td","rate-content-cash text-right print_hide")
+    for child in t1:
+        numb.append(child.text.strip())
+
+    buy=numb[0:37:2]
+    sell=numb[1:38:2]
+
+    t2=ms.find_all("div","hidden-phone print_show")
+    for child in t2:
+        cate.append(child.text.strip())
+    for i in range(19):
+        data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
+
+    if mode==1:
+        USD = data[0][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(USD)
+        return eval(match.group(1))
+    elif mode==2:
+        JPY = data[7][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(JPY)
+        return eval(match.group(1))
+    elif mode==3:
+        EUR = data[14][0]
+        regex = re.compile(r'賣出：(\d+.*\d*)')
+        match = regex.search(EUR)
+        return eval(match.group(1))
+    else:
+        return 1
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -99,6 +139,45 @@ def callback():
                     message = chargeName,
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
+        elif ('美金設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'USD',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(1),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
+        elif ('日圓設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'JPY',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(2),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
+        elif ('歐元設定' in receivedmsg):           
+            add_data = usermessage(
+                id = bodyjson['events'][0]['message']['id'],
+                group_num =  '0' ,
+                nickname = 'None',
+                group_id = bodyjson['events'][0]['source']['groupId'],
+                type = bodyjson['events'][0]['source']['type'],
+                status = 'EUR',
+                account = '0', 
+                user_id = bodyjson['events'][0]['source']['userId'],
+                message = get_TodayRate(3),
+                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+            )
             
     else:
         receivedmsg = bodyjson['events'][0]['message']['text']
@@ -148,28 +227,34 @@ def get_movie():   #電影討論度
 
     return movies
 
-def get_exchangeRate():   #匯率
-    numb= []
-    cate=[]
-    data=[]
-    url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
-    resp_1 = requests.get(url_1)
-    ms = BeautifulSoup(resp_1.text,"html.parser")
-
-    t1=ms.find_all("td","rate-content-cash text-right print_hide")
-    for child in t1:
-        numb.append(child.text.strip())
-   
-    buy=numb[0:37:2]
-    sell=numb[1:38:2]
-
-    t2=ms.find_all("div","hidden-phone print_show")
-    for child in t2:
-        cate.append(child.text.strip())
-    for i in range(19):
-        data.append([cate[i] +'買入：'+buy[i]+ '賣出：'+sell[i]])
-      
-    return data
+def get_exchangeRate(mode):
+    if mode==1:
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='USD' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        USDrate=eval(history_dic['Mesaage'])
+        return USDrate
+    if mode==2:
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='JPY' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        JPYrate=eval(history_dic['Mesaage'])
+        return JPYrate
+    if mode==3:
+        data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='EUR' ).limit(1).all()
+        history_dic = {}
+        history_list = []
+        for _data in data_UserData:
+            history_dic['Mesaage'] = _data.message
+            history_list.append(history_dic)
+        EURrate=eval(history_dic['Mesaage'])
+        return EURrate
 
 def get_history_list():   #取得最新資料
     data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).limit(1).all()
@@ -367,12 +452,32 @@ def handle_message(event):
                 TextSendMessage(text= str(output_text)))
 
         
-
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
             output_text="分帳名單:"
             for i in range(get_groupPeople(history_list,1)):
                 output_text+='\n'+groupMember[i]
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+
+        elif '美金設定' in input_text:
+            NowRate=get_TodayRate(1)
+            output_text="今日匯率："+str(NowRate)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+
+        elif '日圓設定' in input_text:
+            NowRate=get_TodayRate(2)
+            output_text="今日匯率："+str(NowRate)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str( output_text )))
+        
+        elif '歐元設定' in input_text:
+            NowRate=get_TodayRate(3)
+            output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
@@ -480,26 +585,45 @@ def handle_message(event):
             
             dataNumber=len(historySettle_list)
             account = np.zeros(person_num)
+            exchange_rate_USD = get_exchangeRate(1)
+            exchange_rate_JPY = get_exchangeRate(2)
+            exchange_rate_EUR = get_exchangeRate(3)
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
-                exchange_rate = 1
-                print(b['message'])
-                sys.stdout.flush()
-                payAmount = exchange_rate * int(b['Account']) / len(GroupPeopleString)
+                if 'USD' in b['message']:   #匯率轉換
+                    exchange_rate = exchange_rate_USD
+                elif 'JPY' in b['message']:
+                    exchange_rate = exchange_rate_JPY
+                elif 'EUR' in b['message']:
+                    exchange_rate =  exchange_rate_EUR 
+                else:
+                    exchange_rate = 1
+
+                payAmount = exchange_rate*int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
                 a2=set(GroupPeopleString)
                 duplicate = list(a1.intersection(a2))       #a1和a2重複的人名
                 for j in range(len(duplicate)):      #分帳金額
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
+                    
+            for j in range(dataNumber):
+                b=dict(historySettle_list[j])
+                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
+                
+                if 'USD' in b['message']:   #匯率轉換
+                    exchange_rate = exchange_rate_USD
+                elif 'JPY' in b['message']:
+                    exchange_rate = exchange_rate_JPY
+                elif 'EUR' in b['message']:
+                    exchange_rate =  exchange_rate_EUR 
+                else:
+                    exchange_rate = 1
 
-            for i in range(person_num):  #代墊金額
-                for j in range(dataNumber):
-                    b=dict(historySettle_list[j])
-                    GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
+                for i in range(person_num):  #代墊金額
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
@@ -538,7 +662,7 @@ def handle_message(event):
                 
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
-            result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
+            # result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
             output_text = result
             line_bot_api.reply_message(
@@ -655,36 +779,36 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='快速'  :
             message = ImagemapSendMessage(
-                            base_url="https://imgur.com/1nvK5rZ.png",
+                            base_url="https://imgur.com/9fiwOg8.jpg",
                             alt_text='選擇',
-                            base_size=BaseSize(height=2000, width=2000),
+                            base_size=BaseSize(height=484, width=1040),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=0, y=0, width=1000, height=1000
+                    x=367, y=264, width=312, height=159
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=1000, y=0, width=1000, height=1000
+                    x=367, y=73, width=312, height=170
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="help",
                 area=ImagemapArea(
-                    x=0, y=1000, width=1000, height=1000
+                    x=693, y=262, width=315, height=163
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=1000, y=1000, width=1000, height=1000
+                    x=696, y=73, width=305, height=168
                 )
             )
         ]
@@ -703,118 +827,9 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        elif input_text =='快速選單' :
-            Carousel_template = TemplateSendMessage(
-                            alt_text='Carousel template',
-                            template=CarouselTemplate(
-                            columns=[
-                                CarouselColumn(
-                                    title='開始分帳',
-                                    text='記錄分帳--進行分帳紀錄'+'\n'+'查帳&結算--查詢過往帳目並結算'+'\n'+'分帳者設定--設定分帳者姓名',
-                                    actions=[
-                                        URITemplateAction(
-                                            label='紀錄分帳',
-                                            uri='https://liff.line.me/1654876504-9wWzOva7'
-                                        ),
-                                        URITemplateAction(
-                                            label='查帳＆結算',
-                                            uri='https://liff.line.me/1654876504-rK3v07Pk'
-                                        ),
-                                        URITemplateAction(
-                                            label='分帳者設定',
-                                            uri='https://liff.line.me/1654876504-QNXjnrl2'
-                                        )
-                                    ]
-                                ),
-                                CarouselColumn(
-                                    title='設定',
-                                    text='查詢分帳者設定--查詢分帳者姓名'+'\n'+'清空分帳者設定--刪除分帳者姓名'+'\n'+'清空分帳資料--刪除所有過往帳目',
-                                    actions=[
-                                        MessageTemplateAction(
-                                            label='查詢分帳者設定',
-                                            text='設定查詢'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='清空分帳者設定',
-                                            text='設定刪除'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='清空分帳資料',
-                                            text='刪除'
-                                        )
-                                    ]
-                                ),
-                                CarouselColumn(
-                                    title='其他',
-                                    text='結算--進行分帳結算'+'\n'+'理財小幫手--出現理財小幫手選單'+'\n'+'使用說明--出現文字使用說明',
-                                    actions=[                        
-                                        MessageTemplateAction(
-                                            label='結算',
-                                            text='結算'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='理財小幫手',
-                                            text='理財'
-                                        ),
-                                        MessageTemplateAction(
-                                            label='使用說明',
-                                            text='help'
-                                        )                                       
-                                    ]
-                                )]                            
-                            )
-                        )
-            line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif input_text =='快速'  :
-            message = ImagemapSendMessage(
-                            base_url="https://imgur.com/1nvK5rZ.png",
-                            alt_text='選擇',
-                            base_size=BaseSize(height=2000, width=2000),
-                            actions=[
-            URIImagemapAction(
-                #分帳者設定
-                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
-                area=ImagemapArea(
-                    x=0, y=0, width=1000, height=1000
-                )
-            ),
-            URIImagemapAction(
-                #記錄分帳
-                link_uri="https://liff.line.me/1654876504-9wWzOva7",
-                area=ImagemapArea(
-                    x=1000, y=0, width=1000, height=1000
-                )
-            ),
-            MessageImagemapAction(
-                #使用說明
-                text="help",
-                area=ImagemapArea(
-                    x=0, y=1000, width=1000, height=1000
-                )
-            ),
-            URIImagemapAction(
-                #查帳結算
-                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
-                area=ImagemapArea(
-                    x=1000, y=1000, width=1000, height=1000
-                )
-            )
-        ]
-                       
-                            )
-                        
+        
             line_bot_api.reply_message(event.reply_token,message)
-        elif (eval(input_text)>0) and (eval(input_text)<=100000):
-            output_text= input_text
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text))) 
-        else:
-            hot_movie=get_movie()
-            output_text=hot_movie
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
+
 
 
 
