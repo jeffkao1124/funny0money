@@ -358,9 +358,9 @@ def handle_message(event):
     history_list = get_history_list() 
     if history_list[0]['type'] == 'join':
         output_text='歡迎使用阿柴柴 愛你唷<3'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text= str(output_text)))
                 
     elif history_list[0]['type'] == 'user':      #個人部分
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
