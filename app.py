@@ -804,8 +804,9 @@ def handle_message(event):
      
         elif input_text == '清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
-            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
-            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
+            count = len ( data_UserData )
+            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' or usermessage.status=='JPY'  or usermessage.status=='EUR' )[0:count-1]
+
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
