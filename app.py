@@ -95,7 +95,7 @@ def callback():
         
     print(bodyjson['events'][0]['type'])
     sys.stdout.flush()
-    if bodyjson['events'][0]['type'] == 'join'
+    if bodyjson['events'][0]['type'] == 'join' :
         add_data = usermessage(
         id = '0',
         group_num = '0',
@@ -108,7 +108,7 @@ def callback():
         message = 'None,
         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
         )
-    else
+    else:
         add_data = usermessage(
         id = bodyjson['events'][0]['message']['id'],
         group_num = '0',
