@@ -804,10 +804,10 @@ def handle_message(event):
      
         elif input_text == '清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
-            print('1'data_UserData)
+            print(data_UserData)
             sys.stdout.flush()
             data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' or usermessage.status=='JPY'  or usermessage.status=='EUR' )
-            print('2.\n'data_UserData)
+            print(data_UserData)
             sys.stdout.flush()
             db.session.commit()
             line_bot_api.reply_message(
