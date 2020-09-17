@@ -88,11 +88,12 @@ def callback():
     body = request.get_data(as_text=True)
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
+    if bodyjson['events'][0]['type'] == 'join'
+        break;
 
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
         Group_id =  bodyjson['events'][0]['source']['groupId']
-
     add_data = usermessage(
     id = bodyjson['events'][0]['message']['id'],
     group_num = '0',
@@ -227,16 +228,6 @@ def get_movie():   #電影討論度
 
     return movies
 
-@handler.add(JoinEvent)
-def handle_join(event):
-    newcoming_text = "大家好！！！我是帳獒～"
-
-    line_bot_api.reply_message(
-            event.reply_token,
-            TextMessage(text=newcoming_text)
-        )
-    print("JoinEvent =", JoinEvent)
-    sys.stdout.flush()
 
 def get_exchangeRate(mode):
     if mode==1:
@@ -349,6 +340,18 @@ def get_groupPeople(history_list,mode):
         return new_list
     else:
         return 0
+
+#處理加入群組
+@handler.add(JoinEvent)
+def handle_join(event):
+    newcoming_text = "大家好！！！我是帳獒～"
+
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextMessage(text=newcoming_text)
+        )
+    print("JoinEvent =", JoinEvent)
+    sys.stdout.flush()
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
