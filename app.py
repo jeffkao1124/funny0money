@@ -805,7 +805,7 @@ def handle_message(event):
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=367, y=73, width=312, height=170
+                    x=101, y=318, width=417, height=229
                 )
             ),
             MessageImagemapAction(
@@ -819,7 +819,7 @@ def handle_message(event):
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=530, y=315, width=422, height=226
+                    x=530, y=553, width=422, height=238
                 )
             )
         ]
