@@ -340,10 +340,7 @@ def get_groupPeople(history_list,mode):
         return 0
 
 #處理加入群組
-@handler.add(JoinEvent)
-def handle_join1(event):
-    newcoming_text = "大家好！！！我是帳獒～"
-    line_bot_api.reply_message(event.reply_token,newcoming_text)
+
     
 @handler.add(JoinEvent)
 def handle_join2(event):
@@ -386,6 +383,10 @@ def handle_join2(event):
                             )
     line_bot_api.reply_message(event.reply_token,message)
 
+@handler.add(JoinEvent)
+def handle_join1(event):
+    newcoming_text = "大家好！！！我是帳獒～"
+    line_bot_api.reply_message(event.reply_token,newcoming_text)
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
