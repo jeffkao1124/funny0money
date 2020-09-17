@@ -343,7 +343,6 @@ def get_groupPeople(history_list,mode):
 @handler.add(JoinEvent)
 def handle_join(event):
     newcoming_text = "大家好！！！我是帳獒～"
-
     message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/pABJnFu.png",
                             alt_text='選擇',
@@ -380,7 +379,9 @@ def handle_join(event):
         ]
                        
                             )
-    line_bot_api.reply_message(event.reply_token,newcoming_text+'\n'+message)
+    line_bot_api.reply_message(event.reply_token,message)
+    line_bot_api.reply_message(event.reply_token,newcoming_text)
+
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
