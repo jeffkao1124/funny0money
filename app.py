@@ -798,28 +798,28 @@ def handle_message(event):
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=92, y=556, width=426, height=235
+                    x=100, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=101, y=318, width=417, height=229
+                    x=100, y=315, width=420, height=235
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="help",
                 area=ImagemapArea(
-                    x=530, y=553, width=422, height=238
+                    x=530, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=530, y=553, width=422, height=238
+                    x=530, y=315, width=420, height=235
                 )
             )
         ]
