@@ -679,8 +679,7 @@ def handle_message(event):
             for j in range(dataNumber):
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
-                
-               if 'USD' in b['message']:   #匯率轉換
+                if 'USD' in b['message']:   #匯率轉換
                     if exchange_rate_USD:
                         exchange_rate = exchange_rate_USD
                     else:
