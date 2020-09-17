@@ -227,6 +227,17 @@ def get_movie():   #電影討論度
 
     return movies
 
+@handler.add(JoinEvent)
+def handle_join(event):
+    newcoming_text = "大家好！！！我是帳獒～"
+
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextMessage(text=newcoming_text)
+        )
+    print("JoinEvent =", JoinEvent)
+    sys.stdout.flush()
+
 def get_exchangeRate(mode):
     if mode==1:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='USD' ).limit(1).all()
