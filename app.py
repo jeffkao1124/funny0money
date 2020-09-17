@@ -202,14 +202,14 @@ def callback():
         db.session.add(add_data)
         db.session.commit()
 
-        # handle webhook body
-        try:
-            handler.handle(body, signature)
-        except InvalidSignatureError:
-            print("Invalid signature. Please check your channel access token/channel secret.")
-            abort(400)
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        print("Invalid signature. Please check your channel access token/channel secret.")
+        abort(400)
 
-        return 'OK'
+    return 'OK'
 
 
 def get_movie():   #電影討論度
