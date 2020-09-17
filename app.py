@@ -237,6 +237,7 @@ def handle_join(event):
         )
     print("JoinEvent =", JoinEvent)
     sys.stdout.flush()
+    
 
 def get_exchangeRate(mode):
     if mode==1:
@@ -354,8 +355,14 @@ def get_groupPeople(history_list,mode):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     input_text = event.message.text.lower()
-    history_list = get_history_list()
-    if history_list[0]['type'] == 'user':      #個人部分
+    history_list = get_history_list() 
+    if history_list[0]['type'] == 'join'
+        output_text='歡迎使用阿柴柴 愛你唷<3'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(output_text)))
+                
+    elif history_list[0]['type'] == 'user':      #個人部分
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
             line_bot_api.reply_message(
