@@ -178,6 +178,17 @@ def get_movie():
 
     return movies
 
+@handler.add(JoinEvent)
+def handle_join(event):
+    newcoming_text = "大家好！我是帳獒～"
+
+    line_bot_api.reply_message(
+            event.reply_token,
+            TextMessage(text=newcoming_text)
+        )
+    print("JoinEvent =", JoinEvent)
+    sys.stdout.flush()
+
 def get_exchangeRate():
     numb= []
     cate=[]
