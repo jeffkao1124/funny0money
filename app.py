@@ -104,7 +104,7 @@ def callback():
         type = 'join',
         status = 'None',
         account = '0',
-        user_id = bodyjson['events'][0]['source']['userId'],
+        user_id = '0',
         message = 'None',
         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
         )
