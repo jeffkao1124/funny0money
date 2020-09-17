@@ -463,8 +463,17 @@ def handle_message(event):
                 output_text='刪除失敗'
             else:
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
-                message_ID=data_UserData.id
-                data_UserData = usermessage.query.filter(usermessage.id==message_ID).delete(synchronize_session='fetch')
+                history_dic = {}
+                history_list = []
+                count=0
+                for _data in data_UserData:
+                    count+=1
+                    history_dic['Mesaage'] = _data.message
+                    history_dic['Account'] = _data.account
+                    history_dic['id'] = _data.id
+                    history_list.append(history_dic)
+                personID=history_dic['id']
+                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                 db.session.commit()
 
@@ -804,14 +813,6 @@ def handle_message(event):
      
         elif input_text == '清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
-            print('第一筆'+str(data_UserData))
-            sys.stdout.flush()
-            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='USD' )
-            count=0
-            for _data in data_UserData
-                count++
-            print('第二筆'+count)
-            sys.stdout.flush()
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
@@ -864,28 +865,28 @@ def handle_message(event):
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=539, y=231, width=453, height=278
+                    x=100, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=60, y=235, width=479, height=278
+                    x=100, y=315, width=420, height=235
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="help",
                 area=ImagemapArea(
-                    x=543, y=513, width=458, height=270
+                    x=530, y=555, width=420, height=235
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=60, y=522, width=483, height=256
+                    x=530, y=315, width=420, height=235
                 )
             )
         ]
