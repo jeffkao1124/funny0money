@@ -89,7 +89,7 @@ def callback():
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
     if bodyjson['events'][0]['type'] == 'join' :
-        return 0
+        pass
 
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
