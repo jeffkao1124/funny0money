@@ -816,7 +816,7 @@ def handle_message(event):
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= '砍砍資料酷酷酷'))
+                TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
 
         elif input_text =='圖片選單' :
             Carousel_template = TemplateSendMessage(
