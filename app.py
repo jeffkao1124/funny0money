@@ -92,6 +92,9 @@ def callback():
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
         Group_id =  bodyjson['events'][0]['source']['groupId']
+        
+    print(bodyjson['events'][0]['type'])
+    sys.stdout.flush()
 
     add_data = usermessage(
     id = bodyjson['events'][0]['message']['id'],
