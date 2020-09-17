@@ -463,17 +463,8 @@ def handle_message(event):
                 output_text='刪除失敗'
             else:
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
-                history_dic = {}
-                history_list = []
-                count=0
-                for _data in data_UserData:
-                    count+=1
-                    history_dic['Mesaage'] = _data.message
-                    history_dic['Account'] = _data.account
-                    history_dic['id'] = _data.id
-                    history_list.append(history_dic)
-                personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                message_ID=data_UserData.id
+                data_UserData = usermessage.query.filter(usermessage.id==message_ID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                 db.session.commit()
 
@@ -812,6 +803,8 @@ def handle_message(event):
                 TextSendMessage(text= result )) 
      
         elif input_text == '清空資料庫':
+            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
+            data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             db.session.commit()
             line_bot_api.reply_message(
