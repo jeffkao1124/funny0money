@@ -792,7 +792,7 @@ def handle_message(event):
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/pABJnFu.png",
                             alt_text='選擇',
-                            base_size=BaseSize(height=1040, width=885),
+                            base_size=BaseSize(height=1040, width=884),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
