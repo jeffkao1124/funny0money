@@ -344,7 +344,7 @@ def get_groupPeople(history_list,mode):
 def handle_join1(event):
     newcoming_text = "大家好！！！我是帳獒～"
     line_bot_api.reply_message(event.reply_token,newcoming_text)
-
+@handler.add(JoinEvent)
 def handle_join2(event):
     
     message = ImagemapSendMessage(
