@@ -88,8 +88,8 @@ def callback():
     body = request.get_data(as_text=True)
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
-    if bodyjson['events'][0]['type'] == 'join'
-        break;
+    if bodyjson['events'][0]['type'] == 'join' :
+        break
 
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
