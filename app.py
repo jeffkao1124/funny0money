@@ -487,7 +487,11 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
-        
+        elif input_text =='help':
+            help_text='1. 快速選單--輸入：快速選單'+'\n'+'2. 分帳設定--輸入：分帳設定 ＠別人或自己'+'\n'+'ex：分帳設定 @小明'+'\n'+'3. 分帳設定清空--輸入：設定刪除'+'\n'+'4. 分帳設定查詢--輸入：設定查詢'+'\n'+'5. 分帳--輸入：分帳 項目 金額 ＠別人或自己'+'\n'+'ex：分帳 住宿 2000 @小明 ＠小王'+'\n'+'(注意空格只能打一次)'+'\n'+'(標註第一人為付錢者)'+'\n'+'6. 結算--輸入：結算'+'\n'+'7. 刪除--輸入：刪除'+'\n'+'8. 刪除單筆資料--輸入：delete 編號'+'\n'+'9. 查帳--輸入：查帳'+'\n'+'10. 理財小幫手--輸入：理財'+'\n'+'11. 使用說明--輸入：help'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(help_text)))
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
