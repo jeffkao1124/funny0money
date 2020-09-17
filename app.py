@@ -384,7 +384,7 @@ def handle_join(event):
         ]
                        
                             )
-        line_bot_api.reply_message(event.reply_token,message)
+    line_bot_api.reply_message(event.reply_token,message)
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
