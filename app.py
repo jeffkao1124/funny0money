@@ -381,8 +381,6 @@ def handle_join(event):
                        
                             )
     line_bot_api.reply_message(event.reply_token,message)
-    newcoming_text = "大家好！！！我是帳獒～"
-    line_bot_api.reply_message(event.reply_token,newcoming_text)
 
 
 # 處理訊息
@@ -641,20 +639,32 @@ def handle_message(event):
             
             dataNumber=len(historySettle_list)
             account = np.zeros(person_num)
-            exchange_rate_USD = get_exchangeRate(1)
-            exchange_rate_JPY = get_exchangeRate(2)
-            exchange_rate_EUR = get_exchangeRate(3)
+            exchange_rate_USD = 0
+            exchange_rate_JPY = 0
+            exchange_rate_EUR = 0
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate = exchange_rate_USD
+                    if exchange_rate_USD:
+                        exchange_rate = exchange_rate_USD
+                    else:
+                        exchange_rate_USD = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_USD
                 elif 'JPY' in b['message']:
-                    exchange_rate = exchange_rate_JPY
+                    if exchange_rate_JPY:
+                        exchange_rate = exchange_rate_JPY
+                    else:
+                        exchange_rate_JPY = get_exchangeRate(2)
+                        exchange_rate = exchange_rate_JPY
                 elif 'EUR' in b['message']:
-                    exchange_rate =  exchange_rate_EUR 
+                    if exchange_rate_EUR:
+                        exchange_rate = exchange_rate_EUR
+                    else:
+                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_EUR
                 else:
                     exchange_rate = 1
 
@@ -670,12 +680,24 @@ def handle_message(event):
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                 
-                if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate = exchange_rate_USD
+               if 'USD' in b['message']:   #匯率轉換
+                    if exchange_rate_USD:
+                        exchange_rate = exchange_rate_USD
+                    else:
+                        exchange_rate_USD = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_USD
                 elif 'JPY' in b['message']:
-                    exchange_rate = exchange_rate_JPY
+                    if exchange_rate_JPY:
+                        exchange_rate = exchange_rate_JPY
+                    else:
+                        exchange_rate_JPY = get_exchangeRate(2)
+                        exchange_rate = exchange_rate_JPY
                 elif 'EUR' in b['message']:
-                    exchange_rate =  exchange_rate_EUR 
+                    if exchange_rate_EUR:
+                        exchange_rate = exchange_rate_EUR
+                    else:
+                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_EUR
                 else:
                     exchange_rate = 1
 
