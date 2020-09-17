@@ -108,6 +108,7 @@ def callback():
         message = 'None',
         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
         )
+        
     else:
         add_data = usermessage(
         id = bodyjson['events'][0]['message']['id'],
@@ -122,98 +123,98 @@ def callback():
         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
         )
 
-    if bodyjson['events'][0]['source']['type'] == 'group':
-        receivedmsg = bodyjson['events'][0]['message']['text']
-        if '分帳設定' in receivedmsg: 
-            userName = receivedmsg.strip(' 分帳設定 ')
-            add_data = usermessage( 
-                id = bodyjson['events'][0]['message']['id'], 
-                group_num = '0', 
-                nickname = userName, 
-                group_id = bodyjson['events'][0]['source']['groupId'], 
-                type = bodyjson['events'][0]['source']['type'], 
-                status = 'set', 
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'], 
-                message = bodyjson['events'][0]['message']['text'], 
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
-            )
-        elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
-            chargeName=receivedmsg.split(' ',3)[1]
-            chargeNumber=receivedmsg.split(' ',3)[2]
-            chargePeople=receivedmsg.split(' ',3)[3]            
-            if re.search(r"\D",chargeNumber) is None:
-                add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = chargePeople.strip(' ') ,
-                    nickname = 'None',
-                    group_id = bodyjson['events'][0]['source']['groupId'],
-                    type = bodyjson['events'][0]['source']['type'],
-                    status = 'save',
-                    account = chargeNumber,
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = chargeName,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        if bodyjson['events'][0]['source']['type'] == 'group':
+            receivedmsg = bodyjson['events'][0]['message']['text']
+            if '分帳設定' in receivedmsg: 
+                userName = receivedmsg.strip(' 分帳設定 ')
+                add_data = usermessage( 
+                    id = bodyjson['events'][0]['message']['id'], 
+                    group_num = '0', 
+                    nickname = userName, 
+                    group_id = bodyjson['events'][0]['source']['groupId'], 
+                    type = bodyjson['events'][0]['source']['type'], 
+                    status = 'set', 
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'], 
+                    message = bodyjson['events'][0]['message']['text'], 
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
                 )
-        elif ('美金設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'USD',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(1),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-        elif ('日圓設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'JPY',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(2),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-        elif ('歐元設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'EUR',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(3),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-            
-    else:
-        receivedmsg = bodyjson['events'][0]['message']['text']
-        receivedmsg = receivedmsg.strip(' ')
-        if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
-            chargeName=receivedmsg.split(' ')[1]
-            chargeNumber=receivedmsg.split(' ')[2]
-            if re.search(r"\D",chargeNumber) is None:
-                add_data = usermessage(
+            elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
+                chargeName=receivedmsg.split(' ',3)[1]
+                chargeNumber=receivedmsg.split(' ',3)[2]
+                chargePeople=receivedmsg.split(' ',3)[3]            
+                if re.search(r"\D",chargeNumber) is None:
+                    add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
-                        group_num = '0',
+                        group_num = chargePeople.strip(' ') ,
                         nickname = 'None',
-                        group_id = 'None',
+                        group_id = bodyjson['events'][0]['source']['groupId'],
                         type = bodyjson['events'][0]['source']['type'],
                         status = 'save',
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
-                        message = chargeName ,
+                        message = chargeName,
                         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
+            elif ('美金設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'USD',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(1),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            elif ('日圓設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'JPY',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(2),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            elif ('歐元設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'EUR',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(3),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+                
+        else:
+            receivedmsg = bodyjson['events'][0]['message']['text']
+            receivedmsg = receivedmsg.strip(' ')
+            if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
+                chargeName=receivedmsg.split(' ')[1]
+                chargeNumber=receivedmsg.split(' ')[2]
+                if re.search(r"\D",chargeNumber) is None:
+                    add_data = usermessage(
+                            id = bodyjson['events'][0]['message']['id'],
+                            group_num = '0',
+                            nickname = 'None',
+                            group_id = 'None',
+                            type = bodyjson['events'][0]['source']['type'],
+                            status = 'save',
+                            account = chargeNumber,
+                            user_id = bodyjson['events'][0]['source']['userId'],
+                            message = chargeName ,
+                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        )
 
             
     db.session.add(add_data)
