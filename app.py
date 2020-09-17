@@ -88,7 +88,8 @@ def callback():
     body = request.get_data(as_text=True)
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
-
+    print(bodyjson['events'][0]['source']['type'])
+    sys.stdout.flush()
     Group_id='None'
     if bodyjson['events'][0]['source']['type'] == 'group':
         Group_id =  bodyjson['events'][0]['source']['groupId']
