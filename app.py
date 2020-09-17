@@ -95,19 +95,32 @@ def callback():
         
     print(bodyjson['events'][0]['type'])
     sys.stdout.flush()
-
-    add_data = usermessage(
-    id = bodyjson['events'][0]['message']['id'],
-    group_num = '0',
-    nickname = 'None',
-    group_id = Group_id,
-    type = bodyjson['events'][0]['source']['type'],
-    status = 'None',
-    account = '0',
-    user_id = bodyjson['events'][0]['source']['userId'],
-    message = bodyjson['events'][0]['message']['text'],
-    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-    )
+    if bodyjson['events'][0]['type'] == 'join'
+        add_data = usermessage(
+        id = '0',
+        group_num = '0',
+        nickname = 'None',
+        group_id = Group_id,
+        type = 'join',
+        status = 'None',
+        account = '0',
+        user_id = bodyjson['events'][0]['source']['userId'],
+        message = 'None,
+        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        )
+    else
+        add_data = usermessage(
+        id = bodyjson['events'][0]['message']['id'],
+        group_num = '0',
+        nickname = 'None',
+        group_id = Group_id,
+        type = bodyjson['events'][0]['source']['type'],
+        status = 'None',
+        account = '0',
+        user_id = bodyjson['events'][0]['source']['userId'],
+        message = bodyjson['events'][0]['message']['text'],
+        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        )
 
     if bodyjson['events'][0]['source']['type'] == 'group':
         receivedmsg = bodyjson['events'][0]['message']['text']
