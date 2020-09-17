@@ -356,7 +356,7 @@ def get_groupPeople(history_list,mode):
 def handle_message(event):
     input_text = event.message.text.lower()
     history_list = get_history_list() 
-    if history_list[0]['type'] == 'join'
+    if history_list[0]['type'] == 'join':
         output_text='歡迎使用阿柴柴 愛你唷<3'
             line_bot_api.reply_message(
                 event.reply_token,
