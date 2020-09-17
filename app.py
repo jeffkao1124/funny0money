@@ -348,8 +348,43 @@ def handle_join(event):
             event.reply_token,
             TextMessage(text=newcoming_text)
         )
-    print("JoinEvent =", JoinEvent)
-    sys.stdout.flush()
+    message = ImagemapSendMessage(
+                            base_url="https://i.imgur.com/pABJnFu.png",
+                            alt_text='選擇',
+                            base_size=BaseSize(height=1040, width=1040),
+                            actions=[
+            URIImagemapAction(
+                #分帳者設定
+                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
+                area=ImagemapArea(
+                    x=100, y=555, width=420, height=235
+                )
+            ),
+            URIImagemapAction(
+                #記錄分帳
+                link_uri="https://liff.line.me/1654876504-9wWzOva7",
+                area=ImagemapArea(
+                    x=100, y=315, width=420, height=235
+                )
+            ),
+            MessageImagemapAction(
+                #使用說明
+                text="help",
+                area=ImagemapArea(
+                    x=530, y=555, width=420, height=235
+                )
+            ),
+            URIImagemapAction(
+                #查帳結算
+                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
+                area=ImagemapArea(
+                    x=530, y=315, width=420, height=235
+                )
+            )
+        ]
+                       
+                            )
+        line_bot_api.reply_message(event.reply_token,message)
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
