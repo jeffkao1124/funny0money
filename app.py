@@ -824,16 +824,28 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/m4fkFQJ.jpg"
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
+                    action=URITemplateAction(
+                        uri="https://i.imgur.com/m4fkFQJ.jpg"
+                    )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/Y1BoSsp.jpg"
+                    image_url="https://imgur.com/Y1BoSsp.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/ZuV1blU.jpg"
+                    image_url="https://imgur.com/ZuV1blU.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/uJKYIsg.jpg"
+                    image_url="https://imgur.com/uJKYIsg.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
 
                 )
             ]     
