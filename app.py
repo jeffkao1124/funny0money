@@ -824,7 +824,7 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/uKYgfVs.jpg",
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
                     action=URITemplateAction(
                         label="新鮮水果",
                         uri="http://img.juimg.com/tuku/yulantu/110709/222-110F91G31375.jpg"
@@ -838,7 +838,7 @@ def handle_message(event):
                     )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/Np7eFyj.jpg",
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
                     action=URITemplateAction(
                         label="可愛狗狗",
                         uri="http://imgm.cnmo-img.com.cn/appimg/screenpic/big/674/673928.JPG"
