@@ -832,6 +832,9 @@ def handle_message(event):
                                 action=MessageAction(label="不簡化結算",text="稍微")
                             ),
                             QuickReplyButton(
+                                action=URITemplateAction(label="設定分帳者", uri="https://liff.line.me/1654876504-QNXjnrl2")
+                            ),
+                            QuickReplyButton(
                                 action=MessageAction(label="使用說明",text="@help")
                             ),
                         ]
