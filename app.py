@@ -345,7 +345,7 @@ def get_groupPeople(history_list,mode):
 def handle_join(event):
     
     Carousel_template = TemplateSendMessage(
-                            alt_text='帳獒 : 「我要進來囉」',
+                            alt_text='我要進來囉',
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
@@ -376,6 +376,7 @@ def handle_join(event):
             ]     
                             )
                         )
+    line_bot_api.reply_message(event.reply_token,Carousel_template)
 
 
 # 處理訊息
