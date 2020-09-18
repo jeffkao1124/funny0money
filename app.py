@@ -824,32 +824,17 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
-                    action=URITemplateAction(
-                        label="新鮮水果",
-                        uri="http://img.juimg.com/tuku/yulantu/110709/222-110F91G31375.jpg"
-                    )
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg"
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/QOcAvjt.jpg",
-                    action=URITemplateAction(
-                        label="新鮮蔬菜",
-                        uri="https://cdn.101mediaimage.com/img/file/1410464751urhp5.jpg"
-                    )
+                    image_url="https://imgur.com/Y1BoSsp.jpg"
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
-                    action=URITemplateAction(
-                        label="可愛狗狗",
-                        uri="http://imgm.cnmo-img.com.cn/appimg/screenpic/big/674/673928.JPG"
-                    )
+                    image_url="https://imgur.com/ZuV1blU.jpg"
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/QRIa5Dz.jpg",
-                    action=URITemplateAction(
-                        label="可愛貓咪",
-                        uri="https://m-miya.net/wp-content/uploads/2014/07/0-065-1.min_.jpg"
-                    )
+                    image_url="https://imgur.com/uJKYIsg.jpg"
+
                 )
             ]     
                             )
