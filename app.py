@@ -822,21 +822,25 @@ def handle_message(event):
                 ImageCarouselColumn(
                     image_url="https://i.imgur.com/m4fkFQJ.jpg",
                     action=URITemplateAction(
+                        uri="https://i.imgur.com/m4fkFQJ.jpg"
                     )
                 ),
                 ImageCarouselColumn(
                     image_url="https://imgur.com/Y1BoSsp.jpg",
                     action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
                 ),
                 ImageCarouselColumn(
                     image_url="https://imgur.com/ZuV1blU.jpg",
                     action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
                 ),
                 ImageCarouselColumn(
                     image_url="https://imgur.com/uJKYIsg.jpg",
                     action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
 
                 )
@@ -844,10 +848,10 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif input_text =='快速'  :
+        elif input_text =='@選單'  :
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/CzIxqa1.png",
-                            alt_text='選擇',
+                            alt_text='功能總覽',
                             base_size=BaseSize(height=1040, width=1240),
                             actions=[
             URIImagemapAction(
