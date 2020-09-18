@@ -816,9 +816,12 @@ def handle_message(event):
         elif input_text =='快速':
             try:
                 message =TextSendMessage(
-                    text="請選擇功能",
+                    text="請選擇以下功能：",
                     quick_reply=QuickReply(
                         items=[
+                            QuickReplyButton(
+                                action=MessageAction(label="選單",text="@選單")
+                            ),
                             QuickReplyButton(
                                 action=MessageAction(label="查帳",text="查帳")
                             ),
@@ -829,7 +832,7 @@ def handle_message(event):
                                 action=MessageAction(label="不簡化結算",text="稍微")
                             ),
                             QuickReplyButton(
-                                action=MessageAction(label="刪除資料",text="刪除")
+                                action=MessageAction(label="使用說明",text="@help")
                             ),
                         ]
 
