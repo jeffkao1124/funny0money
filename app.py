@@ -344,43 +344,38 @@ def get_groupPeople(history_list,mode):
 @handler.add(JoinEvent)
 def handle_join(event):
     
-    message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/pABJnFu.png",
-                            alt_text='選擇',
-                            base_size=BaseSize(height=1040, width=1040),
-                            actions=[
-            URIImagemapAction(
-                #分帳者設定
-                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
-                area=ImagemapArea(
-                    x=100, y=555, width=420, height=235
+    Carousel_template = TemplateSendMessage(
+                            alt_text='帳獒 : 「我要進來囉」',
+                            template=ImageCarouselTemplate(
+                            columns=[
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
+                    action=URITemplateAction(
+                        uri="https://i.imgur.com/m4fkFQJ.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/Y1BoSsp.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/8r5SMgQ.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/uJKYIsg.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/Y1BoSsp.jpg"
+                    )
+
                 )
-            ),
-            URIImagemapAction(
-                #記錄分帳
-                link_uri="https://liff.line.me/1654876504-9wWzOva7",
-                area=ImagemapArea(
-                    x=100, y=315, width=420, height=235
-                )
-            ),
-            MessageImagemapAction(
-                #使用說明
-                text="@help",
-                area=ImagemapArea(
-                    x=530, y=555, width=420, height=235
-                )
-            ),
-            URIImagemapAction(
-                #查帳結算
-                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
-                area=ImagemapArea(
-                    x=530, y=315, width=420, height=235
-                )
-            )
-        ]
-                       
+            ]     
                             )
-    line_bot_api.reply_message(event.reply_token,message)
+                        )
 
 
 # 處理訊息
