@@ -813,14 +813,14 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
 
-        elif input_text =='快速':
+        elif input_text =='帳獒':
             try:
                 message =TextSendMessage(
-                    text="請選擇以下功能：",
+                    text="快速選擇下列功能：",
                     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton(
-                                action=MessageAction(label="選單",text="@選單")
+                                action=MessageAction(label="主選單",text="@選單")
                             ),
                             QuickReplyButton(
                                 action=MessageAction(label="查帳",text="查帳")
