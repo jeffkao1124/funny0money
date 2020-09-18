@@ -813,6 +813,33 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
 
+        elif input_text =='快速':
+            try:
+                message =TextSendMessage(
+                    text="請選擇功能",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=MessageAction(label="查帳",text="查帳")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="簡化結算",text="結算")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="不簡化結算",text="稍微")
+                            ),
+                            QuickReplyButton(
+                                action=MessageAction(label="刪除資料",text="刪除")
+                            ),
+                        ]
+
+                    )
+                    )
+                line_bot_api.reply_message(event.reply_token,message)
+            except:
+                line_bot_api.reply_message(event.reply_token,
+                    TextSendMessage(text='發生錯誤!'))
+
         elif input_text =='@help' :
             Carousel_template = TemplateSendMessage(
                             alt_text='使用說明',
