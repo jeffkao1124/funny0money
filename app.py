@@ -88,120 +88,119 @@ def callback():
     body = request.get_data(as_text=True)
     bodyjson=json.loads(body)
     app.logger.error("Request body: " + body)
+    if bodyjson['events'][0]['type'] != 'join' : 
+        Group_id='None'
+        if bodyjson['events'][0]['source']['type'] == 'group':
+            Group_id =  bodyjson['events'][0]['source']['groupId']
+        add_data = usermessage(
+        id = bodyjson['events'][0]['message']['id'],
+        group_num = '0',
+        nickname = 'None',
+        group_id = Group_id,
+        type = bodyjson['events'][0]['source']['type'],
+        status = 'None',
+        account = '0',
+        user_id = bodyjson['events'][0]['source']['userId'],
+        message = bodyjson['events'][0]['message']['text'],
+        birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        )
 
-    Group_id='None'
-    if bodyjson['events'][0]['source']['type'] == 'group':
-        Group_id =  bodyjson['events'][0]['source']['groupId']
-
-    add_data = usermessage(
-    id = bodyjson['events'][0]['message']['id'],
-    group_num = '0',
-    nickname = 'None',
-    group_id = Group_id,
-    type = bodyjson['events'][0]['source']['type'],
-    status = 'None',
-    account = '0',
-    user_id = bodyjson['events'][0]['source']['userId'],
-    message = bodyjson['events'][0]['message']['text'],
-    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-    )
-
-    if bodyjson['events'][0]['source']['type'] == 'group':
-        receivedmsg = bodyjson['events'][0]['message']['text']
-        if '分帳設定' in receivedmsg: 
-            userName = receivedmsg.strip(' 分帳設定 ')
-            add_data = usermessage( 
-                id = bodyjson['events'][0]['message']['id'], 
-                group_num = '0', 
-                nickname = userName, 
-                group_id = bodyjson['events'][0]['source']['groupId'], 
-                type = bodyjson['events'][0]['source']['type'], 
-                status = 'set', 
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'], 
-                message = bodyjson['events'][0]['message']['text'], 
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
-            )
-        elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
-            chargeName=receivedmsg.split(' ',3)[1]
-            chargeNumber=receivedmsg.split(' ',3)[2]
-            chargePeople=receivedmsg.split(' ',3)[3]            
-            if re.search(r"\D",chargeNumber) is None:
-                add_data = usermessage(
-                    id = bodyjson['events'][0]['message']['id'],
-                    group_num = chargePeople.strip(' ') ,
-                    nickname = 'None',
-                    group_id = bodyjson['events'][0]['source']['groupId'],
-                    type = bodyjson['events'][0]['source']['type'],
-                    status = 'save',
-                    account = chargeNumber,
-                    user_id = bodyjson['events'][0]['source']['userId'],
-                    message = chargeName,
-                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        if bodyjson['events'][0]['source']['type'] == 'group':
+            receivedmsg = bodyjson['events'][0]['message']['text']
+            if '分帳設定' in receivedmsg: 
+                userName = receivedmsg.strip(' 分帳設定 ')
+                add_data = usermessage( 
+                    id = bodyjson['events'][0]['message']['id'], 
+                    group_num = '0', 
+                    nickname = userName, 
+                    group_id = bodyjson['events'][0]['source']['groupId'], 
+                    type = bodyjson['events'][0]['source']['type'], 
+                    status = 'set', 
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'], 
+                    message = bodyjson['events'][0]['message']['text'], 
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
                 )
-        elif ('美金設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'USD',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(1),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-        elif ('日圓設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'JPY',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(2),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-        elif ('歐元設定' in receivedmsg):           
-            add_data = usermessage(
-                id = bodyjson['events'][0]['message']['id'],
-                group_num =  '0' ,
-                nickname = 'None',
-                group_id = bodyjson['events'][0]['source']['groupId'],
-                type = bodyjson['events'][0]['source']['type'],
-                status = 'EUR',
-                account = '0', 
-                user_id = bodyjson['events'][0]['source']['userId'],
-                message = get_TodayRate(3),
-                birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-            )
-            
-    else:
-        receivedmsg = bodyjson['events'][0]['message']['text']
-        receivedmsg = receivedmsg.strip(' ')
-        if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
-            chargeName=receivedmsg.split(' ')[1]
-            chargeNumber=receivedmsg.split(' ')[2]
-            if re.search(r"\D",chargeNumber) is None:
-                add_data = usermessage(
+            elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
+                chargeName=receivedmsg.split(' ',3)[1]
+                chargeNumber=receivedmsg.split(' ',3)[2]
+                chargePeople=receivedmsg.split(' ',3)[3]            
+                if re.search(r"\D",chargeNumber) is None:
+                    add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
-                        group_num = '0',
+                        group_num = chargePeople.strip(' ') ,
                         nickname = 'None',
-                        group_id = 'None',
+                        group_id = bodyjson['events'][0]['source']['groupId'],
                         type = bodyjson['events'][0]['source']['type'],
                         status = 'save',
                         account = chargeNumber,
                         user_id = bodyjson['events'][0]['source']['userId'],
-                        message = chargeName ,
+                        message = chargeName,
                         birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                     )
+            elif ('美金設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'USD',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(1),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            elif ('日圓設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'JPY',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(2),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+            elif ('歐元設定' in receivedmsg):           
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'],
+                    group_num =  '0' ,
+                    nickname = 'None',
+                    group_id = bodyjson['events'][0]['source']['groupId'],
+                    type = bodyjson['events'][0]['source']['type'],
+                    status = 'EUR',
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'],
+                    message = get_TodayRate(3),
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                )
+                
+        else:
+            receivedmsg = bodyjson['events'][0]['message']['text']
+            receivedmsg = receivedmsg.strip(' ')
+            if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
+                chargeName=receivedmsg.split(' ')[1]
+                chargeNumber=receivedmsg.split(' ')[2]
+                if re.search(r"\D",chargeNumber) is None:
+                    add_data = usermessage(
+                            id = bodyjson['events'][0]['message']['id'],
+                            group_num = '0',
+                            nickname = 'None',
+                            group_id = 'None',
+                            type = bodyjson['events'][0]['source']['type'],
+                            status = 'save',
+                            account = chargeNumber,
+                            user_id = bodyjson['events'][0]['source']['userId'],
+                            message = chargeName ,
+                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        )
 
-            
-    db.session.add(add_data)
-    db.session.commit()
+                
+        db.session.add(add_data)
+        db.session.commit()
 
     # handle webhook body
     try:
@@ -226,6 +225,7 @@ def get_movie():   #電影討論度
         movies.append(rank_txt.text.strip())
 
     return movies
+
 
 def get_exchangeRate(mode):
     if mode==1:
@@ -339,6 +339,49 @@ def get_groupPeople(history_list,mode):
     else:
         return 0
 
+#處理加入群組
+
+@handler.add(JoinEvent)
+def handle_join(event):
+    message = ImagemapSendMessage(
+                            base_url="https://i.imgur.com/CzIxqa1.png",
+                            alt_text='我要進來囉',
+                            base_size=BaseSize(height=1040, width=1240),
+                            actions=[
+            URIImagemapAction(
+                #分帳者設定
+                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
+                area=ImagemapArea(
+                    x=60, y=659, width=479, height=274
+                )
+            ),
+            URIImagemapAction(
+                #記錄分帳
+                link_uri="https://liff.line.me/1654876504-9wWzOva7",
+                area=ImagemapArea(
+                    x=60, y=381, width=479, height=274
+                )
+            ),
+            MessageImagemapAction(
+                #使用說明
+                text="@help",
+                area=ImagemapArea(
+                    x=543, y=653, width=462, height=273
+                )
+            ),
+            URIImagemapAction(
+                #查帳結算
+                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
+                area=ImagemapArea(
+                    x=543, y=373, width=445, height=282
+                )
+            )
+                            ]
+        )
+                        
+    line_bot_api.reply_message(event.reply_token,message)
+
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -358,6 +401,12 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
+        
+        elif input_text =='@help':
+            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= str(help_text)))
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -481,7 +530,7 @@ def handle_message(event):
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str( output_text )))
-        
+
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
@@ -585,22 +634,34 @@ def handle_message(event):
             
             dataNumber=len(historySettle_list)
             account = np.zeros(person_num)
+            exchange_rate_USD = 0
+            exchange_rate_JPY = 0
+            exchange_rate_EUR = 0
             for i in range(dataNumber):
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate =get_exchangeRate(1)
+                    if exchange_rate_USD:
+                        exchange_rate = exchange_rate_USD
+                    else:
+                        exchange_rate_USD = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_USD
                 elif 'JPY' in b['message']:
-                    exchange_rate = get_exchangeRate(2)
+                    if exchange_rate_JPY:
+                        exchange_rate = exchange_rate_JPY
+                    else:
+                        exchange_rate_JPY = get_exchangeRate(2)
+                        exchange_rate = exchange_rate_JPY
                 elif 'EUR' in b['message']:
-                    exchange_rate =  get_exchangeRate(3)
+                    if exchange_rate_EUR:
+                        exchange_rate = exchange_rate_EUR
+                    else:
+                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_EUR
                 else:
-                    exchange_rate = int(1)
-
-                print(exchange_rate)
-                sys.stdout.flush()
+                    exchange_rate = 1
 
                 payAmount = exchange_rate*int(b['Account']) / len(GroupPeopleString)
                 a1=set(person_list)      #分帳設定有的人
@@ -614,16 +675,25 @@ def handle_message(event):
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                 if 'USD' in b['message']:   #匯率轉換
-                    exchange_rate =get_exchangeRate(1)
+                    if exchange_rate_USD:
+                        exchange_rate = exchange_rate_USD
+                    else:
+                        exchange_rate_USD = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_USD
                 elif 'JPY' in b['message']:
-                    exchange_rate = get_exchangeRate(2)
+                    if exchange_rate_JPY:
+                        exchange_rate = exchange_rate_JPY
+                    else:
+                        exchange_rate_JPY = get_exchangeRate(2)
+                        exchange_rate = exchange_rate_JPY
                 elif 'EUR' in b['message']:
-                    exchange_rate =  get_exchangeRate(3)
+                    if exchange_rate_EUR:
+                        exchange_rate = exchange_rate_EUR
+                    else:
+                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_EUR
                 else:
-                    exchange_rate = int(1)
-                
-                print(exchange_rate)
-                sys.stdout.flush()
+                    exchange_rate = 1
 
                 for i in range(person_num):  #代墊金額
                     if GroupPeopleString[0] ==  person_list[i]:
@@ -741,76 +811,75 @@ def handle_message(event):
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= '砍砍資料酷酷酷'))
-        elif input_text =='help' :
+                TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
+
+
+        elif input_text =='@help' :
             Carousel_template = TemplateSendMessage(
                             alt_text='使用說明',
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/uKYgfVs.jpg",
+                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
                     action=URITemplateAction(
-                        label="新鮮水果",
-                        uri="http://img.juimg.com/tuku/yulantu/110709/222-110F91G31375.jpg"
+                        uri="https://i.imgur.com/m4fkFQJ.jpg"
                     )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/QOcAvjt.jpg",
+                    image_url="https://imgur.com/Y1BoSsp.jpg",
                     action=URITemplateAction(
-                        label="新鮮蔬菜",
-                        uri="https://cdn.101mediaimage.com/img/file/1410464751urhp5.jpg"
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/Np7eFyj.jpg",
+                    image_url="https://imgur.com/8r5SMgQ.jpg",
                     action=URITemplateAction(
-                        label="可愛狗狗",
-                        uri="http://imgm.cnmo-img.com.cn/appimg/screenpic/big/674/673928.JPG"
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/QRIa5Dz.jpg",
+                    image_url="https://imgur.com/uJKYIsg.jpg",
                     action=URITemplateAction(
-                        label="可愛貓咪",
-                        uri="https://m-miya.net/wp-content/uploads/2014/07/0-065-1.min_.jpg"
+                        uri="https://imgur.com/Y1BoSsp.jpg"
                     )
+
                 )
             ]     
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif input_text =='快速'  :
+        elif input_text =='@選單'  :
             message = ImagemapSendMessage(
-                            base_url="https://imgur.com/1nvK5rZ.png",
-                            alt_text='選擇',
-                            base_size=BaseSize(height=2000, width=2000),
+                            base_url="https://i.imgur.com/CzIxqa1.png",
+                            alt_text='功能總覽',
+                            base_size=BaseSize(height=1040, width=1240),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=0, y=0, width=1000, height=1000
+                    x=60, y=659, width=479, height=274
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=1000, y=0, width=1000, height=1000
+                    x=60, y=381, width=479, height=274
                 )
             ),
             MessageImagemapAction(
                 #使用說明
-                text="help",
+                text="@help",
                 area=ImagemapArea(
-                    x=0, y=1000, width=1000, height=1000
+                    x=543, y=653, width=462, height=273
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=1000, y=1000, width=1000, height=1000
+                    x=543, y=373, width=445, height=282
                 )
             )
         ]
