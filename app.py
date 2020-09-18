@@ -813,10 +813,6 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
         elif input_text =='@help' :
             Carousel_template = TemplateSendMessage(
                             alt_text='使用說明',
