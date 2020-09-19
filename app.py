@@ -229,7 +229,9 @@ def get_movie():   #電影討論度
 def get_exchangeRate(mode):
     if mode==1:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='USD' ).limit(1).all()
-        return eval(data_UserData.message)
+        for _data in data_UserData:
+            USDrate = eval(_data.message)
+        return USDrate
     if mode==2:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='JPY' ).limit(1).all()
         for _data in data_UserData:
