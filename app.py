@@ -406,16 +406,14 @@ def handle_message(event):
         elif 'delete' in input_text:
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             count=0
-            for _data in data_UserData
+            for _data in data_UserData:
                 count++
             del_number = input_text.strip('delete ')
             if str.isdigit(del_number) and int(del_number) < 10 :
-                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
+                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                 history_dic = {}
                 history_list = []
-                count=0
                 for _data in data_UserData:
-                    count+=1
                     history_dic['Mesaage'] = _data.message
                     history_dic['Account'] = _data.account
                     history_dic['id'] = _data.id
