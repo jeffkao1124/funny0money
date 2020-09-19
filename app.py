@@ -259,19 +259,19 @@ def get_history_list():   #取得最新資料
 def get_accountList(selfId):
     time.sleep(0.2)
     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
-    history_dic = {}
     history_list = []
     for _data in data_UserData:
+        history_dic = {}
         history_dic['birth_date'] = _data.birth_date
         history_dic['Mesaage'] = _data.message
         history_dic['Account'] = _data.account
         history_list.append(history_dic)
-        history_dic = {}
-    final_list =[]
-    count = len(historySettle_list)
+    
+    count = len(history_list)
     print(count)
     sys.stdout.flush()
     add=0
+    final_list =[]
     for i in range(count):
         try:
             money = int(history_list[i]['Account'])
