@@ -277,7 +277,7 @@ def get_accountList(selfId):
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
+    perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
     return perfect_list
 
 #分帳查帳
@@ -481,18 +481,10 @@ def handle_message(event):
             
             try:
                 del_number = int (input_text.strip('delete '))
-                print('刪除',del_number)
-                sys.stdout.flush()
                 if del_number <= count :
-                    print('第一檢查點')
-                    sys.stdout.flush()
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
                     for _data in data_UserData:
                         personID = _data.id
-                    print('資料：',data_UserData)
-                    sys.stdout.flush()
-                    print('ID:',personID)
-                    sys.stdout.flush()
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_settleList(selfGroupId)
                     db.session.commit()
