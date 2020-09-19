@@ -267,22 +267,15 @@ def get_accountList(selfId):
         history_dic['Account'] = _data.account
         history_list.append(history_dic)
     
-    count = len(history_list)
-    print(count)
-    sys.stdout.flush()
-    add=0
+    total = 0
     final_list =[]
-    for i in range(count):
-        try:
-            money = int(history_list[i]['Account'])
-        except:
-            money = 0
+    for i in range(len(history_list)):
+        total += int(history_list[i]['Account'])
         msgTime = str(history_list[i]['birth_date'])
         final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-        add += money
 
     perfect_list=''
-    for j in range(count):
+    for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
     perfect_list = perfect_list+'\n'+'累計花費:'+str(add)
     return perfect_list
