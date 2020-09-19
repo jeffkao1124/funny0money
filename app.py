@@ -509,6 +509,8 @@ def handle_message(event):
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
                     for _data in data_UserData:
                         personID = _data.id
+                    print('ID:',personID)
+                    sys.stdout.flush()
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                     db.session.commit()
