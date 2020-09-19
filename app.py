@@ -340,7 +340,6 @@ def get_groupPeople(history_list,mode):
         return 0
 
 #處理加入群組
-
 @handler.add(JoinEvent)
 def handle_join(event):
     message = ImagemapSendMessage(
@@ -410,11 +409,7 @@ def handle_message(event):
             sys.stdout.flush()
                 
             del_number = input_text.strip('delete ')
-            str.isdigit()
-            targetNum = int(deleteNum[0])
-            if targetNum > count:
-                output_text='刪除失敗'
-            else:
+            if str.isdigit(del_number) and int(del_number) < 10
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
                 history_dic = {}
                 history_list = []
@@ -429,10 +424,13 @@ def handle_message(event):
                 data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                 output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                 db.session.commit()
-
+            else:
+                output_text='刪除失敗'
+                
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= output_text))
+
         elif input_text =='理財':            
             line_bot_api.reply_message(  
             event.reply_token,
