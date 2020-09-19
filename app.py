@@ -405,9 +405,9 @@ def handle_message(event):
 
         elif 'delete' in input_text:
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
-            print(data_UserData)
-            sys.stdout.flush()
-                
+            count=0
+            for _data in data_UserData
+                count++
             del_number = input_text.strip('delete ')
             if str.isdigit(del_number) and int(del_number) < 10 :
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
