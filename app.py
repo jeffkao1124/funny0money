@@ -498,8 +498,13 @@ def handle_message(event):
             count=0
             for _data in data_UserData:
                 count+=1
+            print('count',count)
+            sys.stdout.flush()
+            
             try:
                 del_number = int (input_text.strip('delete '))
+                print('刪除',del_number)
+                sys.stdout.flush()
                 if del_number < count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
                     for _data in data_UserData:
