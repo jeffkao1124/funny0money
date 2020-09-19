@@ -387,7 +387,7 @@ def handle_message(event):
             for _data in data_UserData:
                 count+=1
             try:
-                del_number = int (input_text.strip('delete '))
+                del_number = int (input_text.strip('delete '))  
                 if del_number <= count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                     for _data in data_UserData:
@@ -540,7 +540,7 @@ def handle_message(event):
             exchange_rate_USD = 0
             exchange_rate_JPY = 0
             exchange_rate_EUR = 0
-            for i in range(dataNumber):
+            for i in range(dataNumber):   #分帳金額
                 b=dict(historySettle_list[i])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
@@ -574,7 +574,7 @@ def handle_message(event):
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
                     
-            for j in range(dataNumber):
+            for j in range(dataNumber):　#代墊金額
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                 if 'USD' in b['message']:   #匯率轉換
@@ -598,7 +598,7 @@ def handle_message(event):
                 else:
                     exchange_rate = 1
 
-                for i in range(person_num):  #代墊金額
+                for i in range(person_num):  
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
 
@@ -638,32 +638,6 @@ def handle_message(event):
                 person_account[0]=min_tuple
                 person_account[-1]=max_tuple
             # result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
-
-            output_text = result
-
-        elif input_text =='不簡化':        
-            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==history_list[0]['group_id'] ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-            historySettle_list = []
-            for _data in dataSettle_UserData:
-                historySettle_dic = {}
-                historySettle_dic['Account'] = _data.account
-                historySettle_dic['GroupPeople'] =_data.group_num
-                historySettle_list.append(historySettle_dic)
-                
-            result=""
-            dataNumber=len(historySettle_list)
-            for i in range(dataNumber):
-                b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].split(' ')  #分帳者設定 
-                payer=GroupPeopleString[0] #抓出代墊者
-                del GroupPeopleString[0]
-                payAmount=round( int(b['Account']) / len(GroupPeopleString) ,2)
-                a1=set(get_groupPeople(history_list,2))      #分帳設定有的人
-                a2=set(GroupPeopleString)
-                duplicate = list(a1.intersection(a2))      #a1和a2重複的人名
-                for j in range(len(duplicate)):          #分帳金額
-                    if str(duplicate[j]) != payer:
-                        result += str(duplicate[j])+'付給'+payer+str(payAmount)+'元'+'\n'
 
             output_text = result
 
@@ -818,8 +792,6 @@ def handle_message(event):
 
         line_bot_api.reply_message(event.reply_token, TextSendMessage (output_text) )
         
-
-
 
 
 if __name__ == "__main__":
