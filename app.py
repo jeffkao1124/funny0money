@@ -301,9 +301,7 @@ def get_accountList(selfId):
     return perfect_list
 
 #分帳查帳
-def get_settleList():
-    history_list = get_history_list()
-    selfGroupId = history_list[0]['group_id']
+def get_settleList(selfGroupId):
     dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
     historySettle_list = []
     for _data in dataSettle_UserData:
@@ -453,6 +451,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
         
     else:  #群組部分
+        selfGroupId = history_list[0]['group_id']
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
             groupNumber=get_groupPeople(history_list,1)
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
@@ -479,20 +478,17 @@ def handle_message(event):
             output_text="今日匯率："+str(NowRate)
 
         elif input_text == '刪除':
-            selfGroupId = history_list[0]['group_id']
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             db.session.commit()
 
-        elif input_text == '設定刪除':
-            selfGroupId = history_list[0]['group_id']
+        elif input_text == '設定刪除'
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
 
         elif 'delete' in input_text:
-            selfGroupId = history_list[0]['group_id']
             data_UserData = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)
             count=0
             for _data in data_UserData:
@@ -523,7 +519,7 @@ def handle_message(event):
                 output_text='刪除失敗'
 
         elif input_text == '查帳':
-            output_text = get_settleList()
+            output_text = get_settleList(selfGroupId)
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
