@@ -388,26 +388,51 @@ def handle_message(event):
     input_text = event.message.text.lower()
     history_list = get_history_list()
     if history_list[0]['type'] == 'user':      #個人部分
+        selfId = history_list[0]['user_id']
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
                 
         elif input_text =='查帳':
-            selfId = history_list[0]['user_id']
             for i in range(10):
                 output_text = get_accountList(selfId)
+        
+        elif input_text =='@help':
+            output_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
+
+        elif input_text =='刪除':
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+            output_text='刪除成功'
+
+        elif 'delete' in input_text:
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
+            print(data_UserData)
+            sys.stdout.flush()
+                
+            del_number = input_text.strip('delete ')
+            str.isdigit()
+            targetNum = int(deleteNum[0])
+            if targetNum > count:
+                output_text='刪除失敗'
+            else:
+                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
+                history_dic = {}
+                history_list = []
+                count=0
+                for _data in data_UserData:
+                    count+=1
+                    history_dic['Mesaage'] = _data.message
+                    history_dic['Account'] = _data.account
+                    history_dic['id'] = _data.id
+                    history_list.append(history_dic)
+                personID=history_dic['id']
+                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                db.session.commit()
+
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
-        
-        elif input_text =='@help':
-            help_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(help_text)))
-
         elif input_text =='理財':            
             line_bot_api.reply_message(  
             event.reply_token,
@@ -433,53 +458,6 @@ def handle_message(event):
                     )
                 )
             )
-
-        elif input_text =='刪除':
-            selfId = history_list[0]['user_id']
-            for i in range(3):
-                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
-            output_text='刪除成功'
-            db.session.commit()
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
-        elif 'delete' in input_text:
-            selfId = history_list[0]['user_id']
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
-            history_dic = {}
-            history_list = []
-            count=0
-            for _data in data_UserData:
-                count+=1
-                history_dic['Mesaage'] = _data.message
-                history_dic['Account'] = _data.account
-                history_list.append(history_dic)
-                history_dic = {}
-            deleteNum=re.findall(r"\d+\.?\d*",input_text)
-
-            targetNum = int(deleteNum[0])
-            if targetNum > count:
-                output_text='刪除失敗'
-            else:
-                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[targetNum-1:targetNum]
-                history_dic = {}
-                history_list = []
-                count=0
-                for _data in data_UserData:
-                    count+=1
-                    history_dic['Mesaage'] = _data.message
-                    history_dic['Account'] = _data.account
-                    history_dic['id'] = _data.id
-                    history_list.append(history_dic)
-                personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
-                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
-                db.session.commit()
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text)))
-        
 
         else:
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
@@ -743,8 +721,7 @@ def handle_message(event):
 
 
         elif input_text =='不簡化':        
-            selfGroupId = history_list[0]['group_id']
-            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==history_list[0]['group_id'] ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_list = []
             for _data in dataSettle_UserData:
                 historySettle_dic = {}
@@ -811,7 +788,7 @@ def handle_message(event):
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= '爽啦沒資料囉\n請重新設定匯率'))
+                TextSendMessage(text= '爽啦沒資料囉\n快給我重新設定匯率'))
 
         elif input_text =='帳獒':
             try:
@@ -916,11 +893,7 @@ def handle_message(event):
                             )
                         
             line_bot_api.reply_message(event.reply_token,message)
-        elif (eval(input_text)>0) and (eval(input_text)<=100000):
-            output_text= input_text
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text= str(output_text))) 
+
         else:
             hot_movie=get_movie()
             output_text=hot_movie
