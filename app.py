@@ -574,7 +574,7 @@ def handle_message(event):
                     place=person_list.index(duplicate[j])
                     account[place] -= payAmount
                     
-            for j in range(dataNumber):　#代墊金額
+            for j in range(dataNumber):  #代墊金額
                 b=dict(historySettle_list[j])
                 GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                 if 'USD' in b['message']:   #匯率轉換
