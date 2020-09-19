@@ -234,21 +234,13 @@ def get_exchangeRate(mode):
         return USDrate
     if mode==2:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='JPY' ).limit(1).all()
-        history_dic = {}
-        history_list = []
         for _data in data_UserData:
-            history_dic['Mesaage'] = _data.message
-            history_list.append(history_dic)
-        JPYrate=eval(history_dic['Mesaage'])
+            JPYrate=eval(_data.message)
         return JPYrate
     if mode==3:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='EUR' ).limit(1).all()
-        history_dic = {}
-        history_list = []
         for _data in data_UserData:
-            history_dic['Mesaage'] = _data.message
-            history_list.append(history_dic)
-        EURrate=eval(history_dic['Mesaage'])
+            EURrate=eval(_data.message)
         return EURrate
 
 def get_history_list():   #取得最新資料
@@ -261,7 +253,6 @@ def get_history_list():   #取得最新資料
         history_dic['user_id'] = _data.user_id
         history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
-        history_dic = {}
     return history_list
 
 #記帳查帳
