@@ -38,7 +38,7 @@ handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 def home():
     return 'home OK'
 
-
+#爬蟲取得匯率
 def get_TodayRate(mode):
     numb= []
     cate=[]
@@ -198,7 +198,6 @@ def callback():
                             birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                         )
 
-                
         db.session.add(add_data)
         db.session.commit()
 
@@ -226,16 +225,12 @@ def get_movie():   #電影討論度
 
     return movies
 
-
+#從資料庫取得匯率
 def get_exchangeRate(mode):
     if mode==1:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='USD' ).limit(1).all()
-        history_dic = {}
-        history_list = []
         for _data in data_UserData:
-            history_dic['Mesaage'] = _data.message
-            history_list.append(history_dic)
-        USDrate=eval(history_dic['Mesaage'])
+            USDrate = eval(_data.message)
         return USDrate
     if mode==2:
         data_UserData = usermessage.query.order_by(usermessage.birth_date.desc()).filter(usermessage.status=='JPY' ).limit(1).all()
