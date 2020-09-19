@@ -893,14 +893,17 @@ def handle_message(event):
                         
             line_bot_api.reply_message(event.reply_token,message)
 
-        else:
-            hot_movie=get_movie()
-            output_text='嗷嗷嗷'
+        elif input_text=='電影':
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
-        
-            line_bot_api.reply_message(event.reply_token,message)
+                TextSendMessage(text= get_movie()))
+
+        elif input_text == '嗷嗷嗷'
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= '嗷嗷嗷'))
+
+        line_bot_api.reply_message(event.reply_token,message)
 
 
 
