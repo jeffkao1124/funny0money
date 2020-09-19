@@ -410,7 +410,7 @@ def handle_message(event):
                 count+=1
             try:
                 del_number = int (input_text.strip('delete '))
-                if del_number < count :
+                if del_number <= count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                     for _data in data_UserData:
                         personID = _data.id
