@@ -408,8 +408,12 @@ def handle_message(event):
             count=0
             for _data in data_UserData:
                 count+=1
+            print('第一筆',count)
+            sys.stdout.flush()
             del_number = input_text.strip('delete ')
-            if str.isdigit(del_number) and int(del_number) < 10 :
+            print('第一筆',del_number)
+            sys.stdout.flush()
+            if 11 < 10 :
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                 history_dic = {}
                 history_list = []
