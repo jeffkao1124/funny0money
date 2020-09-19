@@ -412,9 +412,9 @@ def handle_message(event):
                 del_number = int (input_text.strip('delete '))
                 if del_number < count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
-                    print(data_UserData.id)
-                    sys.stdout.flush()
-                    data_UserData = usermessage.query.filter(usermessage.id==data_UserData.id).delete(synchronize_session='fetch')
+                    for _data in data_UserData:
+                        personID _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
                     db.session.commit()
                 else:
