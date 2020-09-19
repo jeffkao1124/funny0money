@@ -479,7 +479,6 @@ def handle_message(event):
             output_text="今日匯率："+str(NowRate)
 
         elif input_text == '刪除':
-            selfId = history_list[0]['user_id']
             selfGroupId = history_list[0]['group_id']
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
@@ -498,17 +497,21 @@ def handle_message(event):
             count=0
             for _data in data_UserData:
                 count+=1
-            print('count',count)
+            print('總共',count)
             sys.stdout.flush()
             
             try:
                 del_number = int (input_text.strip('delete '))
                 print('刪除',del_number)
                 sys.stdout.flush()
-                if del_number < count :
+                if del_number <= count :
+                    print('第一檢查點')
+                    sys.stdout.flush()
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
                     for _data in data_UserData:
                         personID = _data.id
+                    print('資料：',data_UserData)
+                    sys.stdout.flush()
                     print('ID:',personID)
                     sys.stdout.flush()
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
