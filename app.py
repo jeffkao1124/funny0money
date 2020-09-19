@@ -407,7 +407,7 @@ def handle_message(event):
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             count=0
             for _data in data_UserData:
-                count++
+                count+=1
             del_number = input_text.strip('delete ')
             if str.isdigit(del_number) and int(del_number) < 10 :
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
@@ -892,7 +892,7 @@ def handle_message(event):
 
         else:
             hot_movie=get_movie()
-            output_text=hot_movie
+            output_text=''嗷嗷嗷''
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
