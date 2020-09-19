@@ -410,10 +410,10 @@ def handle_message(event):
                 count+=1
             print('第一筆',count)
             sys.stdout.flush()
-            del_number = input_text.strip('delete ')
+            del_number = int (input_text.strip('delete '))
             print('第一筆',del_number)
             sys.stdout.flush()
-            if 11 < 10 :
+            if del_number < count :
                 data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                 history_dic = {}
                 history_list = []
@@ -461,7 +461,9 @@ def handle_message(event):
 
         else:
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
-        line_bot_api.reply_message(event.reply_token,output_text)
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text= output_text ))
         
     else:  #群組部分
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
