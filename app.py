@@ -483,7 +483,7 @@ def handle_message(event):
             output_text='刪除成功'
             db.session.commit()
 
-        elif input_text == '設定刪除'
+        elif input_text == '設定刪除':
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
