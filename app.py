@@ -515,7 +515,7 @@ def handle_message(event):
                     print('ID:',personID)
                     sys.stdout.flush()
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
-                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_settleList()
                     db.session.commit()
                 else:
                     output_text='刪除失敗'
