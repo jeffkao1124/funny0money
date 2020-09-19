@@ -892,7 +892,7 @@ def handle_message(event):
 
         else:
             hot_movie=get_movie()
-            output_text=''嗷嗷嗷''
+            output_text='嗷嗷嗷'
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text= str(output_text)))
