@@ -269,6 +269,8 @@ def get_accountList(selfId):
         history_dic = {}
     final_list =[]
     count = len(historySettle_list)
+    print(count)
+    sys.stdout.flush()
     add=0
     for i in range(count):
         try:
