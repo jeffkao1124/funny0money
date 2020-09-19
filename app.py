@@ -903,7 +903,8 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text= '嗷嗷嗷'))
 
-        line_bot_api.reply_message(event.reply_token,message)
+        elif input_text == '乖狗狗':
+            line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
 
 
 
