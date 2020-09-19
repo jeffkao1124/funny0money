@@ -421,8 +421,6 @@ def handle_message(event):
                     output_text='刪除失敗'
             except:
                 output_text='刪除失敗'
-                
-            line_bot_api.reply_message(event.reply_token,TextSendMessage ( output_text ))
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -496,37 +494,23 @@ def handle_message(event):
 
         elif 'delete' in input_text:
             selfGroupId = history_list[0]['group_id']
-            data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')
-            history_dic = {}
-            history_list = []
+            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)
             count=0
             for _data in data_UserData:
                 count+=1
-                history_dic['Mesaage'] = _data.message
-                history_dic['Account'] = _data.account
-                history_list.append(history_dic)
-                history_dic = {}
-            deleteNum=re.findall(r"\d+\.?\d*",input_text)
-
-            targetNum = int(deleteNum[0])
-            if targetNum > count:
+            try:
+                del_number = int (input_text.strip('delete '))
+                if del_number < count :
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
+                    for _data in data_UserData:
+                        personID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                    db.session.commit()
+                else:
+                    output_text='刪除失敗'
+            except:
                 output_text='刪除失敗'
-            else:
-                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save')[targetNum-1:targetNum]
-                history_dic = {}
-                history_list = []
-                count=0
-                for _data in data_UserData:
-                    count+=1
-                    history_dic['Mesaage'] = _data.message
-                    history_dic['Account'] = _data.account
-                    history_dic['id'] = _data.id
-                    history_list.append(history_dic)
-
-                targetID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==targetID).delete(synchronize_session='fetch')
-                output_text='刪除成功'+'\n\n'+'分帳清單：'+'\n'+get_settleList()
-                db.session.commit()
 
         elif input_text == '查帳':
             output_text = get_settleList()
