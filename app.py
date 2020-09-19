@@ -470,12 +470,12 @@ def handle_message(event):
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( output_text )))
+                TextSendMessage(text= output_text))
         elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
             output_text='分帳紀錄成功'
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= output_text))
 
         
         elif input_text == '設定查詢':
@@ -485,28 +485,28 @@ def handle_message(event):
                 output_text+='\n'+groupMember[i]
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( output_text )))
+                TextSendMessage(text= output_text))
 
         elif '美金設定' in input_text:
             NowRate=get_TodayRate(1)
             output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( output_text )))
+                TextSendMessage(text= output_text))
 
         elif '日圓設定' in input_text:
             NowRate=get_TodayRate(2)
             output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( output_text )))
+                TextSendMessage(text= output_text))
         
         elif '歐元設定' in input_text:
             NowRate=get_TodayRate(3)
             output_text="今日匯率："+str(NowRate)
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str( output_text )))
+                TextSendMessage(text= output_text))
 
         elif input_text == '刪除':
             selfId = history_list[0]['user_id']
@@ -517,7 +517,7 @@ def handle_message(event):
             db.session.commit()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= output_text))
 
         elif input_text == '設定刪除':
             selfGroupId = history_list[0]['group_id']
@@ -562,13 +562,13 @@ def handle_message(event):
                 db.session.commit()
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text= str(output_text)))
+                    TextSendMessage(text= output_text))
 
         elif input_text == '查帳':
             output_text = get_settleList()
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= output_text))
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
@@ -716,7 +716,7 @@ def handle_message(event):
             output_text = result
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= str(output_text)))
+                TextSendMessage(text= output_text))
 
 
         elif input_text =='不簡化':        
