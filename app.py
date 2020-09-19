@@ -408,25 +408,24 @@ def handle_message(event):
             count=0
             for _data in data_UserData:
                 count+=1
-            print('第一筆',count)
-            sys.stdout.flush()
-            del_number = int (input_text.strip('delete '))
-            print('第一筆',del_number)
-            sys.stdout.flush()
-            if del_number < count :
-                data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
-                history_dic = {}
-                history_list = []
-                for _data in data_UserData:
-                    history_dic['Mesaage'] = _data.message
-                    history_dic['Account'] = _data.account
-                    history_dic['id'] = _data.id
-                    history_list.append(history_dic)
-                personID=history_dic['id']
-                data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
-                output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
-                db.session.commit()
-            else:
+            try:
+                del_number = int (input_text.strip('delete '))
+                if del_number < count :
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
+                    history_dic = {}
+                    history_list = []
+                    for _data in data_UserData:
+                        history_dic['Mesaage'] = _data.message
+                        history_dic['Account'] = _data.account
+                        history_dic['id'] = _data.id
+                        history_list.append(history_dic)
+                    personID=history_dic['id']
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                    db.session.commit()
+                else:
+                    output_text='刪除失敗'
+            except:
                 output_text='刪除失敗'
                 
             line_bot_api.reply_message(
