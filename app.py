@@ -456,7 +456,7 @@ def handle_message(event):
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
         line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text= output_text ))
+                TextSendMessage(output_text ))
         
     else:  #群組部分
         if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
