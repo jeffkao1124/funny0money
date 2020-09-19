@@ -782,7 +782,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,message)
 
         elif input_text=='電影':
-            output_text = get_movie()
+            output_text = str(get_movie())
 
         elif input_text == '嗷嗷嗷':
             output_text = '嗷嗷嗷'
