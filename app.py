@@ -374,8 +374,20 @@ def handle_message(event):
                 output_text = get_accountList(selfId)
         
         elif input_text =='@help':
-            output_text='1.記帳--輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'+'\n'+'2.查帳--輸入：查帳'+'\n'+'3.理財小幫手--輸入：理財'+'\n'+'4.刪除--輸入：刪除' +'\n'+'5.刪除單筆資料--輸入：delete 編號'+'\n'+'6.使用說明--輸入：help'
-
+            Carousel_template = TemplateSendMessage(
+                            alt_text='使用說明',
+                            template=ImageCarouselTemplate(
+                            columns=[
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/6ZXZUPu.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/6ZXZUPu.jpg"
+                    )
+                )
+            ]     
+                            )
+                        )
+            line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='刪除':
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
@@ -427,7 +439,7 @@ def handle_message(event):
             )
 
         else:
-            output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 項目 金額'+'\n'+'ex：記帳 麥當勞 200'
+            output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 分類/項目 金額'+'\n'+'ex：記帳 吃/麻糬 200'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
         
     else:  #群組部分
