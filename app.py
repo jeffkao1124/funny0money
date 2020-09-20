@@ -651,7 +651,7 @@ def handle_message(event):
                 person_account[-1]=max_tuple
             # result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
-            output_text = result
+            output_text = result.strip('\n')
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
@@ -684,7 +684,7 @@ def handle_message(event):
                    payAmount = account[i][j] - account[j][i]
                    if ( payAmount>0 ): 
                         result += person_list[j]+'付給'+person_list[i] + str(payAmount) +'元'+'\n' 
-            output_text = result
+            output_text = result.strip('\n')
      
         elif input_text == '清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
