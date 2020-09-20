@@ -108,7 +108,7 @@ def callback():
         if bodyjson['events'][0]['source']['type'] == 'group':
             receivedmsg = bodyjson['events'][0]['message']['text']
             if '分帳設定' in receivedmsg: 
-                userName = receivedmsg.strip(' 分帳設定 ')
+                userName = receivedmsg.strip(' 分帳設定 ').replace('  ',' ')
                 add_data = usermessage( 
                     id = bodyjson['events'][0]['message']['id'], 
                     group_num = '0', 
@@ -456,7 +456,7 @@ def handle_message(event):
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
-            output_text="分帳名單:"
+            output_text="分帳名單："
             for i in range(get_groupPeople(history_list,1)):
                 output_text+='\n'+groupMember[i]
 
@@ -482,15 +482,41 @@ def handle_message(event):
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
-
-        elif 'delete' in input_text:
-            data_UserData = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)
-            count=0
+        
+        elif 'clear' in input_text:  #刪除單個分帳者
+            data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
+            del_spiltperson = input_text.replace('clear','').strip(' ')
             for _data in data_UserData:
-                count+=1
-            print('總共',count)
-            sys.stdout.flush()
-            
+                if _data.nickname.count(del_spiltperson):
+                    new_nickname = _data.nickname.replace(del_spiltperson,'').replace('  ',' ')
+                    add_data = usermessage( 
+                    id = _data.id, 
+                    group_num = '0', 
+                    nickname = new_nickname,
+                    group_id = _data.group_id, 
+                    type = _data.type, 
+                    status = 'set', 
+                    account = '0', 
+                    user_id = _data.user_id, 
+                    message = _data.message, 
+                    birth_date = _data.birth_date
+                    )
+                    personID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    db.session.add(add_data)
+                    db.session.commit()
+                    output_text="刪除成功\n\n分帳名單:"
+            try:
+                if output_text=='刪除成功\n\n分帳名單:':
+                    groupMember=get_groupPeople(history_list,2)
+                    for i in range(get_groupPeople(history_list,1)):
+                        output_text+='\n'+groupMember[i]
+            except: 
+                output_text = '刪除失敗'
+
+        
+        elif 'delete' in input_text: #刪除單筆分帳
+            count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
             try:
                 del_number = int (input_text.strip('delete '))
                 if del_number <= count :
