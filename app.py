@@ -663,6 +663,7 @@ def handle_message(event):
                 historySettle_dic = {} 
                 historySettle_dic['Account'] = _data.account 
                 historySettle_dic['GroupPeople'] =_data.group_num 
+                historySettle_dic['message'] = _data.message
                 historySettle_list.append(historySettle_dic) 
                 
             dataNumber=len(historySettle_list) 
@@ -673,6 +674,7 @@ def handle_message(event):
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
                 GroupPeopleString=b['GroupPeople'].split(' ')
+
                 if 'USD' in b['message']:   #匯率轉換
                     if exchange_rate_USD:
                         exchange_rate = exchange_rate_USD
