@@ -485,11 +485,30 @@ def handle_message(event):
 
         elif 'clear' in input_text:
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
+            del_spiltperson = input_text.strip('clear ')
+            for _data in data_UserData
+                if _data.nickname.count(del_spiltperson) 
+                    _data.nickname.replcae(del_spiltperson,'')
+                    _data.nickname.replace('  ',' ')
+                    add_data = usermessage( 
+                    id = _data.id, 
+                    group_num = '0', 
+                    nickname = _data.nickname,
+                    group_id = _data.group_id, 
+                    type = _data.type, 
+                    status = 'set', 
+                    account = '0', 
+                    user_id = _data.user_id, 
+                    message = _data.message, 
+                    birth_date = _data.birth_date
+                    )
+                    personID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    db.session.add(add_data)
+                    db.session.commit()
 
         elif 'delete' in input_text:
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
-            print('總共',count)
-            sys.stdout.flush()
             try:
                 del_number = int (input_text.strip('delete '))
                 if del_number <= count :
