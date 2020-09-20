@@ -811,34 +811,34 @@ def handle_message(event):
             message = ImagemapSendMessage(
                             base_url="https://i.imgur.com/qrd8o2I.jpg",
                             alt_text='功能總覽',
-                            base_size=BaseSize(height=1040, width=1240),
+                            base_size=BaseSize(height=443, width=563),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=60, y=659, width=479, height=274
+                    x=0, y=659, width=281, height=200
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=60, y=381, width=479, height=274
+                    x=0, y=381, width=281, height=200
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="@help",
                 area=ImagemapArea(
-                    x=543, y=653, width=462, height=273
+                    x=221, y=653, width=281, height=200
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=543, y=373, width=445, height=282
+                    x=221, y=373, width=281, height=200
                 )
             )
         ]
