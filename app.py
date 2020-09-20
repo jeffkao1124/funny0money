@@ -108,7 +108,7 @@ def callback():
         if bodyjson['events'][0]['source']['type'] == 'group':
             receivedmsg = bodyjson['events'][0]['message']['text']
             if '分帳設定' in receivedmsg: 
-                userName = receivedmsg.strip(' 分帳設定 ')
+                userName = receivedmsg.strip(' 分帳設定 ').replace('  ',' ')
                 add_data = usermessage( 
                     id = bodyjson['events'][0]['message']['id'], 
                     group_num = '0', 
@@ -483,7 +483,7 @@ def handle_message(event):
             db.session.commit()
             output_text='刪除成功'
 
-        elif 'clear' in input_text:
+        elif 'clear' in input_text: #刪除單個分帳者
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             del_spiltperson = input_text.replace('clear','').strip(' ')
             for _data in data_UserData:
@@ -510,8 +510,9 @@ def handle_message(event):
                 groupMember=get_groupPeople(history_list,2)
                 for i in range(get_groupPeople(history_list,1)):
                     output_text+='\n'+groupMember[i]
+            else output_text = '刪除失敗'
 
-        elif 'delete' in input_text:
+        elif 'delete' in input_text:　#刪除單筆分帳
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
             try:
                 del_number = int (input_text.strip('delete '))
