@@ -488,7 +488,8 @@ def handle_message(event):
             del_spiltperson = input_text.replace('clear','').strip(' ')
             for _data in data_UserData:
                 if _data.nickname.count(del_spiltperson):
-                    new_nickname = _data.nickname.replace(del_spiltperson,'').replace('  ',' ')
+                    old_nickname = ' '+_data.nickname+' '
+                    new_nickname = old_nickname.replace(' '+del_spiltperson' ',' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
                     id = _data.id, 
                     group_num = '0', 
