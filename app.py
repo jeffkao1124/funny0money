@@ -681,8 +681,9 @@ def handle_message(event):
             result=""
             for i in range ( person_num ): #誰付誰錢輸出 
                 for j in range ( person_num ): 
-                    if i!=j and account[i][j] != 0 : 
-                        result += person_list[j]+'付給'+person_list[i] + str(account[i][j]) +'元'+'\n' 
+                   payAmount = account[i][j] - account[j][i]
+                   if ( payAmount>0 ): 
+                        result += person_list[i]+'付給'+person_list[j] + str(account[i][j]) +'元'+'\n' 
             output_text = result
      
         elif input_text == '清空資料庫':
