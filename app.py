@@ -613,7 +613,8 @@ def handle_message(event):
                 for i in range(person_num):  
                     if GroupPeopleString[0] ==  person_list[i]:
                         account[i] += exchange_rate * int(b['Account'])
-
+            print(account)
+            sys.stdout.flush()
             #將人和錢結合成tuple，存到一個空串列
             person_account=[]
             for i in range(person_num):
