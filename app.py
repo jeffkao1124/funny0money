@@ -809,7 +809,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/S0ozL4L.png",
+                            base_url="https://i.imgur.com/qrd8o2I.jpg",
                             alt_text='功能總覽',
                             base_size=BaseSize(height=1040, width=1240),
                             actions=[
