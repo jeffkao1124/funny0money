@@ -483,7 +483,7 @@ def handle_message(event):
             db.session.commit()
             output_text='刪除成功'
 
-        elif 'clear' in input_text
+        elif 'clear' in input_text:
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
 
         elif 'delete' in input_text:
