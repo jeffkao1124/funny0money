@@ -307,7 +307,7 @@ def get_groupPeople(history_list,mode):
     GroupPeopleString=''
     for _data in data_UserData:
         GroupPeopleString += _data.nickname.strip(' ') +' '
-    new_list = GroupPeopleString.strip(' ').split(' ')
+    new_list = GroupPeopleString.strip(' ').replace('  ',' ').split(' ')
     new_list=list(set(new_list)) #刪除重複
 
     if mode ==1:
