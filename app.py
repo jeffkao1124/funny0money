@@ -573,7 +573,7 @@ def handle_message(event):
                     if exchange_rate_EUR:
                         exchange_rate = exchange_rate_EUR
                     else:
-                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate_EUR = get_exchangeRate(3)
                         exchange_rate = exchange_rate_EUR
                 else:
                     exchange_rate = 1
@@ -605,7 +605,7 @@ def handle_message(event):
                     if exchange_rate_EUR:
                         exchange_rate = exchange_rate_EUR
                     else:
-                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate_EUR = get_exchangeRate(3)
                         exchange_rate = exchange_rate_EUR
                 else:
                     exchange_rate = 1
@@ -673,7 +673,7 @@ def handle_message(event):
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
                 GroupPeopleString=b['GroupPeople'].split(' ')
-                 if 'USD' in b['message']:   #匯率轉換
+                if 'USD' in b['message']:   #匯率轉換
                     if exchange_rate_USD:
                         exchange_rate = exchange_rate_USD
                     else:
@@ -689,11 +689,11 @@ def handle_message(event):
                     if exchange_rate_EUR:
                         exchange_rate = exchange_rate_EUR
                     else:
-                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate_EUR = get_exchangeRate(3)
                         exchange_rate = exchange_rate_EUR
                 else:
                     exchange_rate = 1
-                payAmount = round(  exchange_rate*int(b['Account']) / (len(GroupPeopleString)-1),1)  #不包含代墊者
+                payAmount = exchange_rate*int(b['Account']) / (len(GroupPeopleString)-1)  #不包含代墊者
                 a1=set(person_list)      #分帳設定有的人 
                 a2=set(GroupPeopleString) 
                 duplicate = list(a1.intersection(a2))         #a1和a2重複的人名 
@@ -707,7 +707,7 @@ def handle_message(event):
                 for i in range ( person_num ): 
                    payAmount = account[i][j] - account[j][i]
                    if ( payAmount>0 ): 
-                        result += person_list[j]+'付給'+person_list[i] + str(payAmount) +'元'+'\n' 
+                        result += person_list[j]+'付給'+person_list[i] + str(round(payAmount,1)) +'元'+'\n' 
             output_text = result.strip('\n')
      
         elif input_text == '清空資料庫':
