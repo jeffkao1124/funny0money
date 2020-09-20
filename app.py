@@ -635,15 +635,15 @@ def handle_message(event):
                 if min==0 or max==0:
                     pass
                 elif (min+max)>0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(min,1)))+'元'+'\n'
                     max_tuple=(max_tuple[0],min+max)
                     min_tuple=(min_tuple[0],0)
                 elif (min+max)<0:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
                     min_tuple=(min_tuple[0],min+max)
                     max_tuple=(max_tuple[0],0)
                 else:
-                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,2)))+'元'+'\n'
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+str(abs(round(max,1)))+'元'+'\n'
                     min_tuple=(min_tuple[0],0)
                     max_tuple=(max_tuple[0],0)
                 
@@ -667,13 +667,37 @@ def handle_message(event):
                 
             dataNumber=len(historySettle_list) 
             account= np.zeros((person_num,person_num)) 
+            exchange_rate_USD = 0
+            exchange_rate_JPY = 0
+            exchange_rate_EUR = 0
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
                 GroupPeopleString=b['GroupPeople'].split(' ')
-                payAmount = round( int(b['Account']) / (len(GroupPeopleString)-1),2)  #不包含代墊者
+                 if 'USD' in b['message']:   #匯率轉換
+                    if exchange_rate_USD:
+                        exchange_rate = exchange_rate_USD
+                    else:
+                        exchange_rate_USD = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_USD
+                elif 'JPY' in b['message']:
+                    if exchange_rate_JPY:
+                        exchange_rate = exchange_rate_JPY
+                    else:
+                        exchange_rate_JPY = get_exchangeRate(2)
+                        exchange_rate = exchange_rate_JPY
+                elif 'EUR' in b['message']:
+                    if exchange_rate_EUR:
+                        exchange_rate = exchange_rate_EUR
+                    else:
+                        exchange_rate_EUR = get_exchangeRate(1)
+                        exchange_rate = exchange_rate_EUR
+                else:
+                    exchange_rate = 1
+                payAmount = round(  exchange_rate*int(b['Account']) / (len(GroupPeopleString)-1),1)  #不包含代墊者
                 a1=set(person_list)      #分帳設定有的人 
                 a2=set(GroupPeopleString) 
                 duplicate = list(a1.intersection(a2))         #a1和a2重複的人名 
+
                 for j in range(len(duplicate)):      #誰付誰錢矩陣 2給1 
                     place1=person_list.index(GroupPeopleString[0]) 
                     place2=person_list.index(duplicate[j]) 
