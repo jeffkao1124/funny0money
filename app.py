@@ -486,7 +486,9 @@ def handle_message(event):
         elif 'clear' in input_text:
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             del_spiltperson = input_text.strip('clear ')
-            print( '刪除',del_spiltperson )
+            print( '輸入', input_text )
+            sys.stdout.flush()
+            print( '刪除', del_spiltperson )
             sys.stdout.flush()
             for _data in data_UserData:
                 if _data.nickname.count(del_spiltperson):
