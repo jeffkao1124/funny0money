@@ -492,14 +492,14 @@ def handle_message(event):
             sys.stdout.flush()
             for _data in data_UserData:
                 if _data.nickname.count(del_spiltperson):
-                    _data.nickname.replace(del_spiltperson,'')
-                    _data.nickname.replace('  ',' ')
+                    new_nickname = _data.nickname.replace(del_spiltperson,'')
+                    new_nickname =  new_nickname.replace('  ',' ')
                     print('原本', _data.nickname )
                     sys.stdout.flush()
                     add_data = usermessage( 
                     id = _data.id, 
                     group_num = '0', 
-                    nickname = _data.nickname,
+                    nickname = new_nickname,
                     group_id = _data.group_id, 
                     type = _data.type, 
                     status = 'set', 
