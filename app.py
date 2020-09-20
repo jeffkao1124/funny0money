@@ -486,7 +486,7 @@ def handle_message(event):
         elif 'clear' in input_text:
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             del_spiltperson = input_text.strip('clear ')
-            for _data in data_UserData
+            for _data in data_UserData:
                 if _data.nickname.count(del_spiltperson) 
                     _data.nickname.replcae(del_spiltperson,'')
                     _data.nickname.replace('  ',' ')
