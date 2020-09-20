@@ -809,36 +809,36 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/qrd8o2I.jpg",
+                            base_url="https://i.imgur.com/CzIxqa1.png",
                             alt_text='功能總覽',
-                            base_size=BaseSize(height=443, width=563),
+                            base_size=BaseSize(height=1040, width=1240),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=0, y=659, width=281, height=200
+                    x=60, y=659, width=479, height=274
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=0, y=381, width=281, height=200
+                    x=60, y=381, width=479, height=274
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="@help",
                 area=ImagemapArea(
-                    x=221, y=653, width=281, height=200
+                    x=543, y=653, width=462, height=273
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=221, y=373, width=281, height=200
+                    x=543, y=373, width=445, height=282
                 )
             )
         ]
