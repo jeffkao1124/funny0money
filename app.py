@@ -682,7 +682,7 @@ def handle_message(event):
             for i in range ( person_num ): #誰付誰錢輸出 
                 for j in range ( person_num ): 
                    payAmount = account[i][j] - account[j][i]
-                   if ( payAmount>0 ): 
+                   if ( payAmount<0 ): 
                         result += person_list[i]+'付給'+person_list[j] + str(account[i][j]) +'元'+'\n' 
             output_text = result
      
