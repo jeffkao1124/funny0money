@@ -482,8 +482,8 @@ def handle_message(event):
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
-        #刪除單個分帳者
-        elif 'clear' in input_text: 
+        
+        elif 'clear' in input_text:  #刪除單個分帳者
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             del_spiltperson = input_text.replace('clear','').strip(' ')
             for _data in data_UserData:
@@ -506,14 +506,16 @@ def handle_message(event):
                     db.session.add(add_data)
                     db.session.commit()
                     output_text="刪除成功\n\n分帳名單:"
-            if output_text=='刪除成功\n\n分帳名單:':
-                groupMember=get_groupPeople(history_list,2)
-                for i in range(get_groupPeople(history_list,1)):
-                    output_text+='\n'+groupMember[i]
-            else: 
+            try:
+                if output_text=='刪除成功\n\n分帳名單:':
+                    groupMember=get_groupPeople(history_list,2)
+                    for i in range(get_groupPeople(history_list,1)):
+                        output_text+='\n'+groupMember[i]
+            except: 
                 output_text = '刪除失敗'
-        #刪除單筆分帳
-        elif 'delete' in input_text:
+
+        
+        elif 'delete' in input_text: #刪除單筆分帳
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
             try:
                 del_number = int (input_text.strip('delete '))
