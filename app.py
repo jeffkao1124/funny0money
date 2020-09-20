@@ -389,7 +389,7 @@ def handle_message(event):
                     action=URITemplateAction(
                         uri="https://imgur.com/KS16CAT.jpg"
                     )
-                ),
+                )
             ]     
                             )
                         )
