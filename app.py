@@ -456,7 +456,7 @@ def handle_message(event):
 
         elif input_text == '設定查詢':
             groupMember=get_groupPeople(history_list,2)
-            output_text="分帳名單:"
+            output_text="分帳名單："
             for i in range(get_groupPeople(history_list,1)):
                 output_text+='\n'+groupMember[i]
 
@@ -505,7 +505,11 @@ def handle_message(event):
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     db.session.add(add_data)
                     db.session.commit()
-                    output_text = '刪除成功\n分帳名單：'+get_groupPeople
+                    output_text="刪除成功\n\n分帳名單:"
+            if output_text=='刪除成功\n\n分帳名單:'
+                groupMember=get_groupPeople(history_list,2)
+                for i in range(get_groupPeople(history_list,1)):
+                    output_text+='\n'+groupMember[i]
 
         elif 'delete' in input_text:
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
