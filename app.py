@@ -510,7 +510,8 @@ def handle_message(event):
                 groupMember=get_groupPeople(history_list,2)
                 for i in range(get_groupPeople(history_list,1)):
                     output_text+='\n'+groupMember[i]
-            else output_text = '刪除失敗'
+            else: 
+                output_text = '刪除失敗'
 
         elif 'delete' in input_text:　#刪除單筆分帳
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
