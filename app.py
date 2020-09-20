@@ -483,14 +483,13 @@ def handle_message(event):
             db.session.commit()
             output_text='刪除成功'
 
+        elif 'clear' in input_text
+            data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
+
         elif 'delete' in input_text:
-            data_UserData = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)
-            count=0
-            for _data in data_UserData:
-                count+=1
+            count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
             print('總共',count)
             sys.stdout.flush()
-            
             try:
                 del_number = int (input_text.strip('delete '))
                 if del_number <= count :
