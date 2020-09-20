@@ -383,7 +383,13 @@ def handle_message(event):
                     action=URITemplateAction(
                         uri="https://imgur.com/6ZXZUPu.jpg"
                     )
-                )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/KS16CAT.jpg",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/KS16CAT.jpg"
+                    )
+                ),
             ]     
                             )
                         )
