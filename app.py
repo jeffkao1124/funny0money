@@ -486,16 +486,9 @@ def handle_message(event):
         elif 'clear' in input_text:
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             del_spiltperson = input_text.strip('clear ')
-            print( '輸入', input_text )
-            sys.stdout.flush()
-            print( '刪除', del_spiltperson )
-            sys.stdout.flush()
             for _data in data_UserData:
                 if _data.nickname.count(del_spiltperson):
-                    new_nickname = _data.nickname.replace(del_spiltperson,'')
-                    new_nickname =  new_nickname.replace('  ',' ')
-                    print('原本', _data.nickname )
-                    sys.stdout.flush()
+                    new_nickname = _data.nickname.replace(del_spiltperson,'').replace('  ',' ')
                     add_data = usermessage( 
                     id = _data.id, 
                     group_num = '0', 
@@ -512,6 +505,7 @@ def handle_message(event):
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     db.session.add(add_data)
                     db.session.commit()
+                    output_text = '刪除成功\n分帳名單：'+get_groupPeople
 
         elif 'delete' in input_text:
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
