@@ -506,7 +506,7 @@ def handle_message(event):
                     db.session.add(add_data)
                     db.session.commit()
                     output_text="刪除成功\n\n分帳名單:"
-            if output_text=='刪除成功\n\n分帳名單:'
+            if output_text=='刪除成功\n\n分帳名單:':
                 groupMember=get_groupPeople(history_list,2)
                 for i in range(get_groupPeople(history_list,1)):
                     output_text+='\n'+groupMember[i]
