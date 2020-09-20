@@ -321,9 +321,9 @@ def get_groupPeople(history_list,mode):
 @handler.add(JoinEvent)
 def handle_join(event):
     message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/CzIxqa1.png",
+                            base_url="https://imgur.com/CRoZNQr.png",
                             alt_text='我要進來囉',
-                            base_size=BaseSize(height=1040, width=1240),
+                            base_size=BaseSize(height=976, width=1240),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
@@ -783,9 +783,9 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
-                            base_url="https://i.imgur.com/CzIxqa1.png",
+                            base_url="https://imgur.com/CRoZNQr.png",
                             alt_text='功能總覽',
-                            base_size=BaseSize(height=1040, width=1240),
+                            base_size=BaseSize(height=976 width=1240),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
