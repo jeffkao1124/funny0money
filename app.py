@@ -815,7 +815,7 @@ def handle_message(event):
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@account':
-            acc=get_exchangeRate(mode)
+            acc=get_exchange_rate(mode)
             flexmsg = TemplateSendMessage(
                             alt_text='account',
                             template=ButtonsTemplate(
