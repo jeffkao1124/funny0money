@@ -689,12 +689,13 @@ def handle_message(event):
             flexmsg = TemplateSendMessage(
                             alt_text='account',
                             template=ButtonsTemplate(
-                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
-            title="結算",
+                            
+            title="結算(簡化版本)",
             text=result,
+            backgroundColor="#FFEDD4",
             actions=[
                 URITemplateAction(
-                    label="編輯帳目/查看圖表",
+                    label="詳細資訊",
                     uri="https://liff.line.me/1654876504-rK3v07Pk"
                 )
             ]
