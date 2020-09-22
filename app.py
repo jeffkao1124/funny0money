@@ -685,6 +685,22 @@ def handle_message(event):
             # result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
             output_text = result.strip('\n')
+            
+            flexmsg = TemplateSendMessage(
+                            alt_text='account',
+                            template=ButtonsTemplate(
+                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
+            title="結算",
+            text=result,
+            actions=[
+                URITemplateAction(
+                    label="編輯帳目/查看圖表",
+                    uri="https://liff.line.me/1654876504-rK3v07Pk"
+                )
+            ]
+        )
+    )
+            line_bot_api.reply_message(event.reply_token,flexmsg)
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
@@ -814,21 +830,7 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif input_text =='@account':
-            flexmsg = TemplateSendMessage(
-                            alt_text='account',
-                            template=ButtonsTemplate(
-                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
-            title="結算",
-            text="這邊放資料庫的資料",
-            actions=[
-                URITemplateAction(
-                    label="編輯帳目/查看圖表",
-                    uri="https://liff.line.me/1654876504-rK3v07Pk"
-                )
-            ]
-        )
-    )
+
 
             line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
