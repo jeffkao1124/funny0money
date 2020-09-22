@@ -689,7 +689,6 @@ def handle_message(event):
             flexmsg = TemplateSendMessage(
                             alt_text='結算(簡化版本)',
                             template=ButtonsTemplate(
-                            
             title="結算(簡化版本)",
             text=result,
             actions=[
@@ -697,9 +696,6 @@ def handle_message(event):
                     label="詳細資訊",
                     uri="https://liff.line.me/1654876504-rK3v07Pk"
                 )
-            ],
-            styles=[
-                backgroundColor="#FEF5DC"
             ]
         )
     )
