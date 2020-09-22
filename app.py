@@ -820,7 +820,7 @@ def handle_message(event):
                             template=ButtonsTemplate(
                             thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
             title="結算",
-            text="這邊放資料庫的資料",
+            text=output_text,
             actions=[
                 URITemplateAction(
                     label="編輯帳目/查看圖表",
