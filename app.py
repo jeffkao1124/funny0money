@@ -491,11 +491,11 @@ def handle_message(event):
         
         elif 'clear' in input_text:  #刪除單個分帳者
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
-            del_spiltperson = input_text.replace('clear','').strip(' ')
+            del_spiltperson = ' '+input_text.replace('clear','').strip(' ') +' '
             for _data in data_UserData:
-                if _data.nickname.count(del_spiltperson):
-                    old_nickname = ' '+_data.nickname+' '
-                    new_nickname = old_nickname.replace(' '+del_spiltperson+' ',' ').replace('  ',' ').strip(' ')
+                old_nickname = ' '+_data.nickname+' '
+                if old_nickname.count(del_spiltperson):
+                    new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
                     id = _data.id, 
                     group_num = '0', 
