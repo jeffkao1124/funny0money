@@ -815,12 +815,13 @@ def handle_message(event):
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@account':
+            acc=get_exchangeRate(mode)
             flexmsg = TemplateSendMessage(
                             alt_text='account',
                             template=ButtonsTemplate(
                             thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
             title="結算",
-            text=output_text,
+            text=acc,
             actions=[
                 URITemplateAction(
                     label="編輯帳目/查看圖表",
