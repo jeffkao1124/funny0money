@@ -814,6 +814,35 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
+        elif input_text =='@account':
+            flexmsg = TemplateSendMessage(
+                            alt_text='account',
+                            template=ButtonsTemplate(
+                            thumbnail_image_url="https://pic2.zhimg.com/v2-de4b8114e8408d5265503c8b41f59f85_b.jpg",
+            title="是否要進行抽獎活動？",
+            text="輸入生日後即獲得抽獎機會",
+            actions=[
+                DatetimePickerTemplateAction(
+                    label="請選擇生日",
+                    data="input_birthday",
+                    mode='date',
+                    initial='1990-01-01',
+                    max='2019-03-10',
+                    min='1930-01-01'
+                ),
+                MessageTemplateAction(
+                    label="看抽獎品項",
+                    text="有哪些抽獎品項呢？"
+                ),
+                URITemplateAction(
+                    label="免費註冊享回饋",
+                    uri="https://tw.shop.com/nbts/create-myaccount.xhtml?returnurl=https%3A%2F%2Ftw.shop.com%2F"
+                )
+            ]
+        )
+    )
+
+            line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
                             base_url="https://imgur.com/CRoZNQr.png",
