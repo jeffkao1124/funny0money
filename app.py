@@ -815,13 +815,12 @@ def handle_message(event):
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
         elif input_text =='@account':
-            acc=handle_message(event)
             flexmsg = TemplateSendMessage(
                             alt_text='account',
                             template=ButtonsTemplate(
                             thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
             title="結算",
-            text=acc,
+            text="這邊放資料庫的資料",
             actions=[
                 URITemplateAction(
                     label="編輯帳目/查看圖表",
@@ -879,7 +878,7 @@ def handle_message(event):
 
         elif input_text == '乖狗狗':
             line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
-        return output_text
+
         line_bot_api.reply_message(event.reply_token, TextSendMessage (output_text) )
         
 
