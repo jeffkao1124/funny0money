@@ -818,25 +818,13 @@ def handle_message(event):
             flexmsg = TemplateSendMessage(
                             alt_text='account',
                             template=ButtonsTemplate(
-                            thumbnail_image_url="https://pic2.zhimg.com/v2-de4b8114e8408d5265503c8b41f59f85_b.jpg",
-            title="是否要進行抽獎活動？",
-            text="輸入生日後即獲得抽獎機會",
+                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
+            title="結算",
+            text="這邊放資料庫的資料",
             actions=[
-                DatetimePickerTemplateAction(
-                    label="請選擇生日",
-                    data="input_birthday",
-                    mode='date',
-                    initial='1990-01-01',
-                    max='2019-03-10',
-                    min='1930-01-01'
-                ),
-                MessageTemplateAction(
-                    label="看抽獎品項",
-                    text="有哪些抽獎品項呢？"
-                ),
                 URITemplateAction(
-                    label="免費註冊享回饋",
-                    uri="https://tw.shop.com/nbts/create-myaccount.xhtml?returnurl=https%3A%2F%2Ftw.shop.com%2F"
+                    label="編輯帳目/查看圖表",
+                    uri="https://liff.line.me/1654876504-rK3v07Pk"
                 )
             ]
         )
