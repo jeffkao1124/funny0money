@@ -814,7 +814,23 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
+        elif input_text =='@account':
+            flexmsg = TemplateSendMessage(
+                            alt_text='account',
+                            template=ButtonsTemplate(
+                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
+            title="結算",
+            text="這邊放資料庫的資料",
+            actions=[
+                URITemplateAction(
+                    label="編輯帳目/查看圖表",
+                    uri="https://liff.line.me/1654876504-rK3v07Pk"
+                )
+            ]
+        )
+    )
 
+            line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
                             base_url="https://imgur.com/CRoZNQr.png",
@@ -862,30 +878,9 @@ def handle_message(event):
 
         elif input_text == '乖狗狗':
             line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
+
         line_bot_api.reply_message(event.reply_token, TextSendMessage (output_text) )
-
-@handler.add(MessageEvent, message=TextMessage)
-def flex(event):
-    input_text = event.message.text.lower()
-    history_list = get_history_list()
-    if history_list[0]['type'] == 'user':
-        if input_text =='@account':
-            flexmsg = TemplateSendMessage(
-                            alt_text='account',
-                            template=ButtonsTemplate(
-                            thumbnail_image_url="https://i.imgur.com/EcW6uVt.jpeg",
-            title="結算",
-            text=handle_message(event.message.text),
-            actions=[
-                URITemplateAction(
-                    label="編輯帳目/查看圖表",
-                    uri="https://liff.line.me/1654876504-rK3v07Pk"
-                )
-            ]
-        )
-    )
-
-            line_bot_api.reply_message(event.reply_token,flexmsg)
+        
 
 
 if __name__ == "__main__":
