@@ -10,7 +10,7 @@ from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,ButtonsTemplate,CarouselTemplate,CarouselColumn,
     MessageTemplateAction,URITemplateAction,PostbackEvent,AudioMessage,LocationMessage,
-    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
+    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent,FlexSendMessage
 )
 
 from linebot import (LineBotApi, WebhookHandler)
@@ -770,7 +770,7 @@ def handle_message(event):
     "paddingAll": "0px"
   }
 }
-            line_bot_api.reply_message(event.reply_token,flexmsg)
+            line_bot_api.reply_message(event.reply_token,FlexSendMessage(flexmsg))
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
