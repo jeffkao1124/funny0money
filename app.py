@@ -683,7 +683,7 @@ def handle_message(event):
       "contents": [
         {
           "type": "text",
-          "text": "結算",
+          "text": "結算(簡化版本)",
           "size": "xl",
           "weight": "bold"
         },
@@ -698,13 +698,6 @@ def handle_message(event):
               "layout": "baseline",
               "spacing": "sm",
               "contents": [
-                {
-                  "type": "text",
-                  "text": "簡化版本",
-                  "flex": 1,
-                  "size": "sm",
-                  "color": "#AAAAAA"
-                },
                 {
                   "type": "text",
                   "text": result,
