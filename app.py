@@ -661,113 +661,158 @@ def handle_message(event):
             output_text = result.strip('\n')
             
             flexmsg ={
-  "type": "bubble",
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "image",
-        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip3.jpg",
-        "size": "full",
-        "aspectMode": "cover",
-        "aspectRatio": "1:1",
-        "gravity": "center"
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "Brown Grand Hotel",
-                    "size": "xl",
-                    "color": "#ffffff"
-                  }
-                ]
-              },
-              {
-                "type": "box",
-                "layout": "baseline",
-                "contents": [
-                  {
-                    "type": "icon",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                  },
-                  {
-                    "type": "icon",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                  },
-                  {
-                    "type": "icon",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                  },
-                  {
-                    "type": "icon",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-                  },
-                  {
-                    "type": "icon",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
-                  },
-                  {
-                    "type": "text",
-                    "text": "4.0",
-                    "color": "#a9a9a9"
-                  }
-                ],
-                "spacing": "xs"
-              },
-              {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                  {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "text": "¥62,000",
-                        "color": "#ffffff",
-                        "size": "md",
-                        "flex": 0,
-                        "align": "end"
-                      },
-                      {
-                        "type": "text",
-                        "text": "¥82,000",
-                        "color": "#a9a9a9",
-                        "decoration": "line-through",
-                        "size": "sm",
-                        "align": "end"
-                      }
-                    ],
-                    "flex": 0,
-                    "spacing": "lg"
-                  }
-                ]
-              }
-            ],
-            "spacing": "xs"
-          }
-        ],
-        "position": "absolute",
-        "offsetBottom": "0px",
-        "offsetStart": "0px",
-        "offsetEnd": "0px",
-        "paddingAll": "20px"
+  "type": "flex",
+  "altText": "Flex Message",
+  "contents": {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "label": "Line",
+        "uri": "https://linecorp.com/"
       }
-    ],
-    "paddingAll": "0px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "Brown Cafe",
+          "size": "xl",
+          "weight": "bold"
+        },
+        {
+          "type": "box",
+          "layout": "baseline",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "text",
+              "text": "4.0",
+              "flex": 0,
+              "margin": "md",
+              "size": "sm",
+              "color": "#999999"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "lg",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Place",
+                  "flex": 1,
+                  "size": "sm",
+                  "color": "#AAAAAA"
+                },
+                {
+                  "type": "text",
+                  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                  "flex": 5,
+                  "size": "sm",
+                  "color": "#666666",
+                  "wrap": True
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Time",
+                  "flex": 1,
+                  "size": "sm",
+                  "color": "#AAAAAA"
+                },
+                {
+                  "type": "text",
+                  "text": "10:00 - 23:00",
+                  "flex": 5,
+                  "size": "sm",
+                  "color": "#666666",
+                  "wrap": True
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "flex": 0,
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "CALL",
+            "uri": "https://linecorp.com"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "WEBSITE",
+            "uri": "https://linecorp.com"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "spacer",
+          "size": "sm"
+        }
+      ]
+    }
   }
 }
             line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
