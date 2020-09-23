@@ -727,7 +727,7 @@ def handle_message(event):
                 },
                 {
                   "type": "text",
-                  "text": result,
+                  "text": output_text,
                   "flex": 5,
                   "size": "sm",
                   "color": "#666666",
