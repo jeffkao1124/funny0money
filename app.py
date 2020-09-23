@@ -667,14 +667,13 @@ def handle_message(event):
     "type": "bubble",
     "hero": {
       "type": "image",
-      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "url": "https://imgur.dcard.tw/IzLY5bRh.jpg",
       "size": "full",
       "aspectRatio": "20:13",
       "aspectMode": "cover",
       "action": {
-        "type": "uri",
-        "label": "Line",
-        "uri": "https://linecorp.com/"
+        "type": "text",
+        "text":"借錢要還，誰還要借?"
       }
     },
     "body": {
