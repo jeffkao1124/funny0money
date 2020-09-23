@@ -687,13 +687,6 @@ def handle_message(event):
           "size": "xl",
           "weight": "bold"
         },
-        
-
-            {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-              "size": "sm"
-            },
             {
               "type": "text",
               "text": "別再賒帳啦!",
@@ -709,7 +702,9 @@ def handle_message(event):
                   "size": "sm",
                   "color": "#666666",
                   "wrap": False
-                }]}
+                }
+                ]
+                },
     "footer": {
       "type": "box",
       "layout": "vertical",
