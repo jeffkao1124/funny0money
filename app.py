@@ -683,7 +683,7 @@ def handle_message(event):
       "contents": [
         {
           "type": "text",
-          "text": "Brown Cafe",
+          "text": "結算(簡化版本)",
           "size": "xl",
           "weight": "bold"
         },
@@ -698,28 +698,8 @@ def handle_message(event):
               "size": "sm"
             },
             {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-              "size": "sm"
-            },
-            {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-              "size": "sm"
-            },
-            {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-              "size": "sm"
-            },
-            {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png",
-              "size": "sm"
-            },
-            {
               "type": "text",
-              "text": "4.0",
+              "text": "別再賒帳啦!",
               "flex": 0,
               "margin": "md",
               "size": "sm",
@@ -747,7 +727,7 @@ def handle_message(event):
                 },
                 {
                   "type": "text",
-                  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                  "text": result,
                   "flex": 5,
                   "size": "sm",
                   "color": "#666666",
@@ -755,28 +735,6 @@ def handle_message(event):
                 }
               ]
             },
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Time",
-                  "flex": 1,
-                  "size": "sm",
-                  "color": "#AAAAAA"
-                },
-                {
-                  "type": "text",
-                  "text": "10:00 - 23:00",
-                  "flex": 5,
-                  "size": "sm",
-                  "color": "#666666",
-                  "wrap": True
-                }
-              ]
-            }
           ]
         }
       ]
