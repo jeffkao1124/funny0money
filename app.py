@@ -770,7 +770,7 @@ def handle_message(event):
     "paddingAll": "0px"
   }
 }
-            line_bot_api.reply_message(event.reply_token,message=FlexSendMessage.new_from_json_dict(flexmsg))
+            line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
