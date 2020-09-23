@@ -699,7 +699,7 @@ def handle_message(event):
               "contents": [
                 {
                   "type": "text",
-                  "text": result+"      ⋮"
+                  "text": result+". . ."
                   "flex": 5,
                   "size": "sm",
                   "color": "#666666",
