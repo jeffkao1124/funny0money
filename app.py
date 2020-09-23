@@ -687,11 +687,8 @@ def handle_message(event):
           "size": "xl",
           "weight": "bold"
         },
-        {
-          "type": "box",
-          "layout": "baseline",
-          "margin": "md",
-          "contents": [
+        
+
             {
               "type": "icon",
               "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
@@ -704,27 +701,7 @@ def handle_message(event):
               "margin": "md",
               "size": "sm",
               "color": "#999999"
-            }
-          ]
-        },
-        {
-          "type": "box",
-          "layout": "vertical",
-          "spacing": "sm",
-          "margin": "lg",
-          "contents": [
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "Place",
-                  "flex": 1,
-                  "size": "sm",
-                  "color": "#AAAAAA"
-                },
+            },
                 {
                   "type": "text",
                   "text": output_text,
@@ -732,13 +709,7 @@ def handle_message(event):
                   "size": "sm",
                   "color": "#666666",
                   "wrap": False
-                }
-              ]
-            },
-          ]
-        }
-      ]
-    },
+                }]}
     "footer": {
       "type": "box",
       "layout": "vertical",
@@ -749,8 +720,8 @@ def handle_message(event):
           "type": "button",
           "action": {
             "type": "uri",
-            "label": "WEBSITE",
-            "uri": "https://linecorp.com"
+            "label": "詳細資訊",
+            "uri": "https://liff.line.me/1654876504-rK3v07Pk"
           },
           "height": "sm",
           "style": "link"
