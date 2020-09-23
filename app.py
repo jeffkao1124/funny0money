@@ -4,7 +4,7 @@ from linebot import (
     LineBotApi, WebhookHandler
 )
 from linebot.exceptions import (
-    InvalidSignatureError
+    InvalidSignatureErrorcal
 )
 from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
@@ -745,16 +745,6 @@ def handle_message(event):
       "flex": 0,
       "spacing": "sm",
       "contents": [
-        {
-          "type": "button",
-          "action": {
-            "type": "uri",
-            "label": "CALL",
-            "uri": "https://linecorp.com"
-          },
-          "height": "sm",
-          "style": "link"
-        },
         {
           "type": "button",
           "action": {
