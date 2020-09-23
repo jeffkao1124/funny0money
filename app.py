@@ -10,7 +10,7 @@ from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,ButtonsTemplate,CarouselTemplate,CarouselColumn,
     MessageTemplateAction,URITemplateAction,PostbackEvent,AudioMessage,LocationMessage,
-    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
+    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent,FlexSendMessage
 )
 
 from linebot import (LineBotApi, WebhookHandler)
@@ -541,32 +541,6 @@ def handle_message(event):
         elif input_text == '查帳':
             output_text = get_settleList(selfGroupId)
 
-        elif input_text =='理財':            
-            line_bot_api.reply_message(  
-            event.reply_token,
-            TemplateSendMessage(
-                alt_text='Buttons template',
-                template=ButtonsTemplate(
-                    title='理財小幫手',
-                    text='請選擇功能',
-                    actions=[
-                        URITemplateAction(
-                            label='股市',
-                            uri='https://tw.stock.yahoo.com/'
-                        ),
-                        URITemplateAction(
-                            label='匯率',
-                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
-                        ),
-                        URITemplateAction(
-                            label='財經新聞',
-                            uri='https://www.msn.com/zh-tw/money'
-                        )
-                        ]
-                    )
-                )
-            )
-
         elif input_text =='結算':            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -686,21 +660,120 @@ def handle_message(event):
 
             output_text = result.strip('\n')
             
-            flexmsg = TemplateSendMessage(
-                            alt_text='account',
-                            template=ButtonsTemplate(
-                            
-            title="結算(簡化版本)",
-            text=result,
-            actions=[
-                URITemplateAction(
-                    label="詳細資訊",
-                    uri="https://liff.line.me/1654876504-rK3v07Pk"
-                )
-            ]
-        )
-    )
-            line_bot_api.reply_message(event.reply_token,flexmsg)
+            flexmsg ={
+  "type": "flex",
+  "altText": "Flex Message",
+  "contents": {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "uri",
+        "label": "Line",
+        "uri": "https://linecorp.com/"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "結算(簡化版本)",
+          "size": "xl",
+          "weight": "bold"
+        },
+        {
+          "type": "box",
+          "layout": "baseline",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "icon",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
+              "size": "sm"
+            },
+            {
+              "type": "text",
+              "text": "別再賒帳啦!",
+              "flex": 0,
+              "margin": "md",
+              "size": "sm",
+              "color": "#999999"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "lg",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "Place",
+                  "flex": 1,
+                  "size": "sm",
+                  "color": "#AAAAAA"
+                },
+                {
+                  "type": "text",
+                  "text": result,
+                  "flex": 5,
+                  "size": "sm",
+                  "color": "#666666",
+                  "wrap": True
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "flex": 0,
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "CALL",
+            "uri": "https://linecorp.com"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "WEBSITE",
+            "uri": "https://linecorp.com"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "spacer",
+          "size": "sm"
+        }
+      ]
+    }
+  }
+}
+            line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
         elif input_text =='稍微':             
             selfGroupId = history_list[0]['group_id'] 
