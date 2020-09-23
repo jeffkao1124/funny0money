@@ -683,29 +683,9 @@ def handle_message(event):
       "contents": [
         {
           "type": "text",
-          "text": "結算(簡化版本)",
+          "text": "結算",
           "size": "xl",
           "weight": "bold"
-        },
-        {
-          "type": "box",
-          "layout": "baseline",
-          "margin": "md",
-          "contents": [
-            {
-              "type": "icon",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png",
-              "size": "sm"
-            },
-            {
-              "type": "text",
-              "text": "別再賒帳啦!",
-              "flex": 0,
-              "margin": "md",
-              "size": "sm",
-              "color": "#999999"
-            }
-          ]
         },
         {
           "type": "box",
@@ -720,7 +700,7 @@ def handle_message(event):
               "contents": [
                 {
                   "type": "text",
-                  "text": "Place",
+                  "text": "簡化版本",
                   "flex": 1,
                   "size": "sm",
                   "color": "#AAAAAA"
@@ -749,18 +729,8 @@ def handle_message(event):
           "type": "button",
           "action": {
             "type": "uri",
-            "label": "CALL",
-            "uri": "https://linecorp.com"
-          },
-          "height": "sm",
-          "style": "link"
-        },
-        {
-          "type": "button",
-          "action": {
-            "type": "uri",
-            "label": "WEBSITE",
-            "uri": "https://linecorp.com"
+            "label": "詳細資訊",
+            "uri": "https://liff.line.me/1654876504-rK3v07Pk"
           },
           "height": "sm",
           "style": "link"
