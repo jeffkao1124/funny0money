@@ -726,17 +726,10 @@ def handle_message(event):
       "spacing": "sm",
       "contents": [
         {
-                  "type": "text",
-                  "text": ...,
-                  "flex": 5,
-                  "size": "lg",
-                  "color": "#666666",
-        },
-        {
           "type": "button",
           "action": {
             "type": "uri",
-            "label": "詳細資訊",
+            "label": "...查看更多",
             "uri": "https://liff.line.me/1654876504-rK3v07Pk"
           },
           "height": "sm",
