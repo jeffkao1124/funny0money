@@ -722,7 +722,7 @@ def handle_message(event):
           "type": "button",
           "action": {
             "type": "uri",
-            "label": "...查看更多",
+            "label": "查看更多",
             "uri": "https://liff.line.me/1654876504-rK3v07Pk"
           },
           "height": "sm",
