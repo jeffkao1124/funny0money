@@ -700,8 +700,7 @@ def handle_message(event):
                   "text": result,
                   "flex": 5,
                   "size": "sm",
-                  "color": "#666666",
-                  "wrap": False
+                  "color": "#666666"
                 }
                 ]
                 },
