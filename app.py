@@ -136,6 +136,10 @@ contents= {
         "offsetEnd": "0px",
         "paddingAll": "20px"
       }
+    ],
+    "paddingAll": "0px"
+  }
+}
 
 @app.route("/")
 def home():
