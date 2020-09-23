@@ -675,18 +675,18 @@ def handle_message(event):
         "type": "uri",
         "label": "Line",
         "uri": "https://linecorp.com/"
-      }
+      },
+      {
+          "type": "text",
+          "text": "結算(簡化版本)",
+          "size": "xl",
+          "weight": "bold"
+        }
     },
     "body": {
       "type": "box",
       "layout": "vertical",
       "contents": [
-        {
-          "type": "text",
-          "text": "結算(簡化版本)",
-          "size": "xl",
-          "weight": "bold"
-        },
             {
               "type": "text",
               "text": "別再賒帳啦!",
