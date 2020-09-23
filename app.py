@@ -3,14 +3,12 @@ from flask import Flask, request, abort
 from linebot import (
     LineBotApi, WebhookHandler
 )
-from linebot.exceptions import (
-    InvalidSignatureError
-)
+
 from linebot.models import (
     SourceUser,SourceGroup,SourceRoom,LeaveEvent,JoinEvent,
     TemplateSendMessage,ButtonsTemplate,CarouselTemplate,CarouselColumn,
     MessageTemplateAction,URITemplateAction,PostbackEvent,AudioMessage,LocationMessage,
-    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent
+    MessageEvent, TextMessage, TextSendMessage ,FollowEvent, UnfollowEvent,FlexSendMessage
 )
 
 from linebot import (LineBotApi, WebhookHandler)
@@ -27,12 +25,23 @@ import numpy as np
 import sys
 import re
 import time
-
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('bHi/8szU2mkZAaIMLGDKqTE8CnG4TjilHVVJsqDse2XD39ZUGdxiHRedvOGSC5Q7zJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFFVJLpDhwB8DRrJ8SAoqK+sEAMuD2PL0h0wdsZxncRwdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
+contents= {
+    'type': 'bubble',
+    'direction': 'ltr',
+    'hero': {
+        'type': 'image',
+        'url': 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_2_restaurant.png',
+        'size': 'full',
+        'aspect_ratio': '20:13',
+        'aspect_mode': 'cover',
+        'action': { 'type': 'postback', 'data': 'sample', 'label': 'sample' }
+    }
+}
 
 @app.route("/")
 def home():
@@ -209,21 +218,6 @@ def callback():
         abort(400)
 
     return 'OK'
-
-
-def get_movie():   #電影討論度
-    movies = []
-    url_1= "https://movies.yahoo.com.tw/chart.html"
-    resp_1 = requests.get(url_1)
-    ms = BeautifulSoup(resp_1.text,"html.parser")
-
-    ms.find_all("div","rank_txt")
-    movies.append(ms.find('h2').text)
-
-    for rank_txt in ms.find_all("div","rank_txt"):
-        movies.append(rank_txt.text.strip())
-
-    return movies
 
 #從資料庫取得匯率
 def get_exchangeRate(mode):
@@ -541,31 +535,7 @@ def handle_message(event):
         elif input_text == '查帳':
             output_text = get_settleList(selfGroupId)
 
-        elif input_text =='理財':            
-            line_bot_api.reply_message(  
-            event.reply_token,
-            TemplateSendMessage(
-                alt_text='Buttons template',
-                template=ButtonsTemplate(
-                    title='理財小幫手',
-                    text='請選擇功能',
-                    actions=[
-                        URITemplateAction(
-                            label='股市',
-                            uri='https://tw.stock.yahoo.com/'
-                        ),
-                        URITemplateAction(
-                            label='匯率',
-                            uri='https://rate.bot.com.tw/xrt?Lang=zh-TW'
-                        ),
-                        URITemplateAction(
-                            label='財經新聞',
-                            uri='https://www.msn.com/zh-tw/money'
-                        )
-                        ]
-                    )
-                )
-            )
+
 
         elif input_text =='結算':            
             selfGroupId = history_list[0]['group_id']
@@ -871,17 +841,12 @@ def handle_message(event):
                        
                             )
             line_bot_api.reply_message(event.reply_token,message)
-
-        elif input_text=='電影':
-            output_text = str(get_movie())
-
-        elif input_text == '嗷嗷嗷':
-            output_text = '嗷嗷嗷'
-
-        elif input_text == '乖狗狗':
-            line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
-
-        line_bot_api.reply_message(event.reply_token, TextSendMessage (output_text) )
+        elif input_text == '哈哈':
+            line_bot_api.reply_message(event.reply_token,FlexSendMessage(
+                    alt_text = 'ccc',
+                    contents = contents
+                )
+            )
         
 
 
