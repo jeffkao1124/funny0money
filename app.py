@@ -537,7 +537,7 @@ def handle_message(event):
         
     else:  #群組部分
         selfGroupId = history_list[0]['group_id']
-        if (history_list[0]['Status'] == 'set') and ('分帳設定' in input_text):
+        if (history_list[0]['Status'] == 'set') and ('@分帳設定' in input_text):
             groupNumber=get_groupPeople(history_list,1)
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
 
@@ -547,21 +547,21 @@ def handle_message(event):
         elif (history_list[0]['Status'] == 'None') and ('分帳' in input_text):
             output_text='分帳紀錄失敗'
 
-        elif input_text == '設定查詢':
+        elif input_text == '@設定查詢':
             groupMember=get_groupPeople(history_list,2)
             output_text="分帳名單："
             for i in range(get_groupPeople(history_list,1)):
                 output_text+='\n'+groupMember[i]
 
-        elif '美金設定' in input_text:
+        elif '@美金設定' in input_text:
             NowRate=get_TodayRate(1)
             output_text="今日匯率："+str(NowRate)
 
-        elif '日圓設定' in input_text:
+        elif '@日圓設定' in input_text:
             NowRate=get_TodayRate(2)
             output_text="今日匯率："+str(NowRate)
         
-        elif '歐元設定' in input_text:
+        elif '@歐元設定' in input_text:
             NowRate=get_TodayRate(3)
             output_text="今日匯率："+str(NowRate)
 
@@ -576,9 +576,9 @@ def handle_message(event):
             db.session.commit()
             output_text='刪除成功'
         
-        elif 'clear' in input_text:  #刪除單個分帳者
+        elif '@clear' in input_text:  #刪除單個分帳者
             data_UserData = usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
-            del_spiltperson = ' '+input_text.replace('clear','').strip(' ') +' '
+            del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
                 if old_nickname.count(del_spiltperson):
@@ -625,7 +625,7 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
 
-        elif input_text == '查帳':
+        elif input_text == '@查帳':
             output_text = get_settleList(selfGroupId)
             flexmsg ={
   "type": "flex",
@@ -724,7 +724,7 @@ def handle_message(event):
 }
             line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
-        elif input_text =='結算':            
+        elif input_text =='@結算':            
             selfGroupId = history_list[0]['group_id']
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
             historySettle_list = []
@@ -940,7 +940,7 @@ def handle_message(event):
 }
             line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
-        elif input_text =='稍微':             
+        elif input_text =='@稍微':             
             selfGroupId = history_list[0]['group_id'] 
             dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group') 
             historySettle_list = [] 
@@ -999,12 +999,12 @@ def handle_message(event):
                         result += person_list[j]+'付給'+person_list[i] +" "+ str(round(payAmount,2)) +'元'+'\n' 
             output_text = result.strip('\n')
      
-        elif input_text == '清空資料庫':
+        elif input_text == '@清空資料庫':
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             db.session.commit()
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
 
-        elif input_text =='帳獒':
+        elif input_text =='@帳獒':
             try:
                 message =TextSendMessage(
                     text="快速選擇下列功能：",
