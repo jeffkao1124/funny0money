@@ -411,7 +411,7 @@ def handle_message(event):
               "contents": [
                 {
                   "type": "text",
-                  "text": output_text+"\n"+". . .",
+                  "text": output_text,
                   "flex": 5,
                   "size": "sm",
                   "color": "#666666",
