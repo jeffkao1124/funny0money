@@ -411,7 +411,7 @@ def handle_message(event):
               "contents": [
                 {
                   "type": "text",
-                  "text": output_text+". . .",
+                  "text": output_text+"\n"+". . .",
                   "flex": 5,
                   "size": "sm",
                   "color": "#666666",
@@ -434,7 +434,17 @@ def handle_message(event):
           "action": {
             "type": "uri",
             "label": "查看更多",
-            "uri": "https://liff.line.me/1654876504-rK3v07Pk"
+            "uri": "https://liff.line.me/1654876504-b6gxRoYk"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "進行記帳",
+            "uri": "https://liff.line.me/1654876504-LnyRK1Pl"
           },
           "height": "sm",
           "style": "link"
