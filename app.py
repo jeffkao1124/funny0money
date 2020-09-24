@@ -294,7 +294,7 @@ def get_settleList(selfGroupId):
     final_list =[]
     for i in range(len(historySettle_list)):
         settleTime = str(historySettle_list[i]['Time'])
-        final_list.append(settleTime[:10]+' '+str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account'])+' '+str(historySettle_list[i]['GroupPeople']))
+        final_list.append(settleTime[:10]+' '+str(historySettle_list[i]['Mesaage'])+' '+str(historySettle_list[i]['Account']))
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list += str(j+1)+'.'+str(final_list[j])+'\n'
