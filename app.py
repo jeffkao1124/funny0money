@@ -372,6 +372,83 @@ def handle_message(event):
         elif input_text =='查帳':
             for i in range(10):
                 output_text = get_accountList(selfId)
+            flexmsg ={
+  "type": "flex",
+  "altText": "Flex Message",
+  "contents": {
+    "type": "bubble",
+    "hero": {
+      "type": "image",
+      "url": "https://chunting.me/wp-content/uploads/2018/07/OElrPtB.jpg",
+      "size": "full",
+      "aspectRatio": "20:13",
+      "aspectMode": "cover",
+      "action": {
+        "type": "text",
+        "text":"查查"
+      }
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "查帳",
+          "size": "xl",
+          "weight": "bold"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "margin": "lg",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "baseline",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": output_text+". . .",
+                  "flex": 5,
+                  "size": "sm",
+                  "color": "#666666",
+                  "wrap": True
+                }
+              ]
+            },
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "flex": 0,
+      "spacing": "sm",
+      "contents": [
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "查看更多",
+            "uri": "https://liff.line.me/1654876504-rK3v07Pk"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "spacer",
+          "size": "sm"
+        }
+      ]
+    }
+  }
+}
+            line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
+
         
         elif input_text =='@help':
             Carousel_template = TemplateSendMessage(
