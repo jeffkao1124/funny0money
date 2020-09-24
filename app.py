@@ -394,18 +394,18 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
-        elif input_text =='刪除':
+        elif input_text =='@刪除':
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
 
-        elif 'delete' in input_text:
+        elif '@delete' in input_text:
             data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')
             count=0
             for _data in data_UserData:
                 count+=1
             try:
-                del_number = int (input_text.strip('delete '))  
+                del_number = int (input_text.strip('@delete '))  
                 if del_number <= count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status=='save').filter(usermessage.type=='user')[del_number-1:del_number]
                     for _data in data_UserData:
@@ -478,13 +478,13 @@ def handle_message(event):
             NowRate=get_TodayRate(3)
             output_text="今日匯率："+str(NowRate)
 
-        elif input_text == '刪除':
+        elif input_text == '@刪除':
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
             output_text='刪除成功'
             db.session.commit()
 
-        elif input_text == '設定刪除':
+        elif input_text == '@設定刪除':
             data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
@@ -522,10 +522,10 @@ def handle_message(event):
                 output_text = '刪除失敗'
 
         
-        elif 'delete' in input_text: #刪除單筆分帳
+        elif '@delete' in input_text: #刪除單筆分帳
             count = usermessage.query.filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId).count()
             try:
-                del_number = int (input_text.strip('delete '))
+                del_number = int (input_text.strip('@delete '))
                 if del_number <= count :
                     data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='save').filter(usermessage.group_id==selfGroupId)[del_number-1:del_number]
                     for _data in data_UserData:
