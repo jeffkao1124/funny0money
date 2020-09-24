@@ -107,8 +107,8 @@ def callback():
 
         if bodyjson['events'][0]['source']['type'] == 'group':
             receivedmsg = bodyjson['events'][0]['message']['text']
-            if '分帳設定' in receivedmsg: 
-                userName = receivedmsg.strip(' 分帳設定 ').replace('  ',' ')
+            if '@分帳設定' in receivedmsg: 
+                userName = receivedmsg.strip(' @分帳設定 ').replace('  ',' ')
                 add_data = usermessage( 
                     id = bodyjson['events'][0]['message']['id'], 
                     group_num = '0', 
