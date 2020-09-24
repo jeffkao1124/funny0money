@@ -1014,13 +1014,13 @@ def handle_message(event):
                                 action=MessageAction(label="主選單",text="@選單")
                             ),
                             QuickReplyButton(
-                                action=MessageAction(label="查帳",text="查帳")
+                                action=MessageAction(label="查帳",text="@查帳")
                             ),
                             QuickReplyButton(
-                                action=MessageAction(label="簡化結算",text="結算")
+                                action=MessageAction(label="簡化結算",text="@結算")
                             ),
                             QuickReplyButton(
-                                action=MessageAction(label="不簡化結算",text="稍微")
+                                action=MessageAction(label="不簡化結算",text="@稍微")
                             ),
                             QuickReplyButton(
                                 action=MessageAction(label="使用說明",text="@help")
