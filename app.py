@@ -695,6 +695,16 @@ def handle_message(event):
           "style": "link"
         },
         {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "記錄分帳",
+            "uri": "https://liff.line.me/1654876504-9wWzOva7"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
           "type": "spacer",
           "size": "sm"
         }
@@ -886,6 +896,16 @@ def handle_message(event):
             "type": "uri",
             "label": "查看更多",
             "uri": "https://liff.line.me/1654876504-rK3v07Pk"
+          },
+          "height": "sm",
+          "style": "link"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "uri",
+            "label": "記錄分帳",
+            "uri": "https://liff.line.me/1654876504-9wWzOva7"
           },
           "height": "sm",
           "style": "link"
