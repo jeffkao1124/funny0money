@@ -638,16 +638,16 @@ def handle_message(event):
                     id = _data.id, 
                     group_num = '0', 
                     nickname = new_nickname,
-                    group_id = _data.group_id, 
+                    group_id = 'None', 
                     type = _data.type, 
-                    status = 'debt)set', 
+                    status = 'debt_set', 
                     account = '0', 
                     user_id = _data.user_id, 
                     message = _data.message, 
                     birth_date = _data.birth_date
                     )
-                    personID = _data.id
-                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
                     db.session.add(add_data)
                     db.session.commit()
                     output_text="刪除成功\n\n欠款設定名單:"
