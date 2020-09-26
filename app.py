@@ -122,7 +122,7 @@ def callback():
                     message = bodyjson['events'][0]['message']['text'], 
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
                 )
-            elif ('分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
+            elif ('@分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
                 chargeName=receivedmsg.split(' ',3)[1]
                 chargeNumber=receivedmsg.split(' ',3)[2]
                 chargePeople=receivedmsg.split(' ',3)[3]            
@@ -182,7 +182,7 @@ def callback():
         else:
             receivedmsg = bodyjson['events'][0]['message']['text']
             receivedmsg = receivedmsg.strip(' ')
-            if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
+            if ('@記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
                 chargeName=receivedmsg.split(' ')[1]
                 chargeNumber=receivedmsg.split(' ')[2]
                 if re.search(r"\D",chargeNumber) is None:
