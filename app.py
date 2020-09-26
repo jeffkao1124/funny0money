@@ -369,6 +369,22 @@ def get_debtList(selfId):
     # perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
     return perfect_list
 
+#欠款設定
+def get_debtPeople(selfId,mode)
+    data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='debt_set')
+    DebtPeopleString=''
+    for _data in data_UserData:
+        GroupPeopleString += _data.nickname.strip(' ') +' '
+    new_list = DebtPeopleString.strip(' ').replace('  ',' ').split(' ')
+    new_list=list(set(new_list)) #刪除重複
+
+    if mode ==1:
+        return len(new_list)
+    elif mode ==2:
+        return new_list
+    else:
+        return 0
+
 #分帳查帳
 def get_settleList(selfGroupId):
     dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -595,6 +611,13 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
         
+        
+        elif  input_text =='@欠款設定查詢':
+            debtMember=get_debtPeople(selfId,2)
+            output_text="欠款設定名單："
+            for i in range(get_debtPeople(selfId,1)):
+                output_text+='\n'+debtMember[i]
+
         elif '@remove' in input_text:  #刪除單筆欠債
             count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
             count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
