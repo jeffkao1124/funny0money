@@ -490,7 +490,7 @@ def handle_join(event):
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    input_text = event.message.text.lower()
+    input_text = event.message.text
     history_list = get_history_list()
     if history_list[0]['type'] == 'user':      #個人部分
         selfId = history_list[0]['user_id']
@@ -654,7 +654,7 @@ def handle_message(event):
             del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
-                old_nickname=old_nickname.lower()
+                old_nickname=old_nickname
                 if old_nickname.count(del_spiltperson):
                     new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
@@ -826,7 +826,7 @@ def handle_message(event):
             del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
-                old_nickname = old_nickname.lower() 
+                old_nickname = old_nickname
                 if old_nickname.count(del_spiltperson):
                     new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
