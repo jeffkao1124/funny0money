@@ -377,9 +377,11 @@ def get_debtList(selfId):
                     total += int(history_list[j]['Account'])
         if total > 0:
             person_total += '我共借'+str(debtPerson)+str(total)+'元'+'\n'
-        if total < 0:
+        elif total < 0:
             total=abs(total)
             person_total += '我共欠'+str(debtPerson)+str(total)+'元'+'\n'
+        else:
+            person_total += '我不欠'+str(debtPerson)+','+str(debtPerson)+'不欠我'+'\n'
         total = 0
 
     perfect_list=''
