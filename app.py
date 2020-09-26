@@ -337,7 +337,7 @@ def get_debtList(selfId):
         if msgStatus == "borrow":
             showStatus ="我借"            
         # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-        final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account']))+'元'
+        final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account'])+'元')
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
