@@ -233,61 +233,6 @@ def callback():
         db.session.add(add_data)
         db.session.commit()
 
-        else:
-            receivedmsg = bodyjson['events'][0]['message']['text']
-            receivedmsg = receivedmsg.strip(' ')
-            if ('記帳' in receivedmsg) and (len(re.findall(r" ",receivedmsg)) == 2):
-                chargeName=receivedmsg.split(' ')[1]
-                chargeNumber=receivedmsg.split(' ')[2]
-                if re.search(r"\D",chargeNumber) is None:
-                    add_data = usermessage(
-                            id = bodyjson['events'][0]['message']['id'],
-                            group_num = '0',
-                            nickname = 'None',
-                            group_id = 'None',
-                            type = bodyjson['events'][0]['source']['type'],
-                            status = 'save',
-                            account = chargeNumber,
-                            user_id = bodyjson['events'][0]['source']['userId'],
-                            message = chargeName ,
-                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                        )
-            elif (('我欠' in receivedmsg)or('我借' in receivedmsg))  and (len(re.findall(r" ",receivedmsg)) == 3):           
-                debtType=receivedmsg.split(' ')[0]
-                debtPerson=receivedmsg.split(' ')[1]
-                debtName=receivedmsg.split(' ')[2]
-                debtAccount=receivedmsg.split(' ')[3]            
-                if re.search(r"\D",debtAccount) is None:
-                    if '欠' in debtType:
-                        add_data = usermessage(
-                            id = bodyjson['events'][0]['message']['id'],
-                            group_num = debtPerson ,
-                            nickname = 'None',
-                            group_id = 'None',
-                            type = bodyjson['events'][0]['source']['type'],
-                            status = 'owe',
-                            account = debtAccount,
-                            user_id = bodyjson['events'][0]['source']['userId'],
-                            message = debtName,
-                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                        )
-                    if '借' in debtType:
-                        add_data = usermessage(
-                            id = bodyjson['events'][0]['message']['id'],
-                            group_num = debtPerson ,
-                            nickname = 'None',
-                            group_id = 'None',
-                            type = bodyjson['events'][0]['source']['type'],
-                            status = 'borrow',
-                            account = debtAccount,
-                            user_id = bodyjson['events'][0]['source']['userId'],
-                            message = debtName,
-                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-                        )    
-
-        db.session.add(add_data)
-        db.session.commit()
-
     # handle webhook body
     try:
         handler.handle(body, signature)
@@ -626,7 +571,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
 
     elif history_list[0]['type'] == 'room':  #聊天室部分
-        output_text='帳獒目前無法在聊天室模式使用，請把我加進群組'
+        output_text='目前帳獒無法在聊天室使用，請把我加入群組'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
 
     else:  #群組部分
