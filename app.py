@@ -612,12 +612,20 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
         
+        elif (history_list[0]['Status'] == 'debt_set') and ('@欠款設定' in input_text):
+            debtNumber=get_debtPeople(selfId,1)
+            output_text='欠款設定成功:共有'+str( debtNumber)+'人'
         
         elif  input_text =='@欠款設定查詢':
             debtMember=get_debtPeople(selfId,2)
             output_text="欠款設定名單："
             for i in range(get_debtPeople(selfId,1)):
                 output_text+='\n'+debtMember[i]
+
+        elif input_text == '@設定刪除':
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfId).filter(usermessage.status=='debt_set').delete(synchronize_session='fetch')
+            db.session.commit()
+            output_text='刪除成功'
 
         elif '@remove' in input_text:  #刪除單筆欠債
             count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
