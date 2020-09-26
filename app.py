@@ -627,6 +627,38 @@ def handle_message(event):
             db.session.commit()
             output_text='刪除成功'
 
+        elif '@clear' in input_text:  #刪除單個欠款者
+            data_UserData = usermessage.query.filter(usermessage.status=='debt)set').filter(usermessage.user_id==selfId)
+            del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
+            for _data in data_UserData:
+                old_nickname = ' '+_data.nickname+' '
+                if old_nickname.count(del_spiltperson):
+                    new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
+                    add_data = usermessage( 
+                    id = _data.id, 
+                    group_num = '0', 
+                    nickname = new_nickname,
+                    group_id = _data.group_id, 
+                    type = _data.type, 
+                    status = 'debt)set', 
+                    account = '0', 
+                    user_id = _data.user_id, 
+                    message = _data.message, 
+                    birth_date = _data.birth_date
+                    )
+                    personID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    db.session.add(add_data)
+                    db.session.commit()
+                    output_text="刪除成功\n\n欠款設定名單:"
+            try:
+                if output_text=='刪除成功\n\n欠款設定名單:':
+                    debtMember=get_debtPeople(selfId,2)
+                    for i in range(get_debtPeople(selfId,1)):
+                        output_text+='\n'+debtMember[i]
+            except: 
+                output_text = '刪除失敗'
+
         elif '@remove' in input_text:  #刪除單筆欠債
             count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
             count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
