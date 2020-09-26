@@ -371,7 +371,7 @@ def get_debtList(selfId):
     return perfect_list
 
 #欠款設定
-def get_debtPeople(selfId,mode)
+def get_debtPeople(selfId,mode):
     data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='debt_set')
     DebtPeopleString=''
     for _data in data_UserData:
