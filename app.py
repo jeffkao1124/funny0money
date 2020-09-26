@@ -361,24 +361,6 @@ def get_debtList(selfId):
     debtPerson_list=get_debtPeople(selfId,2)
     person_total=[]
     total = 0
-    for i in range(len(debtPerson_list)):
-        debtPerson = str(debtPerson_list[i])
-        for j in range(len(history_list)):
-            historyPerson = str(history_list[i]['debtPerson'])
-            msgStatus = str(history_list[i]['debtStatus'])
-            if debtPerson == historyPerson:
-                if msgStatus == "owe":
-                    total -= history_list[j]['Account']
-                if msgStatus == "borrow":
-                    total += history_list[j]['Account']
-        if total > 0:
-            person_total.append('我共借'+str(debtPerson)+str(total)+'元'+'\n')
-        if total < 0:
-            total=abs(total)
-            person_total.append('我共欠'+str(debtPerson)+str(total)+'元'+'\n')
-        total = 0   
-
-    total = 0
     final_list =[]
     for i in range(len(history_list)):
         # total += int(history_list[i]['Account'])
@@ -393,7 +375,7 @@ def get_debtList(selfId):
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    perfect_list = perfect_list+'\n'+person_total  #'累計花費:'+str(total)
+    # perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
     return perfect_list
 
 #欠款設定
@@ -654,26 +636,30 @@ def handle_message(event):
             output_text='刪除成功'
 
         elif '@clear' in input_text:  #刪除單個欠款者
-            data_UserData = usermessage.query.filter(usermessage.status=='debt)set').filter(usermessage.user_id==selfId)
+            data_UserData = usermessage.query.filter(usermessage.status=='debt_set').filter(usermessage.user_id==selfId)
             del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
+                print('原本 ' ,old_nickname )
+                sys.stdout.flush()
+                print( '刪除的 ',del_spiltperson )
+                sys.stdout.flush()
                 if old_nickname.count(del_spiltperson):
                     new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
                     id = _data.id, 
                     group_num = '0', 
                     nickname = new_nickname,
-                    group_id = _data.group_id, 
+                    group_id = 'None', 
                     type = _data.type, 
-                    status = 'debt)set', 
+                    status = 'debt_set', 
                     account = '0', 
                     user_id = _data.user_id, 
                     message = _data.message, 
                     birth_date = _data.birth_date
                     )
-                    personID = _data.id
-                    data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
+                    messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
                     db.session.add(add_data)
                     db.session.commit()
                     output_text="刪除成功\n\n欠款設定名單:"
