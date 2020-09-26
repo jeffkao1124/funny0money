@@ -631,7 +631,7 @@ def handle_message(event):
                 output_text+='\n'+debtMember[i]
 
         elif input_text == '@設定刪除':
-            data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='debt_set').delete(synchronize_session='fetch')
+            data_UserData = usermessage.query.filter(usermessage.group_id==selfId).filter(usermessage.status=='debt_set').delete(synchronize_session='fetch')
             db.session.commit()
             output_text='刪除成功'
 
