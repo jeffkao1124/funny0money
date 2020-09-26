@@ -355,14 +355,11 @@ def get_debtList(selfId):
     total = 0
     final_list =[]
     for i in range(len(history_list)):
-        # total += int(history_list[i]['Account'])
-        # msgTime = str(history_list[i]['birth_date'])
         msgStatus = str(history_list[i]['debtStatus'])
         if msgStatus == "owe":
             showStatus ="我欠"
         if msgStatus == "borrow":
             showStatus ="我借"            
-        # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
         final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account'])+'元')
 
     debtPerson_list=get_debtPeople(selfId,2)
@@ -772,9 +769,6 @@ def handle_message(event):
                         )
                     )
         line_bot_api.reply_message(event.reply_token,Carousel_template)    
-        '''elif history_list[0]['type'] == 'room':  #聊天室部分
-        output_text='目前帳獒無法在聊天室使用，請把我加入群組'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))'''
 
     else:  #群組部分
         selfGroupId = history_list[0]['group_id']
