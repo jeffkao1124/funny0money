@@ -352,12 +352,24 @@ def get_debtList(selfId):
         history_dic['debtStatus']=_data.status
         history_list.append(history_dic)
 
+    total = 0
+    final_list =[]
+    for i in range(len(history_list)):
+        # total += int(history_list[i]['Account'])
+        # msgTime = str(history_list[i]['birth_date'])
+        msgStatus = str(history_list[i]['debtStatus'])
+        if msgStatus == "owe":
+            showStatus ="我欠"
+        if msgStatus == "borrow":
+            showStatus ="我借"            
+        # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+        final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account'])+'元')
+
     debtPerson_list=get_debtPeople(selfId,2)
     person_total=''
     total = 0
-    for i in range(len(debtPerson_list)):
-        debtPerson = str(debtPerson_list[i])
-        
+    for i in range(get_debtPeople(selfId,1)):
+        debtPerson = str(debtPerson_list[i])        
         for j in range(len(history_list)):
             historyPerson = str(history_list[j]['debtPerson'])
             msgStatus = str(history_list[j]['debtStatus'])
@@ -373,23 +385,10 @@ def get_debtList(selfId):
             person_total += '我共欠'+str(debtPerson)+str(total)+'元'+'\n'
         total = 0
 
-    total = 0
-    final_list =[]
-    for i in range(len(history_list)):
-        # total += int(history_list[i]['Account'])
-        # msgTime = str(history_list[i]['birth_date'])
-        msgStatus = str(history_list[i]['debtStatus'])
-        if msgStatus == "owe":
-            showStatus ="我欠"
-        if msgStatus == "borrow":
-            showStatus ="我借"            
-        # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-        final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account'])+'元')
-            
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    perfect_list = perfect_list+'\n'+str(person_total)
+    perfect_list = perfect_list+'\n'+person_total
     return perfect_list
 
 #欠款設定
