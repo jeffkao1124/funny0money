@@ -628,7 +628,7 @@ def handle_message(event):
             output_text='刪除成功'
 
         elif '@clear' in input_text:  #刪除單個欠款者
-            data_UserData = usermessage.query.filter(usermessage.status=='debt)set').filter(usermessage.user_id==selfId)
+            data_UserData = usermessage.query.filter(usermessage.status=='debt_set').filter(usermessage.user_id==selfId)
             del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
