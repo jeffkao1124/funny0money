@@ -616,7 +616,7 @@ def handle_message(event):
             debtNumber=get_debtPeople(selfId,1)
             output_text='欠款設定成功:共有'+str( debtNumber)+'人'
         
-        elif  input_text =='@欠款設定查詢':
+        elif  input_text =='@設定查詢':
             debtMember=get_debtPeople(selfId,2)
             output_text="欠款設定名單："
             for i in range(get_debtPeople(selfId,1)):
