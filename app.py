@@ -352,14 +352,27 @@ def get_debtList(selfId):
         history_dic['debtStatus']=_data.status
         history_list.append(history_dic)
 
-    '''debtPerson_list=''
-    for i in range(len(history_list)):
-        debtPerson_list=debtPerson_list+history_list[i]['debtPerson'].strip(' ') +' '
-    debtPerson_list=debtPerson_list.strip(' ').replace('  ',' ').split(' ')
-    debtPerson_list=list(set(debtPerson_list))'''
-
     debtPerson_list=get_debtPeople(selfId,2)
-    person_total=[]
+    person_total=''
+    total = 0
+    for i in range(len(debtPerson_list)):
+        debtPerson = str(debtPerson_list[i])
+        
+        for j in range(len(history_list)):
+            historyPerson = str(history_list[j]['debtPerson'])
+            msgStatus = str(history_list[j]['debtStatus'])
+            if debtPerson == historyPerson:
+                if msgStatus == "owe":
+                    total -= int(history_list[j]['Account'])
+                if msgStatus == "borrow":
+                    total += int(history_list[j]['Account'])
+        if total > 0:
+            person_total += '我共借'+str(debtPerson)+str(total)+'元'+'\n'
+        if total < 0:
+            total=abs(total)
+            person_total += '我共欠'+str(debtPerson)+str(total)+'元'+'\n'
+        total = 0
+
     total = 0
     final_list =[]
     for i in range(len(history_list)):
@@ -372,10 +385,11 @@ def get_debtList(selfId):
             showStatus ="我借"            
         # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
         final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account'])+'元')
+            
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
-    # perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
+    perfect_list = perfect_list+'\n'+str(person_total)
     return perfect_list
 
 #欠款設定
