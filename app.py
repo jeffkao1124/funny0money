@@ -632,6 +632,10 @@ def handle_message(event):
             del_spiltperson = ' '+input_text.replace('@clear','').strip(' ') +' '
             for _data in data_UserData:
                 old_nickname = ' '+_data.nickname+' '
+                print('原本 ' ,old_nickname )
+                sys.stdout.flush()
+                print( '刪除的 ',del_spiltperson )
+                sys.stdout.flush()
                 if old_nickname.count(del_spiltperson):
                     new_nickname = old_nickname.replace(del_spiltperson,' ').replace('  ',' ').strip(' ')
                     add_data = usermessage( 
