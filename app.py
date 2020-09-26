@@ -197,6 +197,38 @@ def callback():
                             message = chargeName ,
                             birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                         )
+            elif (('我欠' in receivedmsg)or('我借' in receivedmsg))  and (len(re.findall(r" ",receivedmsg)) == 3):           
+                debtType=receivedmsg.split(' ')[0]
+                debtPerson=receivedmsg.split(' ')[1]
+                debtName=receivedmsg.split(' ')[2]
+                debtAccount=receivedmsg.split(' ')[3]            
+                if re.search(r"\D",debtAccount) is None:
+                    if '欠' in debtType:
+                        add_data = usermessage(
+                            id = bodyjson['events'][0]['message']['id'],
+                            group_num = debtPerson ,
+                            nickname = 'None',
+                            group_id = 'None',
+                            type = bodyjson['events'][0]['source']['type'],
+                            status = 'owe',
+                            account = debtAccount,
+                            user_id = bodyjson['events'][0]['source']['userId'],
+                            message = debtName,
+                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        )
+                    if '借' in debtType:
+                        add_data = usermessage(
+                            id = bodyjson['events'][0]['message']['id'],
+                            group_num = debtPerson ,
+                            nickname = 'None',
+                            group_id = 'None',
+                            type = bodyjson['events'][0]['source']['type'],
+                            status = 'borrow',
+                            account = debtAccount,
+                            user_id = bodyjson['events'][0]['source']['userId'],
+                            message = debtName,
+                            birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+                        )    
 
         db.session.add(add_data)
         db.session.commit()
@@ -504,6 +536,9 @@ def handle_message(event):
                     output_text='刪除失敗'
             except:
                 output_text='刪除失敗'
+
+        elif(history_list[0]['Status'] ==( 'owe' or 'borrow')) in input_text:
+            output_text='欠款紀錄成功'
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
