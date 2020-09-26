@@ -374,7 +374,7 @@ def get_debtPeople(selfId,mode)
     data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='debt_set')
     DebtPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname.strip(' ') +' '
+        DebtPeopleString += _data.nickname.strip(' ') +' '
     new_list = DebtPeopleString.strip(' ').replace('  ',' ').split(' ')
     new_list=list(set(new_list)) #刪除重複
 
