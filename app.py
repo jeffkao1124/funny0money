@@ -537,7 +537,7 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
 
-        elif(history_list[0]['Status'] ==( 'owe' or 'borrow')) in input_text:
+        elif(history_list[0]['Status'] == 'owe' ) in input_text or (history_list[0]['Status'] == 'borrow' ) in input_text:
             output_text='欠款紀錄成功'
 
         elif input_text =='理財':            
