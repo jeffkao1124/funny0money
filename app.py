@@ -580,7 +580,7 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
 
-         elif '@remove' in input_text: #刪除單筆欠債
+         elif '@remove' in input_text:  #刪除單筆欠債
             count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
             count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
             
