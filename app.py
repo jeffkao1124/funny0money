@@ -625,8 +625,32 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
 
     elif history_list[0]['type'] == 'room':  #聊天室部分
-        output_text='目前帳獒無法在聊天室使用，請把我加入群組'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
+       Carousel_template = TemplateSendMessage(
+                            alt_text='使用說明',
+                            template=ImageCarouselTemplate(
+                            columns=[
+                            ImageCarouselColumn(
+                                image_url="https://i.imgur.com/wUob12p.jpg",
+                                action=URITemplateAction(
+                                    uri="https://i.imgur.com/wUob12p.jpg"
+                                )
+                            ),
+                            ImageCarouselColumn(
+                                image_url="https://i.imgur.com/MRMWivy.jpg",
+                                action=URITemplateAction(
+                                    uri="https://i.imgur.com/MRMWivy.jpg"
+                                )
+                            )
+                            )
+                                ]     
+                                )
+
+        line_bot_api.reply_message(event.reply_token,Carousel_template)
+
+
+        line_bot_api.reply_message(event.reply_token,flexmsg)
+        '''output_text='目前帳獒無法在聊天室使用，請把我加入群組'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))'''
 
     else:  #群組部分
         selfGroupId = history_list[0]['group_id']
