@@ -751,31 +751,30 @@ def handle_message(event):
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 分類/項目 金額'+'\n'+'ex：記帳 吃/麻糬 200'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
 
-    elif history_list[0]['type'] == 'room':  #聊天室部分
+    '''elif history_list[0]['type'] == 'room':  #聊天室部分
         output_text='目前帳獒無法在聊天室使用，請把我加入群組'
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
-        '''
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))'''
+    elif history_list[0]['type'] == 'room':  #聊天室部分
         Carousel_template = TemplateSendMessage(
-                            alt_text='使用說明',
+                            alt_text='請把我加入群組',
                             template=ImageCarouselTemplate(
                             columns=[
-                            ImageCarouselColumn(
-                                image_url="https://i.imgur.com/wUob12p.jpg",
-                                action=URITemplateAction(
-                                    uri="https://i.imgur.com/wUob12p.jpg"
-                                )
-                            ),
-                            ImageCarouselColumn(
-                                image_url="https://i.imgur.com/MRMWivy.jpg",
-                                action=URITemplateAction(
-                                    uri="https://i.imgur.com/MRMWivy.jpg"
-                                )
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/wUob12p.jpg",
+                    action=URITemplateAction(
+                        uri="https://i.imgur.com/wUob12p.jpg"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://i.imgur.com/MRMWivy.jpg",
+                    action=URITemplateAction(
+                        uri="https://i.imgur.com/MRMWivy.jpg"
+                    )
+                )
+            ]     
                             )
-                            )
-                                ]     
-                                )
-
-        line_bot_api.reply_message(event.reply_token,Carousel_template)'''
+                        )
+        line_bot_api.reply_message(event.reply_token,Carousel_template)        
 
     else:  #群組部分
         selfGroupId = history_list[0]['group_id']
