@@ -352,12 +352,13 @@ def get_debtList(selfId):
         history_dic['debtStatus']=_data.status
         history_list.append(history_dic)
 
-    debtPerson_list=''
+    '''debtPerson_list=''
     for i in range(len(history_list)):
-        debtPerson_list=debtPerson_list+=history_list[i]['debtPerson'].strip(' ') +' '
+        debtPerson_list=debtPerson_list+history_list[i]['debtPerson'].strip(' ') +' '
     debtPerson_list=debtPerson_list.strip(' ').replace('  ',' ').split(' ')
-    debtPerson_list=list(set(debtPerson_list))
+    debtPerson_list=list(set(debtPerson_list))'''
 
+    debtPerson_list=get_debtPeople(selfId,2)
     person_total=[]
     total = 0
     for i in range(len(debtPerson_list)):
