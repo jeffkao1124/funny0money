@@ -718,6 +718,33 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
 
+        elif '@remove' in input_text: #刪除單筆欠債
+            count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
+            count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
+            
+            try:
+                del_number = int (input_text.strip('@delete '))
+                if del_number <= count_owe :
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='owe').filter(usermessage.user_id==selfId)[del_number-1:del_number]
+                    for _data in data_UserData:
+                        messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
+                    db.session.commit()
+                elif del_number <= count_owe+count_borrow:
+                    del_number -= count_owe
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='borrow').filter(usermessage.user_id==selfId)[del_number-1:del_number]
+                    for _data in data_UserData:
+                        messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
+                    db.session.commit()
+                else:
+                    output_text='刪除失敗'
+            except:
+                output_text='刪除失敗'
+        
+
         elif input_text == '@查帳':
             output_text = get_settleList(selfGroupId)
             flexmsg ={
