@@ -197,6 +197,21 @@ def callback():
                             message = chargeName ,
                             birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                         )
+
+            elif '@欠款設定' in receivedmsg:
+                debtName = receivedmsg.strip(' @欠款設定 ').replace('  ',' ')
+                add_data = usermessage(
+                    id = bodyjson['events'][0]['message']['id'], 
+                    group_num = '0', 
+                    nickname = debtName, 
+                    group_id =  'None', 
+                    type = bodyjson['events'][0]['source']['type'], 
+                    status = 'debt_set', 
+                    account = '0', 
+                    user_id = bodyjson['events'][0]['source']['userId'], 
+                    message = bodyjson['events'][0]['message']['text'], 
+                    birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
+                )
             elif (('我欠' in receivedmsg)or('我借' in receivedmsg))  and (len(re.findall(r" ",receivedmsg)) == 3):           
                 debtType=receivedmsg.split(' ')[0]
                 debtPerson=receivedmsg.split(' ')[1]
