@@ -323,7 +323,7 @@ def get_debtList(selfId):
         history_dic['Mesaage'] = _data.message
         history_dic['Account'] = _data.account
         history_dic['debtPerson']=_data.group_num
-        history_dic['debtstatus']=_data.status
+        history_dic['debtStatus']=_data.status
         history_list.append(history_dic)
     
     total = 0
@@ -331,13 +331,13 @@ def get_debtList(selfId):
     for i in range(len(history_list)):
         # total += int(history_list[i]['Account'])
         # msgTime = str(history_list[i]['birth_date'])
-        msgStatus = str(history_list[i]['status'])
+        msgStatus = str(history_list[i]['debtStatus'])
         if msgStatus == "owe":
             showStatus ="我欠"
         if msgStatus == "borrow":
             showStatus ="我借"            
         # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
-        final_list.append(str(showStatus)+str(history_list[i]['group_num'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account']))+'元'
+        final_list.append(str(showStatus)+str(history_list[i]['debtPerson'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account']))+'元'
     perfect_list=''
     for j in range(len(final_list)):
         perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
