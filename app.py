@@ -625,7 +625,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
 
     elif history_list[0]['type'] == 'room':  #聊天室部分
-        Carousel_template = TemplateSendMessage(
+       Carousel_template = TemplateSendMessage(
                             alt_text='使用說明',
                             template=ImageCarouselTemplate(
                             columns=[
