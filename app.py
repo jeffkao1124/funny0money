@@ -312,6 +312,38 @@ def get_accountList(selfId):
     perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
     return perfect_list
 
+#欠款查詢
+def get_debtList(selfId):
+    time.sleep(0.2)
+    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.user_id==selfId).filter(usermessage.status==('owe'or'borrow')).filter(usermessage.type=='user')
+    history_list = []
+    for _data in data_UserData:
+        history_dic = {}
+        history_dic['birth_date'] = _data.birth_date
+        history_dic['Mesaage'] = _data.message
+        history_dic['Account'] = _data.account
+        history_dic['debtPerson']=_data.group_num
+        history_dic['debtstatus']=_data.status
+        history_list.append(history_dic)
+    
+    total = 0
+    final_list =[]
+    for i in range(len(history_list)):
+        # total += int(history_list[i]['Account'])
+        # msgTime = str(history_list[i]['birth_date'])
+        msgStatus = str(history_list[i]['status'])
+        if msgStatus == "owe":
+            showStatus ="我欠"
+        if msgStatus == "borrow":
+            showStatus ="我借"            
+        # final_list.append(msgTime[:10]+' '+str(history_list[i]['Mesaage'])+' '+str(history_list[i]['Account']))
+        final_list.append(str(showStatus)+str(history_list[i]['group_num'])+str(history_list[i]['Mesaage'])+str(history_list[i]['Account']))+'元'
+    perfect_list=''
+    for j in range(len(final_list)):
+        perfect_list=perfect_list+str(j+1)+'.'+str(final_list[j])+'\n'
+    # perfect_list = perfect_list+'\n'+'累計花費:'+str(total)
+    return perfect_list
+
 #分帳查帳
 def get_settleList(selfGroupId):
     dataSettle_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
@@ -539,6 +571,10 @@ def handle_message(event):
 
         elif ((history_list[0]['Status'] == 'owe' ) or (history_list[0]['Status'] == 'borrow' )) and "我" in input_text:
             output_text='欠款紀錄成功'
+
+        elif input_text =='欠款查詢':
+            for i in range(10):
+                output_text = get_debtList(selfId)
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
