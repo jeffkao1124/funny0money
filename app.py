@@ -443,7 +443,7 @@ def handle_message(event):
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
                 
-        elif input_text =='查帳':
+        elif input_text =='@查帳':
             for i in range(10):
                 output_text = get_accountList(selfId)
             flexmsg ={
@@ -558,6 +558,7 @@ def handle_message(event):
         elif input_text =='@刪除':
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
+                db.session.commit()
             output_text='刪除成功'
 
         elif '@delete' in input_text:
@@ -582,9 +583,16 @@ def handle_message(event):
         elif ((history_list[0]['Status'] == 'owe' ) or (history_list[0]['Status'] == 'borrow' )) and "我" in input_text:
             output_text='欠款紀錄成功'
 
-        elif input_text =='欠款查詢':
+        elif input_text =='@欠款查詢':
             for i in range(10):
                 output_text = get_debtList(selfId)
+
+        elif input_text =='@清空欠款':
+            for i in range(3):
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='owe').delete(synchronize_session='fetch')
+                data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='borrow').delete(synchronize_session='fetch')
+                db.session.commit()
+            output_text='欠款清空成功'
 
         elif input_text =='理財':            
             line_bot_api.reply_message(  
