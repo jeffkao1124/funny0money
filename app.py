@@ -447,90 +447,90 @@ def handle_message(event):
             for i in range(10):
                 output_text = get_accountList(selfId)
             flexmsg ={
-  "type": "flex",
-  "altText": "Flex Message",
-  "contents": {
-    "type": "bubble",
-    "hero": {
-      "type": "image",
-      "url": "https://chunting.me/wp-content/uploads/2018/07/OElrPtB.jpg",
-      "size": "full",
-      "aspectRatio": "20:13",
-      "aspectMode": "cover",
-      "action": {
-        "type": "text",
-        "text":"查查"
-      }
-    },
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "contents": [
-        {
-          "type": "text",
-          "text": "查帳",
-          "size": "xl",
-          "weight": "bold"
-        },
-        {
-          "type": "box",
-          "layout": "vertical",
-          "spacing": "sm",
-          "margin": "lg",
-          "contents": [
-            {
-              "type": "box",
-              "layout": "baseline",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": output_text,
-                  "flex": 5,
-                  "size": "sm",
-                  "color": "#666666",
-                  "wrap": True
-                }
-              ]
-            },
-          ]
-        }
-      ]
-    },
-    "footer": {
-      "type": "box",
-      "layout": "vertical",
-      "flex": 0,
-      "spacing": "sm",
-      "contents": [
-        {
-          "type": "button",
-          "action": {
-            "type": "uri",
-            "label": "查看更多",
-            "uri": "https://liff.line.me/1654876504-b6gxRoYk"
-          },
-          "height": "sm",
-          "style": "link"
-        },
-        {
-          "type": "button",
-          "action": {
-            "type": "uri",
-            "label": "進行記帳",
-            "uri": "https://liff.line.me/1654876504-LnyRK1Pl"
-          },
-          "height": "sm",
-          "style": "link"
-        },
-        {
-          "type": "spacer",
-          "size": "sm"
-        }
-      ]
-    }
-  }
-}
+                    "type": "flex",
+                    "altText": "Flex Message",
+                    "contents": {
+                    "type": "bubble",
+                    "hero": {
+                    "type": "image",
+                    "url": "https://chunting.me/wp-content/uploads/2018/07/OElrPtB.jpg",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "text",
+                        "text":"查查"
+                    }
+                    },
+                    "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                        "type": "text",
+                        "text": "查帳",
+                        "size": "xl",
+                        "weight": "bold"
+                        },
+                        {
+                        "type": "box",
+                        "layout": "vertical",
+                        "spacing": "sm",
+                        "margin": "lg",
+                        "contents": [
+                                    {
+                                    "type": "box",
+                                    "layout": "baseline",
+                                    "spacing": "sm",
+                                    "contents": [
+                                        {
+                                        "type": "text",
+                                        "text": output_text,
+                                        "flex": 5,
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "wrap": True
+                                        }
+                                    ]
+                                    },
+                                ]
+                                }
+                            ]
+                            },
+                            "footer": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 0,
+                            "spacing": "sm",
+                            "contents": [
+                                {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "查看更多",
+                                    "uri": "https://liff.line.me/1654876504-b6gxRoYk"
+                                },
+                                "height": "sm",
+                                "style": "link"
+                                },
+                                {
+                                "type": "button",
+                                "action": {
+                                    "type": "uri",
+                                    "label": "進行記帳",
+                                    "uri": "https://liff.line.me/1654876504-LnyRK1Pl"
+                                },
+                                "height": "sm",
+                                "style": "link"
+                                },
+                                {
+                                "type": "spacer",
+                                "size": "sm"
+                                }
+                            ]
+                            }
+                        }
+                        }
             line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
         
@@ -574,6 +574,32 @@ def handle_message(event):
                         personID = _data.id
                     data_UserData = usermessage.query.filter(usermessage.id==personID).delete(synchronize_session='fetch')
                     output_text='刪除成功'+'\n\n'+'記帳清單：'+'\n'+get_accountList(selfId)
+                    db.session.commit()
+                else:
+                    output_text='刪除失敗'
+            except:
+                output_text='刪除失敗'
+
+         elif '@remove' in input_text: #刪除單筆欠債
+            count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
+            count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
+            
+            try:
+                del_number = int (input_text.strip('@remove '))
+                if del_number <= count_owe :
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='owe').filter(usermessage.user_id==selfId)[del_number-1:del_number]
+                    for _data in data_UserData:
+                        messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
+                    db.session.commit()
+                elif del_number <= count_owe+count_borrow:
+                    del_number -= count_owe
+                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='borrow').filter(usermessage.user_id==selfId)[del_number-1:del_number]
+                    for _data in data_UserData:
+                        messageID = _data.id
+                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
+                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
                     db.session.commit()
                 else:
                     output_text='刪除失敗'
@@ -742,31 +768,6 @@ def handle_message(event):
             except:
                 output_text='刪除失敗'
 
-        elif '@remove' in input_text: #刪除單筆欠債
-            count_owe = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('owe')).count()
-            count_borrow = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status==('borrow')).count()
-            
-            try:
-                del_number = int (input_text.strip('@delete '))
-                if del_number <= count_owe :
-                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='owe').filter(usermessage.user_id==selfId)[del_number-1:del_number]
-                    for _data in data_UserData:
-                        messageID = _data.id
-                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
-                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
-                    db.session.commit()
-                elif del_number <= count_owe+count_borrow:
-                    del_number -= count_owe
-                    data_UserData = usermessage.query.order_by(usermessage.birth_date).filter(usermessage.status=='borrow').filter(usermessage.user_id==selfId)[del_number-1:del_number]
-                    for _data in data_UserData:
-                        messageID = _data.id
-                    data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
-                    output_text='刪除成功'+'\n\n'+get_debtList(selfId)
-                    db.session.commit()
-                else:
-                    output_text='刪除失敗'
-            except:
-                output_text='刪除失敗'
         
 
         elif input_text == '@查帳':
