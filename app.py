@@ -605,7 +605,11 @@ def handle_message(event):
         else:
             output_text='記帳失敗，請再檢查記帳格式'+'\n'+'輸入：記帳 分類/項目 金額'+'\n'+'ex：記帳 吃/麻糬 200'
         line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
-        
+
+    elif history_list[0]['type'] == 'room':  #聊天室部分
+        output_text='目前帳獒無法在聊天室使用，請把我加入群組'
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(output_text ))
+
     else:  #群組部分
         selfGroupId = history_list[0]['group_id']
         if (history_list[0]['Status'] == 'set') and ('@分帳設定' in input_text):
