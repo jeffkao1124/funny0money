@@ -1105,7 +1105,7 @@ def handle_message(event):
                         "contents": [
                             {
                             "type": "text",
-                            "text": "結算(簡化版本)",
+                            "text": "簡化版本",
                             "size": "xl",
                             "weight": "bold"
                             },
