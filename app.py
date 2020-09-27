@@ -520,7 +520,7 @@ def handle_message(event):
                     "contents": [
                         {
                         "type": "text",
-                        "text": "",
+                        "text": "查帳",
                         "size": "xl",
                         "weight": "bold"
                         },
