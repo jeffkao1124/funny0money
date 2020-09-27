@@ -1039,7 +1039,7 @@ def handle_message(event):
             db.session.commit()
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
 
-        elif input_text =='@帳獒':
+        elif input_text =='@多多':
             try:
                 message =TextSendMessage(
                     text="快速選擇下列功能：",
