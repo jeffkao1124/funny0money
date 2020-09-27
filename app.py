@@ -505,7 +505,7 @@ def handle_message(event):
                     "type": "bubble",
                     "hero": {
                     "type": "image",
-                    "url": "https://imgur.com/5567Wlr.jpg",
+                    "url": "https://imgur.com/bPBBCmD.jpg",
                     "size": "full",
                     "aspectRatio": "20:13",
                     "aspectMode": "cover",
