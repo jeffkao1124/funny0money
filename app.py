@@ -505,7 +505,7 @@ def handle_message(event):
                     "type": "bubble",
                     "hero": {
                     "type": "image",
-                    "url": "https://chunting.me/wp-content/uploads/2018/07/OElrPtB.jpg",
+                    "url": "https://imgur.com/5567Wlr.jpg",
                     "size": "full",
                     "aspectRatio": "20:13",
                     "aspectMode": "cover",
@@ -874,7 +874,7 @@ def handle_message(event):
     "type": "bubble",
     "hero": {
       "type": "image",
-      "url": "https://chunting.me/wp-content/uploads/2018/07/OElrPtB.jpg",
+      "url": "https://imgur.com/KahFQi9.jpg",
       "size": "full",
       "aspectRatio": "20:13",
       "aspectMode": "cover",
@@ -1090,7 +1090,7 @@ def handle_message(event):
                         "type": "bubble",
                         "hero": {
                         "type": "image",
-                        "url": "https://imgur.dcard.tw/IzLY5bRh.jpg",
+                        "url": "https://imgur.com/GteXIvk.jpg",
                         "size": "full",
                         "aspectRatio": "20:13",
                         "aspectMode": "cover",
