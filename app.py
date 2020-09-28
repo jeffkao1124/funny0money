@@ -1399,58 +1399,43 @@ def handle_message(event):
 
             line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
-            imagemsg = {
-  "type": "imagemap",
-  "baseUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
-  "altText": "This is an imagemap",
-  "baseSize": {
-    "width": 1040,
-    "height": 927
-  },
-  "actions": [
-    {
-      "type": "uri",
-      "area": {
-        "x": 0,
-        "y": 0,
-        "width": 521,
-        "height": 463
-      },
-      "linkUri": "https://liff.line.me/1654876504-9wWzOva7"
-    },
-    {
-      "type": "uri",
-      "area": {
-        "x": 522,
-        "y": 0,
-        "width": 518,
-        "height": 463
-      },
-      "linkUri": "https://liff.line.me/1654876504-rK3v07Pk"
-    },
-    {
-      "type": "uri",
-      "area": {
-        "x": 0,
-        "y": 464,
-        "width": 522,
-        "height": 459
-      },
-      "linkUri": "https://liff.line.me/1654876504-QNXjnrl2"
-    },
-    {
-      "type": "message",
-      "area": {
-        "x": 525,
-        "y": 464,
-        "width": 515,
-        "height": 459
-      },
-      "text": "@help"
-    }
-  ]
-}
-            line_bot_api.reply_message(event.reply_token,imagemsg)
+            message = ImagemapSendMessage(
+                            base_url="https://imgur.com/leNDXah.jpg",
+                            alt_text='功能總覽',
+                            base_size=BaseSize(height=927, width=1040),
+                            actions=[
+            URIImagemapAction(
+                #分帳者設定
+                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
+                area=ImagemapArea(
+                    x=0, y=464, width=522, height=459
+                )
+            ),
+            URIImagemapAction(
+                #記錄分帳
+                link_uri="https://liff.line.me/1654876504-9wWzOva7",
+                area=ImagemapArea(
+                    x=0, y=0, width=521, height=463
+                )
+            ),
+            MessageImagemapAction(
+                #使用說明
+                text="@help",
+                area=ImagemapArea(
+                    x=525, y=464, width=515, height=459
+                )
+            ),
+            URIImagemapAction(
+                #查帳結算
+                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
+                area=ImagemapArea(
+                    x=522, y=0, width=518, height=463
+                )
+            )
+        ]
+                       
+                            )
+            line_bot_api.reply_message(event.reply_token,message)
         
         
         elif input_text== '@官網':
