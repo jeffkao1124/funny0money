@@ -592,15 +592,15 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/loTeumc.png",
-                    action=URITemplateAction(
-                        uri="https://imgur.com/loTeumc.png"
-                    )
-                ),
-                ImageCarouselColumn(
                     image_url="https://imgur.com/EkmLEeN.png",
                     action=URITemplateAction(
                         uri="https://imgur.com/EkmLEeN.png"
+                    )
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/xctJGI2.png",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/xctJGI2.png"
                     )
                 )
             ]     
@@ -1367,9 +1367,9 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://i.imgur.com/m4fkFQJ.jpg",
+                    image_url="https://imgur.com/4IUp1Ei.png",
                     action=URITemplateAction(
-                        uri="https://i.imgur.com/m4fkFQJ.jpg"
+                        uri="https://imgur.com/4IUp1Ei.png"
                     )
                 ),
                 ImageCarouselColumn(
