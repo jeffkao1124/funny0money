@@ -1399,43 +1399,58 @@ def handle_message(event):
 
             line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
-            message = ImagemapSendMessage(
-                            base_url="https://imgur.com/CRoZNQr.png",
-                            alt_text='功能總覽',
-                            base_size=BaseSize(height=976, width=1240),
-                            actions=[
-            URIImagemapAction(
-                #分帳者設定
-                link_uri="https://liff.line.me/1654876504-QNXjnrl2",
-                area=ImagemapArea(
-                    x=60, y=659, width=479, height=274
-                )
-            ),
-            URIImagemapAction(
-                #記錄分帳
-                link_uri="https://liff.line.me/1654876504-9wWzOva7",
-                area=ImagemapArea(
-                    x=60, y=381, width=479, height=274
-                )
-            ),
-            MessageImagemapAction(
-                #使用說明
-                text="@help",
-                area=ImagemapArea(
-                    x=543, y=653, width=462, height=273
-                )
-            ),
-            URIImagemapAction(
-                #查帳結算
-                link_uri="https://liff.line.me/1654876504-rK3v07Pk",
-                area=ImagemapArea(
-                    x=543, y=373, width=445, height=282
-                )
-            )
-        ]
-                       
-                            )
-            line_bot_api.reply_message(event.reply_token,message)
+            imagemsg = {
+  "type": "imagemap",
+  "baseUrl": "PROVIDE_URL_FROM_YOUR_SERVER",
+  "altText": "This is an imagemap",
+  "baseSize": {
+    "width": 1040,
+    "height": 927
+  },
+  "actions": [
+    {
+      "type": "uri",
+      "area": {
+        "x": 0,
+        "y": 0,
+        "width": 521,
+        "height": 463
+      },
+      "linkUri": "https://liff.line.me/1654876504-9wWzOva7"
+    },
+    {
+      "type": "uri",
+      "area": {
+        "x": 522,
+        "y": 0,
+        "width": 518,
+        "height": 463
+      },
+      "linkUri": "https://liff.line.me/1654876504-rK3v07Pk"
+    },
+    {
+      "type": "uri",
+      "area": {
+        "x": 0,
+        "y": 464,
+        "width": 522,
+        "height": 459
+      },
+      "linkUri": "https://liff.line.me/1654876504-QNXjnrl2"
+    },
+    {
+      "type": "message",
+      "area": {
+        "x": 525,
+        "y": 464,
+        "width": 515,
+        "height": 459
+      },
+      "text": "@help"
+    }
+  ]
+}
+            line_bot_api.reply_message(event.reply_token,imagemsg)
         
         
         elif input_text== '@官網':
