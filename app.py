@@ -1447,7 +1447,7 @@ def handle_message(event):
         elif input_text == '啾啾啾':
             output_text = '啾啾啾'
 
-        elif input_text == '逛夜市' or input_text == '烤小鳥':
+        elif input_text == '逛夜市' or input_text == '烤小鳥' or input_text == '屏東':
             output_text = '不要吃焦阿巴QQ'
 
         elif input_text == '乖狗狗':
