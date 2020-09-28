@@ -774,7 +774,7 @@ def handle_message(event):
                                 "action": {
                                     "type": "uri",
                                     "label": "查看更多",
-                                    "uri": "https://liff.line.me/1654876504-b6gxRoYk"
+                                    "uri": "https://liff.line.me/1654876504-0KBrqA6O"
                                 },
                                 "height": "sm",
                                 "style": "link"
@@ -783,8 +783,8 @@ def handle_message(event):
                                 "type": "button",
                                 "action": {
                                     "type": "uri",
-                                    "label": "進行記帳",
-                                    "uri": "https://liff.line.me/1654876504-LnyRK1Pl"
+                                    "label": "進行欠款記錄",
+                                    "uri": "https://liff.line.me/1654876504-9yA65P2R"
                                 },
                                 "height": "sm",
                                 "style": "link"
