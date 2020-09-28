@@ -446,7 +446,7 @@ def get_groupPeople(history_list,mode):
 @handler.add(JoinEvent)
 def handle_join(event):
     message = ImagemapSendMessage(
-                            base_url="https://imgur.com/leNDXah.jpg",
+                            base_url="https://imgur.com/cODeL32.jpg",
                             alt_text='啾啾啾',
                             base_size=BaseSize(height=927, width=1040),
                             actions=[
@@ -1400,7 +1400,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,flexmsg)
         elif input_text =='@選單'  :
             message = ImagemapSendMessage(
-                            base_url="https://imgur.com/leNDXah.jpg",
+                            base_url="https://imgur.com/cODeL32.jpg",
                             alt_text='功能總覽',
                             base_size=BaseSize(height=927, width=1040),
                             actions=[
