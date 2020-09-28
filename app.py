@@ -1444,8 +1444,11 @@ def handle_message(event):
         elif input_text=='電影':
             output_text = str(get_movie())
 
-        elif input_text == '嗷嗷嗷':
-            output_text = '嗷嗷嗷'
+        elif input_text == '啾啾啾':
+            output_text = '啾啾啾'
+
+        elif input_text == '逛夜市' or input_text == '烤小鳥':
+            output_text = '不要吃焦阿巴QQ'
 
         elif input_text == '乖狗狗':
             line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
