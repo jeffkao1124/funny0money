@@ -198,7 +198,6 @@ def callback():
                             message = chargeName ,
                             birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                         )
-
             elif '@欠款設定' in receivedmsg:
                 debtName = receivedmsg.strip(' @欠款設定 ').replace('  ',' ')
                 add_data = usermessage(
@@ -494,7 +493,8 @@ def handle_message(event):
         selfId = history_list[0]['user_id']
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
-                
+        elif input_text == '@官網':
+            output_text = 'https://countonduoduo.herokuapp.com/#'
         elif input_text =='@查帳':
             for i in range(10):
                 output_text = get_accountList(selfId)
@@ -1436,6 +1436,10 @@ def handle_message(event):
                        
                             )
             line_bot_api.reply_message(event.reply_token,message)
+        
+        
+        elif input_text== '@官網':
+            output_text = 'https://countonduoduo.herokuapp.com/#'
 
         elif input_text=='電影':
             output_text = str(get_movie())
