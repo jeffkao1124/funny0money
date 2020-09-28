@@ -592,18 +592,11 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/6ZXZUPu.jpg",
+                    image_url="https://imgur.com/TQt6oKy.png",
                     action=URITemplateAction(
-                        uri="https://imgur.com/6ZXZUPu.jpg"
+                        uri="https://countonduoduo.herokuapp.com/#"
                     )
-                ),
-                ImageCarouselColumn(
-                    image_url="https://imgur.com/KS16CAT.jpg",
-                    action=URITemplateAction(
-                        uri="https://imgur.com/KS16CAT.jpg"
-                    )
-                )
-            ]     
+                )  
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
@@ -1455,9 +1448,6 @@ def handle_message(event):
 
         elif input_text == '乖狗狗':
             line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
-        
-        elif input_text == 'hhh':
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(originalContentUrl='https://i.imgur.com/4QfKuz1.png', previewImageUrl='https://i.imgur.com/4QfKuz1.png'))
 
         line_bot_api.reply_message(event.reply_token, TextSendMessage (output_text) )
         
