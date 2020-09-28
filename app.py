@@ -446,41 +446,41 @@ def get_groupPeople(history_list,mode):
 @handler.add(JoinEvent)
 def handle_join(event):
     message = ImagemapSendMessage(
-                            base_url="https://imgur.com/CRoZNQr.png",
-                            alt_text='我要進來囉',
-                            base_size=BaseSize(height=976, width=1240),
+                            base_url="https://imgur.com/leNDXah.jpg",
+                            alt_text='啾啾啾',
+                            base_size=BaseSize(height=927, width=1040),
                             actions=[
             URIImagemapAction(
                 #分帳者設定
                 link_uri="https://liff.line.me/1654876504-QNXjnrl2",
                 area=ImagemapArea(
-                    x=60, y=659, width=479, height=274
+                    x=0, y=464, width=522, height=459
                 )
             ),
             URIImagemapAction(
                 #記錄分帳
                 link_uri="https://liff.line.me/1654876504-9wWzOva7",
                 area=ImagemapArea(
-                    x=60, y=381, width=479, height=274
+                    x=0, y=0, width=521, height=463
                 )
             ),
             MessageImagemapAction(
                 #使用說明
                 text="@help",
                 area=ImagemapArea(
-                    x=543, y=653, width=462, height=273
+                    x=525, y=464, width=515, height=459
                 )
             ),
             URIImagemapAction(
                 #查帳結算
                 link_uri="https://liff.line.me/1654876504-rK3v07Pk",
                 area=ImagemapArea(
-                    x=543, y=373, width=445, height=282
+                    x=522, y=0, width=518, height=463
                 )
             )
-                            ]
-        )
-                        
+        ]
+                       
+                            )
     line_bot_api.reply_message(event.reply_token,message)
 
 
