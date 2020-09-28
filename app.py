@@ -592,11 +592,18 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/TQt6oKy.png",
+                    image_url="https://imgur.com/loTeumc.png",
                     action=URITemplateAction(
-                        uri="https://countonduoduo.herokuapp.com/#"
+                        uri="https://imgur.com/TQt6oKy.png"
                     )
-                )  
+                ),
+                ImageCarouselColumn(
+                    image_url="https://imgur.com/loTeumc.png",
+                    action=URITemplateAction(
+                        uri="https://imgur.com/loTeumc.png"
+                    )
+                )
+            ]     
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
