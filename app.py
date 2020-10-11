@@ -1440,6 +1440,9 @@ def handle_message(event):
         elif input_text == '廖擊敗':
             output_text = '廖奕翔還錢 操'
 
+        elif input_text == 'debug好累':
+            output_text = '關我屁事，我已經好幾天沒睡了=='
+
         elif input_text == '乖狗狗':
             line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=2))
 
