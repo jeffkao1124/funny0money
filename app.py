@@ -865,10 +865,10 @@ def handle_message(event):
             groupNumber=get_groupPeople(history_list,1)
             output_text='分帳設定成功:共有'+str(groupNumber)+'人分帳'
 
-        elif (history_list[0]['Status'] == 'save') and ('分帳' in input_text):
+        elif (history_list[0]['Status'] == 'save') and ('@分帳' in input_text):
             output_text='分帳紀錄成功'
 
-        elif (history_list[0]['Status'] == 'None') and ('分帳' in input_text):
+        elif (history_list[0]['Status'] == 'None') and ('@分帳' in input_text):
             output_text='分帳紀錄失敗'
 
         elif input_text == '@設定查詢':
