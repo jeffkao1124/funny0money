@@ -671,9 +671,9 @@ def handle_message(event):
                     data_UserData = usermessage.query.filter(usermessage.id==messageID).delete(synchronize_session='fetch')
                     db.session.add(add_data)
                     db.session.commit()
-                    output_text="刪除成功\n\n欠款設定名單:"
+                    output_text="刪除成功，若被刪除的人在帳目中，請記得把帳目也修改掉!\n\n欠款設定名單:"
             try:
-                if output_text=='刪除成功\n\n欠款設定名單:':
+                if output_text=='刪除成功，若被刪除的人在帳目中，請記得把帳目也修改掉!\n\n欠款設定名單:':
                     debtMember=get_debtPeople(selfId,2)
                     for i in range(get_debtPeople(selfId,1)):
                         output_text+='\n'+debtMember[i]
