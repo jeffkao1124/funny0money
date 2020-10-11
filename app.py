@@ -109,7 +109,7 @@ def callback():
         if bodyjson['events'][0]['source']['type'] == 'group':
             receivedmsg = bodyjson['events'][0]['message']['text']
             if '@分帳設定' in receivedmsg: 
-                userName = receivedmsg.strip(' @分帳設定 ')
+                userName = receivedmsg.strip(' @分帳設定 ').replace('  ',' ')
                 add_data = usermessage( 
                     id = bodyjson['events'][0]['message']['id'], 
                     group_num = '0', 
@@ -122,10 +122,10 @@ def callback():
                     message = bodyjson['events'][0]['message']['text'], 
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000) 
                 )
-            elif ('@分帳' in receivedmsg)  and (len(re.findall(r"%",receivedmsg)) >= 3):           
-                chargeName=receivedmsg.split('%',3)[1]
-                chargeNumber=receivedmsg.split('%',3)[2]
-                chargePeople=receivedmsg.split('%',3)[3]            
+            elif ('@分帳' in receivedmsg)  and (len(re.findall(r" ",receivedmsg)) >= 3):           
+                chargeName=receivedmsg.split(' ',3)[1]
+                chargeNumber=receivedmsg.split(' ',3)[2]
+                chargePeople=receivedmsg.split(' ',3)[3]            
                 if re.search(r"\D",chargeNumber) is None:
                     add_data = usermessage(
                         id = bodyjson['events'][0]['message']['id'],
@@ -431,8 +431,8 @@ def get_groupPeople(history_list,mode):
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
     GroupPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname.strip('%')
-    new_list = GroupPeopleString.strip('%').split("%")
+        GroupPeopleString += _data.nickname.strip(' ') +' '
+    new_list = GroupPeopleString.strip(' ').replace('  ',' ').split(' ')
     new_list=list(set(new_list)) #刪除重複
 
     if mode ==1:
@@ -1071,7 +1071,7 @@ def handle_message(event):
             exchange_rate_EUR = 0
             for i in range(dataNumber):   #分帳金額
                 b=dict(historySettle_list[i])
-                GroupPeopleString=b['GroupPeople'].strip(' ').split('%')  #刪除代墊者
+                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')  #刪除代墊者
                 del GroupPeopleString[0]
                 
                 if 'USD' in b['message']:   #匯率轉換
@@ -1105,7 +1105,7 @@ def handle_message(event):
                     
             for j in range(dataNumber):  #代墊金額
                 b=dict(historySettle_list[j])
-                GroupPeopleString=b['GroupPeople'].strip(' ').split('%')
+                GroupPeopleString=b['GroupPeople'].strip(' ').split(' ')
                 if 'USD' in b['message']:   #匯率轉換
                     if exchange_rate_USD:
                         exchange_rate = exchange_rate_USD
@@ -1287,7 +1287,7 @@ def handle_message(event):
             exchange_rate_EUR = 0
             for i in range(dataNumber): 
                 b=dict(historySettle_list[i]) 
-                GroupPeopleString=b['GroupPeople'].split('%')
+                GroupPeopleString=b['GroupPeople'].split(' ')
 
                 if 'USD' in b['message']:   #匯率轉換
                     if exchange_rate_USD:
