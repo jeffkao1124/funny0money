@@ -109,7 +109,7 @@ def callback():
         if bodyjson['events'][0]['source']['type'] == 'group':
             receivedmsg = bodyjson['events'][0]['message']['text']
             if '@分帳設定' in receivedmsg: 
-                userName = receivedmsg.strip(' @分帳設定 ').replace('  ',' ')
+                userName = receivedmsg.strip(' @分帳設定 ')
                 add_data = usermessage( 
                     id = bodyjson['events'][0]['message']['id'], 
                     group_num = '0', 
@@ -431,8 +431,8 @@ def get_groupPeople(history_list,mode):
     data_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId).filter(usermessage.status=='set')
     GroupPeopleString=''
     for _data in data_UserData:
-        GroupPeopleString += _data.nickname.strip(' ') +' '
-    new_list = GroupPeopleString.strip(' ').replace('  ',' ').split(' ')
+        GroupPeopleString += _data.nickname.strip('%')
+    new_list = GroupPeopleString.strip('%').split("%")
     new_list=list(set(new_list)) #刪除重複
 
     if mode ==1:
