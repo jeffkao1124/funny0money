@@ -598,9 +598,9 @@ def handle_message(event):
                     )
                 ),
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/xctJGI2.png",
+                    image_url="https://imgur.com/Ny5vLdg.png",
                     action=URITemplateAction(
-                        uri="https://imgur.com/xctJGI2.png"
+                        uri="https://imgur.com/Ny5vLdg.png"
                     )
                 )
             ]     
