@@ -46,7 +46,7 @@ def get_TodayRate(mode):
     data=[]
     url_1= "https://rate.bot.com.tw/xrt?Lang=zh-TW"
     resp_1 = requests.get(url_1)
-    ms = BeautifulSoup(resp_1.text,"html.parser")
+    ms =BeautifulSoup(resp_1.text,"html.parser")
 
     t1=ms.find_all("td","rate-content-cash text-right print_hide")
     for child in t1:
