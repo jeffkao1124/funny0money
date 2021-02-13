@@ -1169,6 +1169,103 @@ def handle_message(event):
             # result=result+'\n'+'下次不要再讓'+str(max_tuple[0])+'付錢啦! TA幫你們付很多了!'
 
             output_text = result.strip('\n')
+            
+            flexmsg ={
+                    "type": "flex",
+                    "altText": "Flex Message",
+                    "contents": {
+                        "type": "bubble",
+                        "hero": {
+                        "type": "image",
+                        "url": "https://imgur.com/GteXIvk.jpg",
+                        "size": "full",
+                        "aspectRatio": "20:13",
+                        "aspectMode": "cover",
+                        "action": {
+                            "type": "text",
+                            "text":"借錢要還，誰還要借?"
+                        }
+                        },
+                        "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                            "type": "text",
+                            "text": "簡化版本",
+                            "size": "xl",
+                            "weight": "bold"
+                            },
+                            {
+                            "type": "box",
+                            "layout": "vertical",
+                            "spacing": "sm",
+                            "margin": "lg",
+                            "contents": [
+                                {
+                                "type": "box",
+                                "layout": "baseline",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                    "type": "text",
+                                    "text": result+". . .",
+                                    "flex": 5,
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "wrap": True
+                                    }
+                                ]
+                                },
+                            ]
+                            }
+                        ]
+                        },
+                        "footer": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 0,
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "uri",
+                                "label": "查看更多",
+                                "uri": "https://liff.line.me/1654876504-rK3v07Pk"
+                            },
+                            "height": "sm",
+                            "style": "link"
+                            },
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "uri",
+                                "label": "記錄分帳",
+                                "uri": "https://liff.line.me/1654876504-9wWzOva7"
+                            },
+                            "height": "sm",
+                            "style": "link"
+                            },
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "uri",
+                                "label": "編輯分帳者",
+                                "uri": "https://liff.line.me/1654876504-QNXjnrl2"
+                            },
+                            "height": "sm",
+                            "style": "link"
+                            },
+                            {
+                            "type": "spacer",
+                            "size": "sm"
+                            }
+                        ]
+                        }
+                    }
+                    }
+            line_bot_api.reply_message(event.reply_token,messages=FlexSendMessage.new_from_json_dict(flexmsg))
 
         elif input_text =='@稍微':             
             selfGroupId = history_list[0]['group_id'] 
