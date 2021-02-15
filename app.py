@@ -1145,6 +1145,13 @@ def handle_message(event):
                 #找到最大、最小值
                 min_tuple=person_account[0]
                 max_tuple=person_account[-1]
+
+                #找到目前代墊最多的人
+                if i==0:
+                    maxPerson=max_tuple[0]
+                    minPerson=min_tuple[0]
+
+                
                 min=float(min_tuple[1])
                 max=float(max_tuple[1])
 
