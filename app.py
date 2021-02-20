@@ -592,9 +592,9 @@ def handle_message(event):
                             template=ImageCarouselTemplate(
                             columns=[
                 ImageCarouselColumn(
-                    image_url="https://imgur.com/EkmLEeN.png",
+                    image_url="https://imgur.com/xvZq2mD.png",
                     action=URITemplateAction(
-                        uri="https://imgur.com/EkmLEeN.png"
+                        uri="https://imgur.com/xvZq2mD.png"
                     )
                 ),
                 ImageCarouselColumn(
@@ -607,6 +607,10 @@ def handle_message(event):
                             )
                         )
             line_bot_api.reply_message(event.reply_token,Carousel_template)
+
+        elif '多多公布欄' in input_text:
+            output_text='多多感謝您的體諒！我會在群組中繼續為大家服務。'
+
         elif input_text =='@刪除':
             for i in range(3):
                 data_UserData = usermessage.query.filter(usermessage.user_id==selfId).filter(usermessage.status=='save').delete(synchronize_session='fetch')
