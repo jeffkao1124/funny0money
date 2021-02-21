@@ -494,7 +494,7 @@ def handle_message(event):
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
         elif input_text == '@官網':
-            output_text = 'https://countonduoduo.herokuapp.com/#'
+            output_text = 'https://6kh1o77blzbaa8drxnnnya-on.drv.tw/XXX/countonduoduo-master/templates/index.php'
         elif input_text =='@查帳':
             for i in range(10):
                 output_text = get_accountList(selfId)
