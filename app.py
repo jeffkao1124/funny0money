@@ -1440,7 +1440,7 @@ def handle_message(event):
         
         
         elif input_text== '@官網':
-            output_text = 'https://countonduoduo.herokuapp.com/#'
+            output_text = 'https://reurl.cc/4yobkK'
 
         elif input_text=='電影':
             output_text = str(get_movie())
