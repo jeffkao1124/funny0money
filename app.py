@@ -587,25 +587,7 @@ def handle_message(event):
 
         
         elif input_text =='@help':
-            Carousel_template = TemplateSendMessage(
-                            alt_text='使用說明',
-                            template=ImageCarouselTemplate(
-                            columns=[
-                ImageCarouselColumn(
-                    image_url="https://imgur.com/xvZq2mD.png",
-                    action=URITemplateAction(
-                        uri="https://imgur.com/xvZq2mD.png"
-                    )
-                ),
-                ImageCarouselColumn(
-                    image_url="https://imgur.com/Ny5vLdg.png",
-                    action=URITemplateAction(
-                        uri="https://imgur.com/Ny5vLdg.png"
-                    )
-                )
-            ]     
-                            )
-                        )
+            output_text='請直接把多多分帳邀請至群組以解鎖分帳功能唷~'
             line_bot_api.reply_message(event.reply_token,Carousel_template)
 
         elif '多多公布欄' in input_text:
