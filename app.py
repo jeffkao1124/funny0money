@@ -494,7 +494,7 @@ def handle_message(event):
         if (history_list[0]['Status'] == 'save') and ('記帳' in input_text):
             output_text='記帳成功'
         elif input_text == '@官網':
-            output_text = 'https://reurl.cc/4yobkK'
+            output_text = 'https://reurl.cc/4yjNyY'
         elif input_text =='@查帳':
             for i in range(10):
                 output_text = get_accountList(selfId)
@@ -1421,7 +1421,7 @@ def handle_message(event):
         
         
         elif input_text== '@官網':
-            output_text = 'https://reurl.cc/4yobkK'
+            output_text = 'https://reurl.cc/4yjNyY'
 
         elif input_text=='電影':
             output_text = str(get_movie())
