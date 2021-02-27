@@ -588,7 +588,6 @@ def handle_message(event):
         
         elif input_text =='@help':
             output_text='請直接把多多分帳邀請至群組以解鎖分帳功能唷~'
-            line_bot_api.reply_message(event.reply_token,Carousel_template)
 
         elif '多多公布欄' in input_text:
             output_text='多多感謝您的體諒！我會在群組中繼續為大家服務。'
