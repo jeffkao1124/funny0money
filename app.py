@@ -1030,11 +1030,54 @@ def handle_message(event):
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
         
         elif '@查查'  in input_text:
-            bitch =  usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
-            bitch2 = ' '+input_text.replace('@查查','').strip(' ') +' '
-            for _data in bitch:
-                xxx = ' '+_data.nickname+' '
-            output_text = str(xxx.count(bitch2))+ "欠錢不還啦 幹你娘"
+            selfGroupId = history_list[0]['group_id']
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            historySettle_list = []
+            person_list  = get_groupPeople(history_list,2)
+            person_num = get_groupPeople(history_list,1)
+            for _data in dataSettle_UserData:
+                historySettle_dic = {}
+                historySettle_dic['Account'] = _data.account
+                historySettle_dic['GroupPeople'] =_data.group_num
+                historySettle_dic['message'] = _data.message
+                historySettle_list.append(historySettle_dic)
+            
+            dataNumber=len(historySettle_list)
+            account = np.zeros(person_num)
+            for i in range(person_num-1):  #排序
+                person_account=sorted(person_account, key = lambda s:s[1])
+
+                #找到最大、最小值
+                min_tuple=person_account[0]
+                max_tuple=person_account[-1]
+
+                #找到目前代墊最多的人
+                if i==0:
+                    maxPerson=max_tuple[0]
+                    minPerson=min_tuple[0]
+
+                
+                min=float(min_tuple[1])
+                max=float(max_tuple[1])
+                if min==0 or max==0:
+                    pass
+                elif (min+max)>0:
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+" "+str(abs(round(min,2)))+'元'+'\n'
+                    max_tuple=(max_tuple[0],min+max)
+                    min_tuple=(min_tuple[0],0)
+                elif (min+max)<0:
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+" "+str(abs(round(max,2)))+'元'+'\n'
+                    min_tuple=(min_tuple[0],min+max)
+                    max_tuple=(max_tuple[0],0)
+                else:
+                    result=result+str(min_tuple[0])+'付給'+str(max_tuple[0])+" "+str(abs(round(max,2)))+'元'+'\n'
+                    min_tuple=(min_tuple[0],0)
+                    max_tuple=(max_tuple[0],0)
+                
+                person_account[0]=min_tuple
+                person_account[-1]=max_tuple
+
+            output_text = str(max_tuple[0])+ "欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
