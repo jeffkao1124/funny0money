@@ -1030,8 +1030,8 @@ def handle_message(event):
             db.session.commit()
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
         
-        elif input_text == '@查查':
-            output_text = str(min_tuple[0])+"欠錢不還啦 幹你娘"
+        elif '@查查'  in input_text:
+            output_text = min+"欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
