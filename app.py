@@ -1031,6 +1031,10 @@ def handle_message(event):
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
         
         elif '@查查'  in input_text:
+            selfGroupId = history_list[0]['group_id']
+            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
+            historySettle_list = []
+            person_num = get_groupPeople(history_list,1)
             person_list  = get_groupPeople(history_list,2)
             output_text =str(person_list.index(GroupPeopleString[0]) ) + "欠錢不還啦 幹你娘"
 
