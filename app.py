@@ -178,7 +178,7 @@ def callback():
                     message = get_TodayRate(3),
                     birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                 )
-                
+'''
         else:
             receivedmsg = bodyjson['events'][0]['message']['text']
             receivedmsg = receivedmsg.strip(' ')
@@ -244,7 +244,7 @@ def callback():
                             message = debtName,
                             birth_date = datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
                         )    
-
+'''
         db.session.add(add_data)
         db.session.commit()
 
@@ -301,7 +301,7 @@ def get_history_list():   #取得最新資料
         history_dic['group_id'] = _data.group_id
         history_list.append(history_dic)
     return history_list
-
+'''
 #記帳查帳
 def get_accountList(selfId):
     time.sleep(0.2)
@@ -403,7 +403,7 @@ def get_debtPeople(selfId,mode):
     elif mode ==2:
         return new_list
     else:
-        return 0
+        return 0'''
 
 #分帳查帳
 def get_settleList(selfGroupId):
@@ -482,7 +482,6 @@ def handle_join(event):
                        
                             )
     line_bot_api.reply_message(event.reply_token,message)
-
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -1031,12 +1030,8 @@ def handle_message(event):
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
         
         elif '@查查'  in input_text:
-            selfGroupId = history_list[0]['group_id']
-            dataSettle_UserData = usermessage.query.filter(usermessage.group_id==selfGroupId ).filter(usermessage.status=='save').filter(usermessage.type=='group')
-            historySettle_list = []
-            person_num = get_groupPeople(history_list,1)
-            person_list  = get_groupPeople(history_list,2)
-            output_text =str(person_list.index(GroupPeopleString[0]) ) + "欠錢不還啦 幹你娘"
+            bitch =  usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
+            output_text =str(bitch) + "欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
