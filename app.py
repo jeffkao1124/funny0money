@@ -1034,7 +1034,7 @@ def handle_message(event):
             bitch2 = ' '+input_text.replace('@查查','').strip(' ') +' '
             for _data in data_UserData:
                 xxx = ' '+_data.nickname+' '
-            output_text =xxx.count(bitch2)+ "欠錢不還啦 幹你娘"
+            output_text = str(xxx.count(bitch2))+ "欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
