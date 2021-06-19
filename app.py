@@ -1029,6 +1029,9 @@ def handle_message(event):
             data_UserData = usermessage.query.filter(usermessage.status=='None').delete(synchronize_session='fetch')
             db.session.commit()
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
+        
+        elif input_text == '@查查':
+            output_text = str(min_tuple[0])+"欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
