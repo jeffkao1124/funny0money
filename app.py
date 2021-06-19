@@ -1032,7 +1032,9 @@ def handle_message(event):
         elif '@查查'  in input_text:
             bitch =  usermessage.query.filter(usermessage.status=='set').filter(usermessage.group_id==selfGroupId)
             bitch2 = ' '+input_text.replace('@查查','').strip(' ') +' '
-            output_text =str(bitch2) + "欠錢不還啦 幹你娘"
+            for _data in data_UserData:
+                xxx = ' '+_data.nickname+' '
+            output_text =xxx.count(bitch2)+ "欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
             try:
