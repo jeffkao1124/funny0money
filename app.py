@@ -79,6 +79,22 @@ def get_TodayRate(mode):
     else:
         return 1
 
+def get_Boardgame():
+    boardgame= []
+    url_1= "https://boardgamegeek.com/browse/boardgame"
+    resp_1 = requests.get(url_1)
+    ms = BeautifulSoup(resp_1.text,"html.parser")
+
+    for i in range(50):
+        t1=ms.find_all("div",id="results_objectname"+str(i))
+        for bgg in t1:
+            boardgame.append(bgg.text.strip())
+
+    return boardgame
+
+
+
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -1030,7 +1046,7 @@ def handle_message(event):
             db.session.commit()
             output_text = '爽啦沒資料囉\n快給我重新設定匯率'
         
-        elif '@查查'  in input_text:
+        elif '@查查廖擊敗'  in input_text:
             output_text = "欠錢不還啦 幹你娘"
 
         elif input_text =='@多多':
@@ -1129,6 +1145,9 @@ def handle_message(event):
         
         elif input_text== '@官網':
             output_text = 'https://reurl.cc/4yjNyY'
+
+        elif input_text=='@桌遊':
+            output_text = str(get_Boardgame())
 
         elif input_text=='電影':
             output_text = str(get_movie())
