@@ -1159,7 +1159,7 @@ def handle_message(event):
             output_text = '不要吃焦阿巴'
 
         elif input_text == '廖擊敗':
-            output_text = '廖奕翔還錢 操!'
+            output_text = '廖奕翔還錢 操!!'
 
         elif input_text == 'debug好累':
             output_text = '關我屁事，我已經好幾天沒睡了=='
