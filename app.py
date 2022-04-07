@@ -1149,7 +1149,7 @@ def handle_message(event):
         elif input_text=='@桌遊':
             output_text = str(get_Boardgame())
 
-        elif input_text=='電影':
+        elif input_text=='@電影':
             output_text = str(get_movie())
 
         elif input_text == '啾啾啾':
@@ -1158,7 +1158,7 @@ def handle_message(event):
         elif input_text == '逛夜市' or input_text == '烤小鳥' or input_text == '@吳柏震 ' or input_text == '@林瑋晟 ' or input_text == '@王奕凱 ' or input_text == '@高子承 ' or input_text == '@廖奕翔 ':
             output_text = '不要吃焦阿巴'
 
-        elif input_text == '廖擊敗':
+        elif input_text == '@廖擊敗':
             output_text = '廖奕翔還錢 操!!'
 
         elif input_text == 'debug好累':
