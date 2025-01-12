@@ -27,12 +27,15 @@ import numpy as np
 import sys
 import re
 import time
+import os
 
 
 app = Flask(__name__)
 
-line_bot_api = LineBotApi('NWYFK4ocoT4SSDhoer5JSAFmjnD5zDF0lN8VdEUShyF30oXydv6SMFwU5U8rrazhzJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFr4xvyHonBPR8p7h10lbRaady+7oE1XeOhEsVoqGY0QdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
+line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+handler = WebhookHandler(os.environ['CHANNEL_SECRET'])
+#line_bot_api = LineBotApi('NWYFK4ocoT4SSDhoer5JSAFmjnD5zDF0lN8VdEUShyF30oXydv6SMFwU5U8rrazhzJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFr4xvyHonBPR8p7h10lbRaady+7oE1XeOhEsVoqGY0QdB04t89/1O/w1cDnyilFU=')
+#handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
 
 @app.route("/")
