@@ -32,7 +32,7 @@ import time
 app = Flask(__name__)
 
 line_bot_api = LineBotApi('NWYFK4ocoT4SSDhoer5JSAFmjnD5zDF0lN8VdEUShyF30oXydv6SMFwU5U8rrazhzJfFYZoOAIoMxeKAR5mQqbz0DomlYKjU7gMEK/zQ0QJFr4xvyHonBPR8p7h10lbRaady+7oE1XeOhEsVoqGY0QdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('U10d19fe65b78a7e8e857d4841b39ac81')
+handler = WebhookHandler('2ee6a86bd730b810a7d614777f07cecb')
 
 
 @app.route("/")
